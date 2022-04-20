@@ -1,27 +1,15 @@
-import React, { useEffect, useState, useContext } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { auth, db } from "../firebaseConfig";
+import React, { useState, useContext } from "react";
+import { auth } from "../firebaseConfig";
 import { splitTag } from "../Helper/splitTag";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { UserContext } from "../Context/authContext";
 import Notification from "./Notification";
+import GetAuthorName from "../Helper/GetAuthorName";
 
 function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
-  const [authorName, setAuthorName] = useState("");
   const [isCompleted, setIsCompleted] = useState(false);
   const { isSignIn, setEditBlog } = useContext(UserContext);
-
-  useEffect(() => {
-    const getAuthorName = async () => {
-      const userRef = collection(db, "users");
-      const q = query(userRef, where("id", "==", blog.authorID));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setAuthorName(doc.data().username);
-      });
-    };
-    getAuthorName();
-  }, []);
+  const { authorName } = GetAuthorName();
 
   const handleEditBlog = () => {
     setEditBlog({ isEditing: true, blogId: blog.id });

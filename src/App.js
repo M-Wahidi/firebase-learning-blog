@@ -16,15 +16,17 @@ function App() {
           <Header />
           <Routes>
             <Route path='/' element={<Home />} />
+
             <Route element={<ProtectedRoutes />}>
-              <Route path='create-post' element={<CreateBlog />}></Route>
-              <Route path='user-blogs' element={<UserBlog />}></Route>
+              <Route path='create-post' element={<CreateBlog />} />
+              <Route path='user-blogs' element={<UserBlog />} />
             </Route>
-            <Route path="account" />
-              <Route path='account/login' element={<Login />} />
-              <Route path="account/reset-password" element={<ResetPassword />} />
-            < Route />
-            <Route path='singup' element={<SingUp />} />
+
+            <Route path='account'>
+              <Route path='login' element={<Login />} />
+              <Route path='singup' element={<SingUp />} />
+              <Route path='reset-password' element={<ResetPassword />} />
+            </Route>
 
             <Route
               path='*'

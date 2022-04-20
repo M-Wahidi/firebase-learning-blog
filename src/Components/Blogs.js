@@ -9,7 +9,6 @@ function Blogs() {
   const [loading, setLoading] = useState(false);
   const [oldUserData, setOldUserData] = useState();
 
-  
   const blogsRef = collection(db, "blogs");
 
   const getBlogs = async () => {
@@ -26,7 +25,7 @@ function Blogs() {
     let updatedBlogs = [];
     await deleteDoc(doc(blogsRef, id));
     const querySnapshot = await getDocs(blogsRef);
-    querySnapshot.forEach((doc) => updatedBlogs.push({ ...doc.data() }));
+    querySnapshot.forEach((doc) => updatedBlogs.push({ ...doc.data(), id: doc.id }));
     setBlogs(updatedBlogs);
     setLoading(false);
   };
@@ -46,7 +45,7 @@ function Blogs() {
 
   return (
     <div className='blogs'>
-      <UpadteBlog getBlogs={getBlogs}   oldUserData={oldUserData} />
+      <UpadteBlog getBlogs={getBlogs} oldUserData={oldUserData} />
       {loading ? (
         <h1 className='blogs-message'>Loading...</h1>
       ) : (

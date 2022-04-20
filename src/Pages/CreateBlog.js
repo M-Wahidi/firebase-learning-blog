@@ -39,7 +39,7 @@ function CreateBlog() {
   };
 
   return (
-    <div>
+    <div style={{ padding: " 0 2rem" }}>
       <form id='add-blog' onSubmit={(e) => e.preventDefault()}>
         <div className='add-blog-container'>
           <h1>ADD BLOG</h1>

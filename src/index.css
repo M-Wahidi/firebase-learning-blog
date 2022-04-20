@@ -17,14 +17,29 @@
   height: 70px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 0 4rem;
 }
-.header a {
+.header a,
+.header .logout-btn {
   text-decoration: none;
   color: #fff;
   font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  transition: 0.1s ease-in;
 }
+
+.header a:hover,
+.header .logout-btn:hover {
+  background-color: rgb(161, 161, 161);
+}
+
 *:focus {
   outline: none;
 }
@@ -44,10 +59,16 @@ body {
   position: relative;
   margin: 5% auto;
   width: 600px;
-  height: 400px;
+  height: 450px;
   background: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+#login-box {
+  height: 400px;
+}
+#singup-box {
+  height: 450px;
 }
 
 .sing-up-container {
@@ -124,11 +145,13 @@ button.social-signin:focus {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   transition: 0.2s ease;
 }
-.singup-link {
+.singup-link,
+.login-link {
   margin-top: 2rem;
   user-select: none;
 }
-.singup-link a {
+.singup-link a,
+.login-link a {
   text-decoration: none;
   color: #16a085;
 }
@@ -354,10 +377,10 @@ textarea {
 }
 
 @keyframes loading {
-  from{
+  from {
     transform: rotate(0);
   }
-  to{
+  to {
     transform: rotate(360deg);
   }
 }

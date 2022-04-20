@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, addUser } from "../firebaseConfig";
 import { UserContext } from "../Context/authContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
 import { MdRemoveRedEye } from "react-icons/md";
@@ -14,6 +14,7 @@ function Signup() {
   const [userName, setUserName] = useState("");
   const [error, setError] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [passwordType, setPasswordType] = useState("password");
   const { setIsSignIn } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -68,28 +69,36 @@ function Signup() {
           placeholder='E-mail'
           onChange={(e) => setEmail(e.target.value)}
         />
-        <div>
-        <input
-          type='password'
-          name='password'
-          value={password}
-          placeholder='Password'
-          autoComplete='new-password'
-          onChange={(e) => setPassword(e.target.value)}
+        <div style={{ display: "flex", position: "relative" }}>
+          <input
+            type={passwordType}
+            name='password'
+            value={password}
+            placeholder='Password'
+            autoComplete='new-password'
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-       <div>
-       <input
-          type='password'
-          name='password2'
-          placeholder='Retype password'
-          autoComplete='new-password'
-          onChange={(e) => setRetypePassword(e.target.value)}
-          value={retypepassowrd}
-        />
-       </div>
-     
+        <div style={{ display: "flex", position: "relative" }}>
+          <input
+            type={passwordType}
+            name='password2'
+            placeholder='Retype password'
+            autoComplete='new-password'
+            onChange={(e) => setRetypePassword(e.target.value)}
+            value={retypepassowrd}
+          />
+          <div
+            style={{ position: "absolute", right: ".5rem", top: "5px", cursor: "pointer" }}
+            onClick={() => setPasswordType((prev) => (prev === "password" ? "text" : "password"))}
+          >
+            <MdRemoveRedEye />
+          </div>
+        </div>
         <input type='submit' name='signup_submit' value='Sign me up' onClick={handleSingupUserandPass} />
+        <div className='login-link'>
+          You have account? <Link to='/account/login'>Log in</Link>
+        </div>
       </div>
       <Notification
         opition={{
