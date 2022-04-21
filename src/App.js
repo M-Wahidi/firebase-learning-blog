@@ -3,11 +3,13 @@ import Header from "./Components/Header";
 import CreateBlog from "./Pages/CreateBlog";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
-import SingUp from "./Pages/Signup";
+import Signup from "./Pages/Signup";
 import { UserProvider } from "./Context/authContext";
 import ProtectedRoutes from "./ProtectedRoutes";
 import UserBlog from "./Pages/UserBlog";
 import ResetPassword from "./Components/ResetPassword";
+
+
 function App() {
   return (
     <Router>
@@ -24,7 +26,7 @@ function App() {
 
             <Route path='account'>
               <Route path='login' element={<Login />} />
-              <Route path='singup' element={<SingUp />} />
+              <Route path='signup' element={<Signup />} />
               <Route path='reset-password' element={<ResetPassword />} />
             </Route>
 

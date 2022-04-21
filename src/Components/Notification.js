@@ -3,10 +3,13 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { UserContext } from "../Context/authContext";
 import Loading from "./Loading";
+import {useNavigate} from 'react-router-dom'
 
 function Notification({ opition, error, completed, setCompleted, handleDeleteBlog, blogId }) {
   const { setIsSignIn } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
+
   const handleUserAction = async () => {
     setLoading(true);
     setCompleted((prev) => !prev);
@@ -23,6 +26,8 @@ function Notification({ opition, error, completed, setCompleted, handleDeleteBlo
         signOut(auth);
         setIsSignIn(false);
         localStorage.setItem("auth", false);
+        navigate('/')
+
       }, 1500);
     }
   };

@@ -1,12 +1,12 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { UserContext } from "../Context/authContext";
 import { auth } from "../firebaseConfig";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useLocation } from "react-router-dom";
 import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
 import { MdRemoveRedEye } from "react-icons/md";
-
+import CheckPath from '../Helper/CheckPath'
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,6 +16,7 @@ function Login() {
   const [passwordType, setPasswordType] = useState("password");
   const { setIsSignIn } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation().pathname
 
   const handleLoginUser = (e) => {
     e.preventDefault();
@@ -38,10 +39,6 @@ function Login() {
           navigate("/");
           setIsSignIn(true);
         }, 2000);
-        // setTimeout(() =>{
-        //   navigate("/");
-        //   setIsSignIn(true);
-        // },2600)
       })
 
       .catch((error) => {
@@ -54,6 +51,13 @@ function Login() {
         }, 2500);
       });
   };
+
+  useEffect(() =>{
+    if(CheckPath(location)){
+      navigate('/')
+    }
+    
+  },[location])
 
   return (
     <>
@@ -100,7 +104,7 @@ function Login() {
           </Link>
           <input type='submit' name='signup_submit' value='Login' onClick={handleLoginUser} />
           <div className='singup-link'>
-            Don't have an account? <Link to='/account/singup'>sign up</Link>
+            Don't have an account? <Link to='/account/signup'>sign up</Link>
           </div>
         </div>
       </form>

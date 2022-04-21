@@ -1,12 +1,12 @@
-import { useState, useContext } from "react";
+import { useState, useContext,useEffect } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, addUser } from "../firebaseConfig";
 import { UserContext } from "../Context/authContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link,useLocation } from "react-router-dom";
 import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
 import { MdRemoveRedEye } from "react-icons/md";
-
+import CheckPath from '../Helper/CheckPath'
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,6 +17,7 @@ function Signup() {
   const [passwordType, setPasswordType] = useState("password");
   const { setIsSignIn } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation().pathname
 
   const handleSingupUserandPass = (e) => {
     e.preventDefault();
@@ -48,6 +49,13 @@ function Signup() {
         return;
       });
   };
+
+  useEffect(() =>{
+    if(CheckPath(location)){
+      navigate('/')
+    }
+  })
+  
 
   return (
     <form id='singup-box'>

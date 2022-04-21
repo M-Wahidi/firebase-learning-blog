@@ -3,12 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebaseConfig";
 import { splitTag } from "../Helper/splitTag";
 import { collection, addDoc } from "firebase/firestore";
-
+import GetAuthorName from '../Helper/GetAuthorName'
 function CreateBlog() {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogBody, setBlogBody] = useState("");
   const [tags, setTags] = useState([]);
   const [tagsMessage, setTagsMessgae] = useState("");
+  const { authorName } = GetAuthorName();
 
   const navigate = useNavigate();
 
@@ -34,6 +35,8 @@ function CreateBlog() {
       title: blogTitle,
       tags,
       date: new Date(),
+      name:authorName,
+
     });
     navigate("/");
   };

@@ -13,6 +13,7 @@ function GetAuthorName() {
       setAuthorName(doc.data().username);
     });
   };
+  
 
   useEffect(() => {
     const id = JSON.parse(localStorage.getItem("auth"))?.id || "";

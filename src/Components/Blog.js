@@ -4,12 +4,10 @@ import { splitTag } from "../Helper/splitTag";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { UserContext } from "../Context/authContext";
 import Notification from "./Notification";
-import GetAuthorName from "../Helper/GetAuthorName";
 
 function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
   const [isCompleted, setIsCompleted] = useState(false);
   const { isSignIn, setEditBlog } = useContext(UserContext);
-  const { authorName } = GetAuthorName();
 
   const handleEditBlog = () => {
     setEditBlog({ isEditing: true, blogId: blog.id });
@@ -37,7 +35,7 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
       </div>
       <p>{blog.body}</p>
       <div className='blog-footer'>
-        <div className='blog-author'>@ {!authorName ? "Loading..." : authorName}</div>
+        <div className='blog-author'>@ {!blog.name ? "Loading..." : blog.name}</div>
         <div className='blog-tags'>{splitTag(blog.tags)}</div>
       </div>
       <Notification

@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import { useState,useEffect } from 'react'
 import {getAuth,sendPasswordResetEmail } from 'firebase/auth'
 import Notification from './Notification'
+import {useLocation,useNavigate } from "react-router-dom";
+import CheckPath from '../Helper/CheckPath';
 function ResetPassword() {
     const[newEmail,setNewEmail] = useState('')
     const [error,setError] = useState('')
     const [completed,setCompleted] = useState(false)
+    const navigate = useNavigate();
+    const location = useLocation().pathname
 
 
  
@@ -25,6 +29,12 @@ function ResetPassword() {
         },2000)
         setNewEmail('')
     }
+
+    useEffect(() =>{
+        if(CheckPath(location)){
+          navigate('/')
+        }
+      })
 
   return (
       <>
