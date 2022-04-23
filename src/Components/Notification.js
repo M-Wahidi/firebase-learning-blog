@@ -9,7 +9,7 @@ function Notification({ opition, error, completed, setCompleted, handleDeleteBlo
   const { setIsSignIn } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
-
+  
   const handleUserAction = async () => {
     setLoading(true);
     setCompleted((prev) => !prev);
@@ -25,7 +25,6 @@ function Notification({ opition, error, completed, setCompleted, handleDeleteBlo
         setLoading(false);
         signOut(auth);
         setIsSignIn(false);
-        localStorage.setItem("auth", false);
         navigate('/')
 
       }, 1500);

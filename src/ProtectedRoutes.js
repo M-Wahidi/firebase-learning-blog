@@ -1,11 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { auth } from "./firebaseConfig";
-import React from "react";
+import { useContext } from "react";
+import {UserContext} from './Context/authContext'
 import Home from "./Pages/Home";
 
-
 function ProtectedRoutes() {
-  return auth.currentUser?.email !== '' ? <Outlet /> : <Home /> && <Navigate to='/' />;
+  const {isSignIn} = useContext(UserContext)
+  return isSignIn ? <Outlet /> : <Home /> && <Navigate to='/' />;
 }
 
 export default ProtectedRoutes;

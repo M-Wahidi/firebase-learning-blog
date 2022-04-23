@@ -183,6 +183,7 @@ button.social-signin:focus {
   text-align: justify;
   line-height: 28px;
 }
+
 .date-actions-container {
   display: flex;
   justify-content: center;
@@ -230,7 +231,23 @@ button.social-signin:focus {
   border-radius: 2px;
   font-weight: 600;
 }
-
+.userInteraction{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 1.5rem;
+  border: 1px solid rgb(221, 218, 218);
+  min-width: 200px;
+  padding: 0 .5rem;
+}
+.userInteraction div{
+  cursor: pointer;
+  user-select: none;
+}
+.userInteraction span{
+  font-size: 14px;
+}
 #add-blog {
   position: relative;
   display: flex;
@@ -343,7 +360,7 @@ textarea {
   transform: translate(-50%, -50%);
   padding: 1rem;
   width: 700px;
-  z-index: 999;
+  z-index: 3;
 }
 .back-bg {
   height: 100vh;

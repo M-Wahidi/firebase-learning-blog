@@ -1,10 +1,28 @@
-import { createContext, useState } from "react";
+import { createContext, useState,useEffect } from "react";
+import {auth} from '../firebaseConfig'
 export const UserContext = createContext();
 
-export function UserProvider({ children }) {
-  const [isSignIn, setIsSignIn] = useState(JSON.parse(localStorage.getItem("auth")) || "");
-  const [editBlog, setEditBlog] = useState({ isEditing: false, blogId: 0 });
+export default function UserProvider({ children }) {
+  const [isSignIn, setIsSignIn] = useState('');
+
+  useEffect(() =>{
+      auth.onAuthStateChanged((user) => {
+         if(user){
+            setIsSignIn(user)
+            localStorage.setItem('auth',JSON.stringify(true))      
+        }
+        else{
+          setIsSignIn(false)
+          localStorage.setItem('auth',JSON.stringify(false))      
+
+        }
+      }) 
+    
+  },[])
+
+
+
   return (
-    <UserContext.Provider value={{ isSignIn, setIsSignIn, editBlog, setEditBlog }}>{children}</UserContext.Provider>
+    <UserContext.Provider value={{ isSignIn, setIsSignIn }}>{children}</UserContext.Provider>
   );
 }

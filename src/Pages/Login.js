@@ -1,12 +1,11 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { UserContext } from "../Context/authContext";
 import { auth } from "../firebaseConfig";
 import { Link, useNavigate,useLocation } from "react-router-dom";
 import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
 import { MdRemoveRedEye } from "react-icons/md";
-import CheckPath from '../Helper/CheckPath'
+import checkPath from '../Helper/checkPath'
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +13,6 @@ function Login() {
   const [completed, setCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [passwordType, setPasswordType] = useState("password");
-  const { setIsSignIn } = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation().pathname
 
@@ -27,18 +25,14 @@ function Login() {
 
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        localStorage.setItem("auth", JSON.stringify({ isAuth: true, id: auth.currentUser.uid }));
-
         setTimeout(() => {
           setIsLoading(false);
           setCompleted(true);
         }, 1000);
-
         setTimeout(() => {
           setCompleted(false);
-          navigate("/");
-          setIsSignIn(true);
-        }, 2000);
+          navigate('/')
+        }, 2500);
       })
 
       .catch((error) => {
@@ -53,11 +47,10 @@ function Login() {
   };
 
   useEffect(() =>{
-    if(CheckPath(location)){
+    if(checkPath(location)){
       navigate('/')
     }
-    
-  },[location])
+  },[])
 
   return (
     <>

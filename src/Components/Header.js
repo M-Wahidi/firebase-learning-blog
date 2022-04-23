@@ -1,31 +1,33 @@
-import "../index.css";
-import { auth } from "../firebaseConfig";
 import { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { UserContext } from "../Context/authContext";
 import Notification from "./Notification";
 import GetAuthorName from "../Helper/GetAuthorName";
+
+import { auth } from "../firebaseConfig";
+import "../index.css";
+
 function Header() {
-  const { isSignIn, setIsSignIn } = useContext(UserContext);
+  const { isSignIn } = useContext(UserContext);
   const [isCompleted, setIsCompleted] = useState(false);
   const location = useLocation().pathname;
   const [routerPath, setRouterPath] = useState("");
   const { authorName } = GetAuthorName();
-
+ 
   useEffect(() => {
-    setIsSignIn(JSON.parse(localStorage.getItem("auth")));
     setRouterPath(location);
   }, [location]);
+
 
   return (
     <div className='header'>
       <div style={{ position: "relative" }}>
         <Link to='/'>WebDev Blog 😀 </Link>
+
         <div style={{ position: "absolute", color: "#fff", left: "0.8rem", top: "30px", fontSize: "14px" }}>
-          {auth.currentUser === null ? "" : `@ ${authorName}`}
+          {auth.currentUser && `@ ${authorName}`}
         </div>
       </div>
-
       {isSignIn && (
         <Link
           to='create-post'
@@ -35,7 +37,6 @@ function Header() {
           Create Blog
         </Link>
       )}
-
       {isSignIn && (
         <Link
           to={`user-blogs`}
@@ -45,14 +46,13 @@ function Header() {
           My Blogs
         </Link>
       )}
-
-      {isSignIn ? (
+  
+      {isSignIn &&   
         <button className='logout-btn' onClick={() => setIsCompleted((prev) => !prev)}>
           Logout
         </button>
-      ) : (
-        <Link to='/account/login'>Login</Link>
-      )}
+        }
+      {!isSignIn && <Link to='/account/login'>Login</Link> }  
       <Notification
         opition={{
           title: "Logout!",

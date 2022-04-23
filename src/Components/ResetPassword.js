@@ -2,47 +2,61 @@ import { useState,useEffect } from 'react'
 import {getAuth,sendPasswordResetEmail } from 'firebase/auth'
 import Notification from './Notification'
 import {useLocation,useNavigate } from "react-router-dom";
-import CheckPath from '../Helper/CheckPath';
+import checkPath from '../Helper/checkPath';
+import Loading from './Loading';
 function ResetPassword() {
     const[newEmail,setNewEmail] = useState('')
-    const [error,setError] = useState('')
+    const [error,setError] = useState(false)
     const [completed,setCompleted] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
     const location = useLocation().pathname
 
 
  
-    const handleResetPassword = () =>{
+    const handleResetPassword = (e) =>{ 
+        e.preventDefault()
         const auth = getAuth();
+        setCompleted(false);
+        setError(false);
+        setIsLoading(true);
+    
         sendPasswordResetEmail(auth, newEmail)
         .then(() => {
-            if(!error){
-                setCompleted(true)
-            }
+          setTimeout(() => {
+            setIsLoading(false);
+            setCompleted(true);
+          }, 1000);
+          setTimeout(() => {
+            setCompleted(false);
+          }, 2500);
+  
         })
         .catch((error) => {
-            setError(error.message)
+          setTimeout(() => {
+            setIsLoading(false);
+            setError(error.message);
+          }, 1000);
+          setTimeout(() => {
+            setError("");
+          }, 2500);
         });
-        setTimeout(() =>{
-            setError('')
-            setCompleted(false)
-        },2000)
         setNewEmail('')
     }
 
     useEffect(() =>{
-        if(CheckPath(location)){
+        if(checkPath(location)){
           navigate('/')
         }
       })
 
   return (
       <>
-    <div style={containerStyle}>
+    <form style={containerStyle} onSubmit={handleResetPassword}>
         <h1>FORGOT PASSOWRD</h1>
         <input type="text" onChange={(e) => setNewEmail(e.target.value)} value={newEmail} placeholder='Email...'  style={{border:'1px solid rgba(101, 101, 102,0.4)'}}/>
         <button onClick={handleResetPassword} style={{backgroundColor:'#8ff57f',padding:'5px 20px',border:'none'}}>Send</button>
-    </div>
+    </form>
     <Notification
         opition={{
           title: error ? "Error" : "",
@@ -51,6 +65,8 @@ function ResetPassword() {
         completed={completed}
         error={error}
       />
+            {isLoading && <Loading />}
+
     </>
   )
 }

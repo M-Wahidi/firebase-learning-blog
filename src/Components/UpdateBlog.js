@@ -1,19 +1,25 @@
 import { useState, useContext, useEffect } from "react";
 import { db } from "../firebaseConfig";
-import { UserContext } from "../Context/authContext";
+import { EditBlogContext } from "../Context/editBlogContext";
 import { splitTag } from "../Helper/splitTag";
 import { collection, updateDoc, doc } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
+import Loading from "../Components/Loading";
 
 function UpadteBlog({ getBlogs, getUserBlogs, oldUserData }) {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogBody, setBlogBody] = useState("");
   const [tags, setTags] = useState([]);
   const [tagsMessage, setTagsMessgae] = useState("");
-  const { editBlog, setEditBlog } = useContext(UserContext);
+  const [emptyTagMssage,setEmptyTagMessage] = useState('')
+  const [loading, setLoading] = useState(false);
+  const [options,setOptions] = useState('start')
+  const { editBlog, setEditBlog } = useContext(EditBlogContext);
   const location = useLocation().pathname;
 
   const handleChange = (e) => {
+    setOptions(e.target.value)
+    setEmptyTagMessage('')
     if (tags.length < 4) {
       if (tags.some((tag) => tag === e.target.value)) {
         return;
@@ -32,24 +38,30 @@ function UpadteBlog({ getBlogs, getUserBlogs, oldUserData }) {
     setTagsMessgae("");
   };
 
-  const updateBlog = async () => {
+  const updateBlog =  () => {
     if (tags.length === 0) {
+      setEmptyTagMessage('u need To add at least one tag')
       return;
     }
-    const blogRef = collection(db, "blogs");
-    const docRef = doc(blogRef, editBlog.blogId);
-    await updateDoc(docRef, {
+
+    setLoading(true);
+    setTimeout(async() =>{
+      const blogRef = collection(db, "blogs");
+      const docRef = doc(blogRef, editBlog.blogId);
+      await updateDoc(docRef, {
       body: blogBody,
       title: blogTitle,
       tags,
       date: new Date(),
     });
-    handleCloseForm();
     if (location === "/") {
       getBlogs();
     } else {
       getUserBlogs();
     }
+    setLoading(false);
+    handleCloseForm();
+    },1500)
   };
 
   useEffect(() => {
@@ -59,6 +71,14 @@ function UpadteBlog({ getBlogs, getUserBlogs, oldUserData }) {
       setTags(oldUserData.tags);
     }
   }, [oldUserData]);
+
+  const handleTags = (e) =>{
+    setTags([])
+    setEmptyTagMessage('')
+    setTagsMessgae('')
+    setOptions('start')
+  }
+
 
   return (
     <div>
@@ -90,14 +110,15 @@ function UpadteBlog({ getBlogs, getUserBlogs, oldUserData }) {
               <label htmlFor='tags'>Add a Tags:</label>
               <button
                 style={{ width: "50px", border: "none", fontSize: "1.2rem" }}
-                onClick={() => (setTags([]), setTagsMessgae(""))}
+                onClick={handleTags}
               >
                 -
               </button>
             </div>
-            <p style={{ color: "red", fontSize: ".8rem" }}> {tagsMessage && "Maximum length for tags is 4"}</p>
+            <p style={{ color: "red", fontSize: ".8rem",marginBottom:'0rem' }}> {tagsMessage && "Maximum length for tags is 4"}</p>
+            <p style={{ color: "red", fontSize: ".8rem" }}> {emptyTagMssage}</p>
 
-            <select name='tags' id='tags' onChange={(e) => handleChange(e)}>
+            <select name='tags' id='tags' onChange={(e) => handleChange(e)} value={options}>
               <option value=''>Choose Tag:</option>
               <option value='HTML'>HTML</option>
               <option value='CSS'>CSS</option>
@@ -139,6 +160,7 @@ function UpadteBlog({ getBlogs, getUserBlogs, oldUserData }) {
           X
         </button>
       </form>
+      {loading && <Loading />}
     </div>
   );
 }

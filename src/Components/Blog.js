@@ -3,17 +3,20 @@ import { auth } from "../firebaseConfig";
 import { splitTag } from "../Helper/splitTag";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { UserContext } from "../Context/authContext";
+import { EditBlogContext } from "../Context/editBlogContext";
+import Likes from '../Components/BlogLikes'
 import Notification from "./Notification";
 
 function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
   const [isCompleted, setIsCompleted] = useState(false);
-  const { isSignIn, setEditBlog } = useContext(UserContext);
+  const { isSignIn } = useContext(UserContext);
+  const {setEditBlog } = useContext(EditBlogContext);
 
   const handleEditBlog = () => {
     setEditBlog({ isEditing: true, blogId: blog.id });
     fetchOldUserBlog(blog.id);
   };
-
+ 
   return (
     <div className='blog'>
       <div className='blog-header'>
@@ -33,9 +36,10 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
           )}
         </div>
       </div>
-      <p>{blog.body}</p>
+      <p>{blog.body.slice(0,200)}...</p>
       <div className='blog-footer'>
         <div className='blog-author'>@ {!blog.name ? "Loading..." : blog.name}</div>
+        <Likes blogID ={blog.id} />
         <div className='blog-tags'>{splitTag(blog.tags)}</div>
       </div>
       <Notification

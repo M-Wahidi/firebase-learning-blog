@@ -6,7 +6,7 @@ import { useNavigate, Link,useLocation } from "react-router-dom";
 import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
 import { MdRemoveRedEye } from "react-icons/md";
-import CheckPath from '../Helper/CheckPath'
+import checkPath from '../Helper/checkPath'
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +14,7 @@ function Signup() {
   const [userName, setUserName] = useState("");
   const [error, setError] = useState(false);
   const [completed, setCompleted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [passwordType, setPasswordType] = useState("password");
   const { setIsSignIn } = useContext(UserContext);
   const navigate = useNavigate();
@@ -28,7 +29,11 @@ function Signup() {
       }, 2000);
       return;
     }
+    setCompleted(false);
+    setIsLoading(true);
+
     createUserWithEmailAndPassword(auth, email, password)
+    
       .then((userCredential) => {
         const user = userCredential.user;
         if (user) {
@@ -37,8 +42,20 @@ function Signup() {
           addUser(userName, email, user.uid);
           setCompleted(true);
           setTimeout(() => {
+            setIsLoading(false);
+          }, 500);
+  
+          setTimeout(() =>{
+            setCompleted(true);
+          },600)
+  
+          setTimeout(() => {
+            setCompleted(false);
+          }, 1400);
+  
+          setTimeout(() => {
             navigate("/");
-          }, 2500);
+          }, 1500);;
         }
       })
       .catch((error) => {
@@ -51,13 +68,14 @@ function Signup() {
   };
 
   useEffect(() =>{
-    if(CheckPath(location)){
+    if(checkPath(location)){
       navigate('/')
     }
-  })
+  },[])
   
 
   return (
+    <>
     <form id='singup-box'>
       <div className='sing-up-container' style={{ left: "25%" }}>
         <h1>Sign up</h1>
@@ -124,6 +142,8 @@ function Signup() {
         error={error}
       />
     </form>
+{isLoading && <Loading />}
+</>
   );
 }
 

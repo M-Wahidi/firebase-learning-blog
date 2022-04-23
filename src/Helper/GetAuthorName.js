@@ -1,24 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useContext } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import {UserContext} from '../Context/authContext'
 import { auth, db } from "../firebaseConfig";
 
 function GetAuthorName() {
   const [authorName, setAuthorName] = useState("");
-
-  const getAuthorName = async (id) => {
+  const {isSignIn} = useContext(UserContext)
+  const getAuthorName = async () => {
     const userRef = collection(db, "users");
-    const q = query(userRef, where("id", "==", id));
+    const q = query(userRef, where("id", "==", auth.currentUser?.uid));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       setAuthorName(doc.data().username);
-    });
+    })
   };
-  
 
   useEffect(() => {
-    const id = JSON.parse(localStorage.getItem("auth"))?.id || "";
-    getAuthorName(id);
-  }, [auth.currentUser]);
+    if(isSignIn){
+      getAuthorName();
+    }
+  }, [isSignIn]);
 
   return { authorName };
 }

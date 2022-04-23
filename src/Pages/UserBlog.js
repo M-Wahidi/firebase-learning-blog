@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, query, where, deleteDoc, doc, getDoc } from "firebase/firestore";
-import {  db } from "../firebaseConfig";
+import {  db,auth } from "../firebaseConfig";
 import Blog from "../Components/Blog";
 import UpadteBlog from "../Components/UpdateBlog";
 function UserBlog() {
   const [userBlogs, setUserBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [oldUserData, setOldUserData] = useState();
-  const id = JSON.parse(localStorage.getItem('auth')).id
+  const id = auth.currentUser.uid
 
   const blogsRef = collection(db, "blogs");
   const userQuery = query(blogsRef, where("authorID", "==", id));

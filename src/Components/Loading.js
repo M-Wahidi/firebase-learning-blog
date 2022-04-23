@@ -31,7 +31,7 @@ const blurBackground={
   top:'0',
   height:'100vh',
   width:'100vw',
-  zIndex:'2'
+  zIndex:'99'
 }
 
 
