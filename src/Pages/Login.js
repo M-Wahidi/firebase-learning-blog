@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
-import { Link, useNavigate,useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
 import { MdRemoveRedEye } from "react-icons/md";
-import checkPath from '../Helper/checkPath'
+import checkPath from "../Helper/CheckPath";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +14,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [passwordType, setPasswordType] = useState("password");
   const navigate = useNavigate();
-  const location = useLocation().pathname
+  const location = useLocation().pathname;
 
   const handleLoginUser = (e) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ function Login() {
         }, 1000);
         setTimeout(() => {
           setCompleted(false);
-          navigate('/')
+          navigate("/");
         }, 2500);
       })
 
@@ -46,11 +46,11 @@ function Login() {
       });
   };
 
-  useEffect(() =>{
-    if(checkPath(location)){
-      navigate('/')
+  useEffect(() => {
+    if (checkPath(location)) {
+      navigate("/");
     }
-  },[])
+  }, []);
 
   return (
     <>
@@ -104,7 +104,7 @@ function Login() {
       <Notification
         opition={{
           title: error ? "Error" : "",
-          message: error ? error : completed ? `User Wiht Email ${email} singed in successfully` : "",
+          message: error ? error : completed ? `singed in successfully` : "",
         }}
         completed={completed}
         error={error}

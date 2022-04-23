@@ -1,4 +1,4 @@
-import { useState,useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Header";
 import CreateBlog from "../Pages/CreateBlog";
@@ -7,48 +7,45 @@ import Login from "../Pages/Login";
 import Signup from "../Pages/Signup";
 import ProtectedRoutes from "../ProtectedRoutes";
 import UserBlog from "../Pages/UserBlog";
-import ResetPassword from "./ResetPassword";
-import {UserContext} from '../Context/authContext'
+import ResetPassword from "../Pages/ResetPassword";
+import { UserContext } from "../Context/authContext";
 import Loading from "./Loading";
 
 function Container() {
-    const [loading, setLoading] = useState(false);
-    const {isSignIn} = useContext(UserContext)
-    useEffect(() =>{
-        if(isSignIn === ''){
-            setLoading(true)
-        }
-        else{
-            setLoading(false)
-        }
-    },[isSignIn])
+  const [loading, setLoading] = useState(false);
+  const { isSignIn } = useContext(UserContext);
+  useEffect(() => {
+    if (isSignIn === "") {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [isSignIn]);
 
   return (
     <Router>
-        <div className='App'>
-        {loading ? <Loading />  :  <Header /> } 
-          <Routes>
-            <Route path='/' element={<Home />} />
+      <div className='App'>
+        {loading ? <Loading /> : <Header />}
+        <Routes>
+          <Route path='/' element={<Home />} />
 
-            <Route element={<ProtectedRoutes />}>
-              <Route path='create-post' element={<CreateBlog />} />
-              <Route path='user-blogs' element={<UserBlog />} />
-            </Route>
+          <Route element={<ProtectedRoutes />}>
+            <Route path='create-post' element={<CreateBlog />} />
+            <Route path='user-blogs' element={<UserBlog />} />
+          </Route>
 
-            <Route path='account'>
-              <Route path='login' element={<Login />} />
-              <Route path='signup' element={<Signup />} />
-              <Route path='reset-password' element={<ResetPassword />} />
-            </Route>
+          <Route path='account'>
+            <Route path='login' element={<Login />} />
+            <Route path='signup' element={<Signup />} />
+            <Route path='reset-password' element={<ResetPassword />} />
+          </Route>
 
-            <Route
-              path='*'
-              element={<h1 style={{ textAlign: "center", paddingTop: "20px" }}>There's nothing here: 404!</h1>}
-            />
-          </Routes>
-
-        </div>
-        
+          <Route
+            path='*'
+            element={<h1 style={{ textAlign: "center", paddingTop: "20px" }}>There's nothing here: 404!</h1>}
+          />
+        </Routes>
+      </div>
     </Router>
   );
 }
