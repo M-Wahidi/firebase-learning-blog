@@ -24,5 +24,6 @@ export const addUser = async (username, email, id) => {
     username,
     email,
     id,
+    likedBlogs:[]
   });
 };

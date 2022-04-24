@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import Notification from "../Components/Notification";
 import { useLocation, useNavigate } from "react-router-dom";
-import checkPath from "../Helper/CheckPath";
+import checkPath from "../Helper/checkPath";
 import Loading from "../Components/Loading";
 function ResetPassword() {
   const [newEmail, setNewEmail] = useState("");
