@@ -19,7 +19,7 @@ function BlogLikes({ blogID }) {
 
   // Display UnAuth User Message
   const chechkUserAuth = () => {
-    if (!isSignIn) {
+    if (isSignIn?.email === undefined) {
       setShowInputMsge(true);
       setTimeout(() => {
         setShowInputMsge(false);
@@ -29,6 +29,7 @@ function BlogLikes({ blogID }) {
   };
 
   const handleLikesClick = async () => {
+    if(chechkUserAuth) return
     setIsLiked((prev) => !prev);
     isLiked ? setLikesCount((prev) => prev - 1) : setLikesCount((prev) => prev + 1);
     setLikesCountToDB();

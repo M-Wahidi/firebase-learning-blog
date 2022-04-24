@@ -5,7 +5,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
 import { MdRemoveRedEye } from "react-icons/md";
-import checkPath from "../Helper/CheckPath";
+import checkPath from "../Helper/checkPath";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
