@@ -1,21 +1,17 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { BiComment, BiHeart, BiShare } from "react-icons/bi";
 import { AiFillHeart } from "react-icons/ai";
 import { UserContext } from "../Context/authContext";
 import { db } from "../firebaseConfig";
 import { doc, getDoc, setDoc, collection } from "firebase/firestore";
 import Notification from "./Notification";
-function BlogLikes({ blogID }) {
-  const [likesCount, setLikesCount] = useState(0);
+function BlogLikes({ blogID, likeCount }) {
+  const [likesCount, setLikesCount] = useState(likeCount);
   const { isSignIn } = useContext(UserContext);
   const [isLiked, setIsLiked] = useState(false);
   const [showAuthMsg, setShowInputMsge] = useState(false);
   const blogRef = collection(db, "blogs");
   const targetBlog = doc(blogRef, blogID);
-
-  useEffect(() => {
-    getLikesCountFromDB();
-  }, []);
 
   // Display UnAuth User Message
   const chechkUserAuth = () => {
@@ -29,7 +25,7 @@ function BlogLikes({ blogID }) {
   };
 
   const handleLikesClick = async () => {
-    if(chechkUserAuth) return
+    if (chechkUserAuth()) return;
     setIsLiked((prev) => !prev);
     isLiked ? setLikesCount((prev) => prev - 1) : setLikesCount((prev) => prev + 1);
     setLikesCountToDB();
@@ -48,17 +44,6 @@ function BlogLikes({ blogID }) {
         },
         { merge: true }
       );
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
-
-  // Get Likes Count From DB
-  const getLikesCountFromDB = async () => {
-    try {
-      const blogLike = await getDoc(targetBlog);
-      const count = blogLike.data().likesCount;
-      setLikesCount(count);
     } catch (err) {
       console.log(err.message);
     }

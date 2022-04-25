@@ -39,7 +39,7 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
       <p>{blog.body}</p>
       <div className='blog-footer'>
         <div className='blog-author'>@ {!blog.name ? "Loading..." : blog.name}</div>
-        <Likes blogID={blog.id} />
+        <Likes blogID={blog.id} likeCount={blog.likesCount} />
         <div className='blog-tags'>{splitTag(blog.tags)}</div>
       </div>
       <Notification
