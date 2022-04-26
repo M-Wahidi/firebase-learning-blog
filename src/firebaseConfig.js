@@ -19,11 +19,12 @@ export const db = getFirestore(app);
 
 // ADD USER
 const userRef = collection(db, "users");
+
 export const addUser = async (username, email, id) => {
-  await addDoc(userRef, {
+    await addDoc(userRef, {
     username,
     email,
     id,
-    likedBlogs:[]
+    likedBlogs:[],
   });
 };

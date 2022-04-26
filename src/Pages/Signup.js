@@ -61,6 +61,7 @@ function Signup() {
         setError(error.message);
         setTimeout(() => {
           setError("");
+          setIsLoading(false)
         }, 2000);
         return;
       });
