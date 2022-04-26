@@ -5,7 +5,7 @@ import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, setDoc, collection, where, query, getDocs } from "firebase/firestore";
 import Notification from "./Notification";
 
-function BlogLikes({ blogID, likeCount }) {
+function BlogDisLikes({ blogID, likeCount }) {
   const [likesCount, setLikesCount] = useState(likeCount);
   const [isLiked, setIsLiked] = useState(false);
   const { isSignIn } = useContext(UserContext);
@@ -116,6 +116,13 @@ function BlogLikes({ blogID, likeCount }) {
         <span>{!isSignIn && <AiOutlineLike />}</span>
       </div>
 
+      <div>
+        <span style={{ margin: "0 2px" }}>50</span>
+        <span>
+          <AiOutlineDislike />
+        </span>
+      </div>
+
       <Notification
         opition={{
           title: "Connect With Other Developer 😀",
@@ -129,4 +136,4 @@ function BlogLikes({ blogID, likeCount }) {
   );
 }
 
-export default BlogLikes;
+export default BlogDisLikes;

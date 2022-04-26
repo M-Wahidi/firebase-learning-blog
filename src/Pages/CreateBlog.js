@@ -50,6 +50,7 @@ function CreateBlog() {
         date: new Date(),
         name: authorName,
         likesCount: 0,
+        disLikeCount: 0,
       });
       navigate("/");
     }, 1500);

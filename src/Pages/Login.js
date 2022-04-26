@@ -32,7 +32,7 @@ function Login() {
         setTimeout(() => {
           setCompleted(false);
           navigate("/");
-        }, 2500);
+        }, 2000);
       })
 
       .catch((error) => {
