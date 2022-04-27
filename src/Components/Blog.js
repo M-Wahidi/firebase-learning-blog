@@ -5,6 +5,7 @@ import { MdDelete, MdModeEdit } from "react-icons/md";
 import { UserContext } from "../Context/authContext";
 import { EditBlogContext } from "../Context/editBlogContext";
 import Likes from "../Components/BlogLikes";
+import DisLike from "../Components/BlogDisLike";
 import Notification from "./Notification";
 
 function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
@@ -39,7 +40,10 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
       <p>{blog.body}</p>
       <div className='blog-footer'>
         <div className='blog-author'>@{!blog.name ? "Loading..." : blog.name}</div>
-        <Likes blogID={blog.id} likeCount={blog.likesCount} blog={blog} />
+        <div className='userInteraction'>
+          <Likes blogID={blog.id} likeCount={blog.likesCount} blog={blog} />
+          <DisLike blogID={blog.id} disLikeCount={blog.disLikeCount} blog={blog} />
+        </div>
         <div className='blog-tags'>{splitTag(blog.tags)}</div>
       </div>
       <Notification

@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { AiOutlineLike, AiOutlineDislike, AiFillLike } from "react-icons/ai";
+import { AiOutlineLike, AiFillLike } from "react-icons/ai";
 import { UserContext } from "../Context/authContext";
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, setDoc, collection, where, query, getDocs } from "firebase/firestore";
@@ -108,7 +108,7 @@ function BlogLikes({ blogID, likeCount }) {
   };
 
   return (
-    <div className='userInteraction' onClick={chechkUserAuth}>
+    <div>
       <div onClick={() => handleLikesClick("like")}>
         <span style={{ margin: "0 2px" }}>{likesCount}</span>
         <span style={{ color: "green" }}>{isLiked && isSignIn && <AiFillLike />}</span>
