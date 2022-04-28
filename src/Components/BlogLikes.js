@@ -29,83 +29,87 @@ function BlogLikes({ blogID, likeCount }) {
 
   const handleLikesClick = async () => {
     if (chechkUserAuth()) return;
-    setIsLiked((prev) => !prev);
-    isLiked ? setLikesCount((prev) => prev - 1) : setLikesCount((prev) => prev + 1);
-    setLikesCountToDB();
-    addLikedBlogToUser();
+    // setIsLiked(prev => !prev)
+    // isLiked ? setLikesCount((prev) => prev - 1) : setLikesCount((prev) => prev + 1);
+    // setLikesCountToDB();
+    // addLikedBlogToUser();
   };
 
+
+
+
+  
   // Send Likes Count To DB
-  const setLikesCountToDB = async () => {
-    try {
-      const blogLike = await getDoc(targetBlog);
-      const count = blogLike.data().likesCount;
-      const toogleLike = isLiked ? Number(count - 1) : Number(count + 1);
-      await setDoc(
-        targetBlog,
-        {
-          likesCount: toogleLike,
-        },
-        { merge: true }
-      );
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
+  // const setLikesCountToDB = async () => {
+  //   try {
+  //     const blogLike = await getDoc(targetBlog);
+  //     const count = blogLike.data().likesCount;
+  //     const toogleLike = isLiked ? Number(count - 1) : Number(count + 1);
+  //     await setDoc(
+  //       targetBlog,
+  //       {
+  //         likesCount: toogleLike,
+  //       },
+  //       { merge: true }
+  //     );
+  //   } catch (err) {
+  //     console.log(err.message);
+  //   }
+  // };
 
-  useEffect(() => {
-    const getLikedBlogs = async () => {
-      if (isSignIn.email !== undefined) {
-        await setLikedBlog();
-        likedBlogs.some((elem) => (elem === blogID ? setIsLiked(true) : ""));
-      }
-    };
-    getLikedBlogs();
-  }, []);
+  // useEffect(() => {
+  //   const getLikedBlogs = async () => {
+  //     if (isSignIn.email !== undefined) {
+  //       await setLikedBlog();
+  //       likedBlogs.some((elem) => (elem === blogID ? setIsLiked(true) : ""));
+  //     }
+  //   };
+  //   getLikedBlogs();
+  // }, []);
 
-  const setLikedBlog = async () => {
-    const userQuery = query(userRef, where("id", "==", auth.currentUser.uid));
-    const querySnapshot = await getDocs(userQuery);
-    querySnapshot.forEach((doc) => {
-      likedBlogs = doc.data().likedBlogs;
-      documentID = doc.id;
-    });
-  };
+  // const setLikedBlog = async () => {
+  //   const userQuery = query(userRef, where("id", "==", auth.currentUser.uid));
+  //   const querySnapshot = await getDocs(userQuery);
+  //   querySnapshot.forEach((doc) => {
+  //     likedBlogs = doc.data().likedBlogs;
+  //     documentID = doc.id;
+  //   });
+  // };
 
-  const addLikedBlogToUser = async () => {
-    await setLikedBlog();
-    // Compare if Blogs Available
-    const checkDuplicateBlogs = () => {
-      if (likedBlogs.length === 0) {
-        addBlog();
-        return;
-      }
-      likedBlogs.every((blog) => (blog !== blogID ? addBlog() : removeBlog()));
-    };
-    // ADD LIKE TO BLOGS LIST
-    const addBlog = async () => {
-      await setDoc(
-        doc(db, "users", documentID),
-        {
-          likedBlogs: [...likedBlogs, blogID],
-        },
-        { merge: true }
-      );
-    };
-    // REMOVE LIKE FROM BLOGS LIST
-    const removeBlog = async () => {
-      likedBlogs = likedBlogs.filter((blog) => blog !== blogID);
-      await setDoc(
-        doc(db, "users", documentID),
-        {
-          likedBlogs: likedBlogs,
-        },
-        { merge: true }
-      );
-    };
+  // const addLikedBlogToUser = async () => {
+  //   await setLikedBlog();
+  //   // Compare if Blogs Available
+  //   const checkDuplicateBlogs = () => {
+  //     if (likedBlogs.length === 0) {
+  //       addBlog();
+  //       return;
+  //     }
+  //     likedBlogs.every((blog) => (blog !== blogID ? addBlog() : removeBlog()));
+  //   };
+  //   // ADD LIKE TO BLOGS LIST
+  //   const addBlog = async () => {
+  //     await setDoc(
+  //       doc(db, "users", documentID),
+  //       {
+  //         likedBlogs: [...likedBlogs, blogID],
+  //       },
+  //       { merge: true }
+  //     );
+  //   };
+  //   // REMOVE LIKE FROM BLOGS LIST
+  //   const removeBlog = async () => {
+  //     likedBlogs = likedBlogs.filter((blog) => blog !== blogID);
+  //     await setDoc(
+  //       doc(db, "users", documentID),
+  //       {
+  //         likedBlogs: likedBlogs,
+  //       },
+  //       { merge: true }
+  //     );
+  //   };
 
-    checkDuplicateBlogs();
-  };
+  //   checkDuplicateBlogs();
+  // };
 
   return (
     <div>
