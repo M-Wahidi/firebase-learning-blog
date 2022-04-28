@@ -1,20 +1,15 @@
-import { useState, useContext, useEffect } from "react";
-import { AiOutlineLike, AiFillLike } from "react-icons/ai";
+import { useState, useContext } from "react";
+import { AiOutlineLike, AiFillLike, AiOutlineDislike, AiFillDislike } from "react-icons/ai";
 import { UserContext } from "../Context/authContext";
-import { auth, db } from "../firebaseConfig";
-import { doc, getDoc, setDoc, collection, where, query, getDocs } from "firebase/firestore";
 import Notification from "./Notification";
 
-function BlogLikes({ blogID, likeCount }) {
-  const [likesCount, setLikesCount] = useState(likeCount);
+function BlogLikes({ blogID, likesCount, disLikesCount }) {
+  const [likeCount, setLikeCount] = useState(likesCount);
   const [isLiked, setIsLiked] = useState(false);
+  const [disLikeCount, setDisLikeCount] = useState(disLikesCount);
+  const [isDisLike, setIsDisLike] = useState(false);
   const { isSignIn } = useContext(UserContext);
   const [showAuthMsg, setShowInputMsge] = useState(false);
-  const userRef = collection(db, "users");
-  const blogRef = collection(db, "blogs");
-  const targetBlog = doc(blogRef, blogID);
-  let likedBlogs = "";
-  let documentID = "";
 
   // Display UnAuth User Message
   const chechkUserAuth = () => {
@@ -27,97 +22,58 @@ function BlogLikes({ blogID, likeCount }) {
     }
   };
 
-  const handleLikesClick = async () => {
+  const handleLike = () => {
     if (chechkUserAuth()) return;
-    // setIsLiked(prev => !prev)
-    // isLiked ? setLikesCount((prev) => prev - 1) : setLikesCount((prev) => prev + 1);
-    // setLikesCountToDB();
-    // addLikedBlogToUser();
+    setIsLiked(true);
+
+    if (isLiked === false && isDisLike === false) {
+      setLikeCount((prev) => prev + 1);
+    }
+    if (isDisLike) {
+      setLikeCount((prev) => prev + 1);
+      setDisLikeCount((prev) => prev - 1);
+      setIsLiked(true);
+      setIsDisLike(false);
+    }
+    if (isLiked) {
+      setLikeCount((prev) => prev - 1);
+      setIsLiked(false);
+    }
   };
 
+  const handleDisLike = () => {
+    if (chechkUserAuth()) return;
+    setIsDisLike(true);
 
-
-
-  
-  // Send Likes Count To DB
-  // const setLikesCountToDB = async () => {
-  //   try {
-  //     const blogLike = await getDoc(targetBlog);
-  //     const count = blogLike.data().likesCount;
-  //     const toogleLike = isLiked ? Number(count - 1) : Number(count + 1);
-  //     await setDoc(
-  //       targetBlog,
-  //       {
-  //         likesCount: toogleLike,
-  //       },
-  //       { merge: true }
-  //     );
-  //   } catch (err) {
-  //     console.log(err.message);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const getLikedBlogs = async () => {
-  //     if (isSignIn.email !== undefined) {
-  //       await setLikedBlog();
-  //       likedBlogs.some((elem) => (elem === blogID ? setIsLiked(true) : ""));
-  //     }
-  //   };
-  //   getLikedBlogs();
-  // }, []);
-
-  // const setLikedBlog = async () => {
-  //   const userQuery = query(userRef, where("id", "==", auth.currentUser.uid));
-  //   const querySnapshot = await getDocs(userQuery);
-  //   querySnapshot.forEach((doc) => {
-  //     likedBlogs = doc.data().likedBlogs;
-  //     documentID = doc.id;
-  //   });
-  // };
-
-  // const addLikedBlogToUser = async () => {
-  //   await setLikedBlog();
-  //   // Compare if Blogs Available
-  //   const checkDuplicateBlogs = () => {
-  //     if (likedBlogs.length === 0) {
-  //       addBlog();
-  //       return;
-  //     }
-  //     likedBlogs.every((blog) => (blog !== blogID ? addBlog() : removeBlog()));
-  //   };
-  //   // ADD LIKE TO BLOGS LIST
-  //   const addBlog = async () => {
-  //     await setDoc(
-  //       doc(db, "users", documentID),
-  //       {
-  //         likedBlogs: [...likedBlogs, blogID],
-  //       },
-  //       { merge: true }
-  //     );
-  //   };
-  //   // REMOVE LIKE FROM BLOGS LIST
-  //   const removeBlog = async () => {
-  //     likedBlogs = likedBlogs.filter((blog) => blog !== blogID);
-  //     await setDoc(
-  //       doc(db, "users", documentID),
-  //       {
-  //         likedBlogs: likedBlogs,
-  //       },
-  //       { merge: true }
-  //     );
-  //   };
-
-  //   checkDuplicateBlogs();
-  // };
+    if (isLiked === false && isDisLike === false) {
+      setDisLikeCount((prev) => prev + 1);
+    }
+    if (isLiked) {
+      setLikeCount((prev) => prev - 1);
+      setDisLikeCount((prev) => prev + 1);
+      setIsLiked(false);
+      setIsDisLike(true);
+    }
+    if (isDisLike) {
+      setDisLikeCount((prev) => prev - 1);
+      setIsDisLike(false);
+    }
+  };
 
   return (
-    <div>
-      <div onClick={() => handleLikesClick("like")}>
-        <span style={{ margin: "0 2px" }}>{likesCount}</span>
+    <div className='userInteraction'>
+      <div onClick={handleLike}>
+        <span style={{ margin: "0 2px" }}>{likeCount}</span>
         <span style={{ color: "green" }}>{isLiked && isSignIn && <AiFillLike />}</span>
         <span>{!isLiked && isSignIn && <AiOutlineLike />}</span>
         <span>{!isSignIn && <AiOutlineLike />}</span>
+      </div>
+
+      <div onClick={handleDisLike}>
+        <span style={{ margin: "0 2px" }}>{disLikeCount}</span>
+        <span style={{ color: "red" }}>{isDisLike && isSignIn && <AiFillDislike />}</span>
+        <span>{!isDisLike && isSignIn && <AiOutlineDislike />}</span>
+        <span>{!isSignIn && <AiOutlineDislike />}</span>
       </div>
 
       <Notification

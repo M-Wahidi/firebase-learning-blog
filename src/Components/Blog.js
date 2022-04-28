@@ -17,8 +17,6 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
     fetchOldUserBlog(blog.id);
   };
 
-
-
   return (
     <div className='blog'>
       <div className='blog-header'>
@@ -42,7 +40,7 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
       <div className='blog-footer'>
         <div className='blog-author'>@{!blog.name ? "Loading..." : blog.name}</div>
         <div className='userInteraction'>
-          <Likes blogID={blog.id} likeCount={blog.likesCount} />
+          <Likes blogID={blog.id} likesCount={blog.likesCount} disLikesCount={blog.disLikesCount} />
         </div>
         <div className='blog-tags'>{splitTag(blog.tags)}</div>
       </div>

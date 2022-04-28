@@ -256,7 +256,7 @@ button.social-signin:focus {
   justify-content: center;
   align-items: center;
   position: absolute;
-  left: 65px;
+  left: 35px;
   font-size: 1.5rem;
 }
 .userInteraction div {
