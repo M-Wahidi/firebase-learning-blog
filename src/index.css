@@ -172,11 +172,13 @@ button.social-signin:focus {
   overflow-y: auto;
   max-height: 400px;
 }
-.blog::-webkit-scrollbar {
+.blog::-webkit-scrollbar,
+textarea::-webkit-scrollbar {
   width: 5px;
   background-color: rgb(249, 238, 238);
 }
-.blog::-webkit-scrollbar-thumb {
+.blog::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb {
   background-color: rgb(138, 135, 135);
 }
 .blog-header {
@@ -184,7 +186,9 @@ button.social-signin:focus {
   align-items: center;
   justify-content: space-between;
   gap: 0 1rem;
+  top: 0;
 }
+
 .blog h1 {
   font-weight: 500;
   margin: 8px 0;
@@ -297,6 +301,13 @@ button.social-signin:focus {
   border: 1px solid #333;
   padding-left: 5px;
   font-size: 1.3rem;
+}
+.blogBody-form {
+  position: relative;
+  height: 280px;
+}
+.blogTitle-form {
+  position: relative;
 }
 textarea {
   width: 600px;

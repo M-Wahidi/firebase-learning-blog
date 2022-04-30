@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebaseConfig";
-import { collection, getDoc, getDocs, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  getDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import Blog from "./Blog";
 import UpadteBlog from "../Components/UpdateBlog";
 
@@ -25,7 +31,9 @@ function Blogs() {
     let updatedBlogs = [];
     await deleteDoc(doc(blogsRef, id));
     const querySnapshot = await getDocs(blogsRef);
-    querySnapshot.forEach((doc) => updatedBlogs.push({ ...doc.data(), id: doc.id }));
+    querySnapshot.forEach((doc) =>
+      updatedBlogs.push({ ...doc.data(), id: doc.id })
+    );
     setBlogs(updatedBlogs);
     setLoading(false);
   };
@@ -44,16 +52,23 @@ function Blogs() {
   }, []);
 
   return (
-    <div className='blogs'>
+    <div className="blogs">
       <UpadteBlog getBlogs={getBlogs} oldUserData={oldUserData} />
       {loading ? (
-        <h1 className='blogs-message'>Loading...</h1>
+        <h1 className="blogs-message">Loading...</h1>
       ) : (
         blogs.map((blog, idx) => (
-          <Blog key={idx} blog={blog} handleDeleteBlog={handleDeleteBlog} fetchOldUserBlog={fetchOldUserBlog} />
+          <Blog
+            key={idx}
+            blog={blog}
+            handleDeleteBlog={handleDeleteBlog}
+            fetchOldUserBlog={fetchOldUserBlog}
+          />
         ))
       )}
-      {!loading && blogs.length === 0 && <h1 className='blogs-message'>No Blogs To Show</h1>}
+      {!loading && blogs.length === 0 && (
+        <h1 className="blogs-message">No Blogs To Show</h1>
+      )}
     </div>
   );
 }
