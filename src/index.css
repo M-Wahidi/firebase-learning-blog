@@ -156,6 +156,17 @@ button.social-signin:focus {
   text-decoration: none;
   color: #16a085;
 }
+.homePageHeader {
+  padding: 0.5rem 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  position: relative;
+  right: 15px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 1100px;
+}
 .blogs {
   max-width: 1100px;
   margin: 10px auto;
@@ -332,6 +343,22 @@ textarea {
   cursor: pointer;
 }
 
+select {
+  position: relative;
+  min-width: 200px;
+  font-size: 1.2rem;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  border-radius: 5px;
+}
+.update-blog-container,
+.add-blog-container select {
+  margin-bottom: 10px;
+  border-radius: 0;
+}
+
 .notifcationMessage {
   width: 500px;
   height: 200px;
@@ -341,10 +368,10 @@ textarea {
   align-items: center;
   bottom: -300px;
   right: 10px;
-  z-index: 9999;
+  z-index: 3;
   justify-content: space-evenly;
   margin: 0 2rem;
-  background-color: #fff;
+  background-color: whitesmoke;
   border-radius: 5px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.4);
   transition: all 0.3s ease-in-out;

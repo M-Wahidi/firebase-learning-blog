@@ -1,39 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebaseConfig";
-import {
-  collection,
-  getDoc,
-  getDocs,
-  deleteDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, getDoc, getDocs, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import Blog from "./Blog";
 import UpadteBlog from "../Components/UpdateBlog";
-
+import { Filter } from "../Context/FilterBlogsContext";
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [oldUserData, setOldUserData] = useState();
-
   const blogsRef = collection(db, "blogs");
+  const { myBlogs, opitions, filterLoading } = Filter();
 
-  const getBlogs = async () => {
+  useEffect(() => {
     setLoading(true);
-    const querySnapshot = await getDocs(blogsRef);
-    let blogs = [];
-    querySnapshot.forEach((doc) => blogs.push({ ...doc.data(), id: doc.id }));
-    setBlogs(blogs);
-    setLoading(false);
-  };
+    onSnapshot(blogsRef, (snapshot) => {
+      let blogList = [];
+      snapshot.forEach((doc) => {
+        blogList.push({ ...doc.data(), id: doc.id });
+      });
+      setTimeout(() => {
+        setBlogs(blogList);
+        setLoading(false);
+      }, 400);
+    });
+  }, [opitions]);
 
   const handleDeleteBlog = async (id) => {
     setLoading(true);
     let updatedBlogs = [];
     await deleteDoc(doc(blogsRef, id));
     const querySnapshot = await getDocs(blogsRef);
-    querySnapshot.forEach((doc) =>
-      updatedBlogs.push({ ...doc.data(), id: doc.id })
-    );
+    querySnapshot.forEach((doc) => updatedBlogs.push({ ...doc.data(), id: doc.id }));
     setBlogs(updatedBlogs);
     setLoading(false);
   };
@@ -47,28 +44,32 @@ function Blogs() {
     }
   };
 
-  useEffect(() => {
-    getBlogs();
-  }, []);
-
   return (
-    <div className="blogs">
-      <UpadteBlog getBlogs={getBlogs} oldUserData={oldUserData} />
-      {loading ? (
-        <h1 className="blogs-message">Loading...</h1>
+    <div className='blogs'>
+      <UpadteBlog oldUserData={oldUserData} />
+      {/* Display All Blogs */}
+      {opitions === "All Blogs" && loading ? (
+        <h1 className='blogs-message'>Loading...</h1>
       ) : (
+        opitions === "All Blogs" &&
+        loading === false &&
         blogs.map((blog, idx) => (
-          <Blog
-            key={idx}
-            blog={blog}
-            handleDeleteBlog={handleDeleteBlog}
-            fetchOldUserBlog={fetchOldUserBlog}
-          />
+          <Blog key={idx} blog={blog} handleDeleteBlog={handleDeleteBlog} fetchOldUserBlog={fetchOldUserBlog} />
         ))
       )}
-      {!loading && blogs.length === 0 && (
-        <h1 className="blogs-message">No Blogs To Show</h1>
+
+      {/* Display Filtered Blogs */}
+      {opitions === "My Blogs" && filterLoading ? (
+        <h1 className='blogs-message'>Loading...</h1>
+      ) : (
+        opitions === "My Blogs" &&
+        filterLoading === false &&
+        myBlogs.map((blog, idx) => (
+          <Blog key={idx} blog={blog} handleDeleteBlog={handleDeleteBlog} fetchOldUserBlog={fetchOldUserBlog} />
+        ))
       )}
+
+      {!loading && blogs.length === 0 && <h1 className='blogs-message'>No Blogs To Show</h1>}
     </div>
   );
 }

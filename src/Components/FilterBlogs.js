@@ -1,37 +1,28 @@
-import {
-  query,
-  where,
-  collection,
-  orderBy,
-  onSnapshot,
-} from "firebase/firestore";
+import { query, where, collection, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../firebaseConfig";
+import { Filter } from "../Context/FilterBlogsContext";
+function FilterBlogs({ id }) {
+  const { setMyBlogs, setOpitions, opitions, setFilterLoading } = Filter();
 
-function FilterBlogs({ id, options, setOptions, setMyBlogs, setAllBlogs }) {
   const fetchFilterData = (type) => {
     const blogsRef = collection(db, "blogs");
-    const userQuery = query(
-      blogsRef,
-      where("authorID", "==", id),
-      orderBy("timestamp", "desc")
-    );
-    const orderByDateQuery = query(blogsRef, orderBy("timestamp", "desc"));
-
+    const userQuery = query(blogsRef, where("authorID", "==", id), orderBy("timestamp", "desc"));
     if (type === "My Blogs") {
       setUserOpition(userQuery, setMyBlogs);
-    }
-    if (type === "All Blogs") {
-      setUserOpition(orderByDateQuery, setAllBlogs);
     }
   };
 
   const setUserOpition = (query, setBlog) => {
+    setFilterLoading(true);
     onSnapshot(query, (snapshot) => {
       let blogList = [];
       snapshot.forEach((doc) => {
         blogList.push({ ...doc.data(), id: doc.id });
       });
-      setBlog(blogList);
+      setTimeout(() => {
+        setBlog(blogList);
+        setFilterLoading(false);
+      }, 400);
     });
     return () => {
       "error";
@@ -39,22 +30,16 @@ function FilterBlogs({ id, options, setOptions, setMyBlogs, setAllBlogs }) {
   };
 
   const handleChange = (e) => {
-    setOptions(e.target.value);
+    setOpitions(e.target.value);
     fetchFilterData(e.target.value);
   };
 
   return (
     <div>
       <div>
-        <select
-          name="filter"
-          id="filter"
-          onChange={handleChange}
-          value={options}
-        >
-          <option value="All Blogs">All Blogs</option>
-          <option value="My Blogs">My Blogs</option>
-          <option value="Saved Blogs">Saved Blogs</option>
+        <select name='filter' id='filter' onChange={handleChange} value={opitions}>
+          <option value='All Blogs'>All Blogs</option>
+          <option value='My Blogs'>My Blogs</option>
         </select>
       </div>
     </div>

@@ -25,6 +25,6 @@ export const addUser = async (username, email, id) => {
     username,
     email,
     id,
-    profilePicture: "",
+    profilePicture: "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg",
   });
 };

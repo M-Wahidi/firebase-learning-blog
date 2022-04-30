@@ -17,11 +17,7 @@ export default function UserProvider({ children }) {
     });
   }, []);
 
-  return (
-    <UserContext.Provider value={{ isSignIn, setIsSignIn }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ isSignIn, setIsSignIn }}>{children}</UserContext.Provider>;
 }
 
 export const User = () => {

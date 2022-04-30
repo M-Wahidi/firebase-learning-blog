@@ -9,6 +9,7 @@ import ProtectedRoutes from "../ProtectedRoutes";
 import ResetPassword from "../Pages/ResetPassword";
 import { UserContext } from "../Context/authContext";
 import Loading from "./Loading";
+import Profile from "../Pages/Profile";
 
 function Container() {
   const [loading, setLoading] = useState(false);
@@ -23,28 +24,25 @@ function Container() {
 
   return (
     <Router>
-      <div className="App">
+      <div className='App'>
         {loading ? <Loading /> : <Header />}
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path='/' element={<Home />} />
 
           <Route element={<ProtectedRoutes />}>
-            <Route path="create-post" element={<CreateBlog />} />
+            <Route path='create-post' element={<CreateBlog />} />
+            <Route path='profile' element={<Profile />} />
           </Route>
 
-          <Route path="account">
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="reset-password" element={<ResetPassword />} />
+          <Route path='account'>
+            <Route path='login' element={<Login />} />
+            <Route path='signup' element={<Signup />} />
+            <Route path='reset-password' element={<ResetPassword />} />
           </Route>
 
           <Route
-            path="*"
-            element={
-              <h1 style={{ textAlign: "center", paddingTop: "20px" }}>
-                There's nothing here: 404!
-              </h1>
-            }
+            path='*'
+            element={<h1 style={{ textAlign: "center", paddingTop: "20px" }}>There's nothing here: 404!</h1>}
           />
         </Routes>
       </div>

@@ -36,7 +36,7 @@ function Signup() {
       .then((userCredential) => {
         const user = userCredential.user;
         if (user) {
-          setIsSignIn(true);
+          setIsSignIn(user);
           localStorage.setItem("auth", true);
           addUser(userName, email, user.uid);
           setCompleted(true);
@@ -61,7 +61,7 @@ function Signup() {
         setError(error.message);
         setTimeout(() => {
           setError("");
-          setIsLoading(false)
+          setIsLoading(false);
         }, 2000);
         return;
       });
