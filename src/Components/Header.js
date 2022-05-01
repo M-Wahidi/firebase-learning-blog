@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../Context/authContext";
-import Notification from "./Notification";
+import PorfileDropDown from "./PorfileDropDown";
 import GetAuthorName from "../Helper/GetAuthorName";
 import { auth } from "../firebaseConfig";
 import { MdLogout } from "react-icons/md";
@@ -9,13 +9,11 @@ import "../index.css";
 
 function Header() {
   const { isSignIn } = useContext(UserContext);
-  const [isCompleted, setIsCompleted] = useState(false);
   const { authorName } = GetAuthorName();
-
   return (
-    <div className='header'>
+    <div className="header">
       <div style={{ position: "relative" }}>
-        <Link to='/'>WebDev Blog🔥🚀</Link>
+        <Link to="/">WebDev Blog🔥🚀</Link>
 
         <div
           style={{
@@ -31,37 +29,31 @@ function Header() {
       </div>
       <div>
         {isSignIn && (
-          <div style={{ display: "flex" }}>
-            <Link style={{ borderRadius: "100%", width: "50px", height: "50px" }} to='profile'>
-              <img
-                style={{
-                  height: "100%",
-                  borderRadius: "100%",
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-                src='https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg'
-                alt='profile-pic'
-              />
-            </Link>
-            <button className='logout-btn' onClick={() => setIsCompleted((prev) => !prev)}>
-              <MdLogout />
-            </button>
+          <div
+            style={{
+              display: "flex",
+              position: "relative",
+              borderRadius: "100%",
+              width: "50px",
+              height: "50px",
+              cursor: "pointer",
+            }}
+          >
+            <img
+              style={{
+                height: "100%",
+                borderRadius: "100%",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+              src="https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg"
+              alt="profile-pic"
+            />
+            <PorfileDropDown />
           </div>
         )}
-        {!isSignIn && <Link to='/account/login'>Login</Link>}
+        {!isSignIn && <Link to="/account/login">Login</Link>}
       </div>
-
-      <Notification
-        opition={{
-          title: "Logout!",
-          message: "Are You Sure You Want To Logout",
-          cancel: true,
-          action: "logout",
-        }}
-        completed={isCompleted}
-        setCompleted={setIsCompleted}
-      />
     </div>
   );
 }

@@ -9,9 +9,9 @@ function Home() {
   return (
     <div>
       {isSignIn !== false && (
-        <div className='homePageHeader'>
+        <div className="homePageHeader">
           <Link
-            to='create-post'
+            to="create-post"
             style={{
               backgroundColor: "transparent",
               border: "none",
