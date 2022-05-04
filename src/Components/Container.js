@@ -14,6 +14,7 @@ import Profile from "../Pages/Profile";
 function Container() {
   const [loading, setLoading] = useState(false);
   const { isSignIn } = useContext(UserContext);
+  const [imageURL, setImageURL] = useState("");
   useEffect(() => {
     if (isSignIn === "") {
       setLoading(true);
@@ -24,28 +25,37 @@ function Container() {
 
   return (
     <Router>
-      <div className='App'>
-        {loading ? <Loading /> : <Header />}
-        <Routes>
-          <Route path='/' element={<Home />} />
+      {loading ? (
+        <Loading />
+      ) : (
+        <Header imageURL={imageURL} setImageURL={setImageURL} />
+      )}
+      <Routes>
+        <Route path="/" element={<Home />} />
 
-          <Route element={<ProtectedRoutes />}>
-            <Route path='create-post' element={<CreateBlog />} />
-            <Route path='profile' element={<Profile />} />
-          </Route>
-
-          <Route path='account'>
-            <Route path='login' element={<Login />} />
-            <Route path='signup' element={<Signup />} />
-            <Route path='reset-password' element={<ResetPassword />} />
-          </Route>
-
+        <Route element={<ProtectedRoutes />}>
+          <Route path="create-post" element={<CreateBlog />} />
           <Route
-            path='*'
-            element={<h1 style={{ textAlign: "center", paddingTop: "20px" }}>There's nothing here: 404!</h1>}
+            path="profile"
+            element={<Profile imageURL={imageURL} setImageURL={setImageURL} />}
           />
-        </Routes>
-      </div>
+        </Route>
+
+        <Route path="account">
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+        </Route>
+
+        <Route
+          path="*"
+          element={
+            <h1 style={{ textAlign: "center", paddingTop: "20px" }}>
+              There's nothing here: 404!
+            </h1>
+          }
+        />
+      </Routes>
     </Router>
   );
 }

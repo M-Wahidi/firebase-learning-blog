@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 @import "bootstrap/dist/css/bootstrap.min.css";
+@import "react-loading-skeleton/dist/skeleton.css";
 
 * {
   margin: 0;
@@ -11,6 +12,17 @@
   height: 100vh;
   width: 100vw;
 }
+body {
+  margin: 0;
+  padding: 0;
+  background: #ddd;
+  font-size: 16px;
+  color: #222;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
 .header {
   background-color: #333;
   width: 100vw;
@@ -41,17 +53,6 @@
 
 *:focus {
   outline: none;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background: #ddd;
-  font-size: 16px;
-  color: #222;
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
-  overflow-x: hidden;
 }
 
 #login-box,
@@ -88,8 +89,9 @@ h1 {
   font-size: 28px;
 }
 
-input[type="text"],
-input[type="password"] {
+#login-box input,
+#singup-box input,
+#reset-box input {
   display: block;
   box-sizing: border-box;
   margin-bottom: 20px;
@@ -104,15 +106,20 @@ input[type="password"] {
   transition: 0.2s ease;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-textarea:focus {
+#login-box input:focus,
+#login-box textarea:focus,
+#singup-box input:focus,
+#singup-box textarea:focus,
+#reset-box input:focus,
+#reset-box textarea:focus {
   border-bottom: 2px solid #16a085;
   color: #16a085;
   transition: 0.1s ease;
 }
 
-input[type="submit"] {
+#login-box input[type="submit"],
+#singup-box input[type="submit"],
+#reset-box input[type="submit"] {
   margin-top: 28px;
   width: 120px;
   height: 32px;
@@ -120,31 +127,37 @@ input[type="submit"] {
   border: none;
   border-radius: 2px;
   color: #fff;
-  font-family: "Roboto", sans-serif;
   font-weight: 500;
   text-transform: uppercase;
   transition: 0.1s ease;
   cursor: pointer;
 }
+#singup-box input[type="submit"] {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 15px;
+}
 
-input[type="submit"]:hover,
-input[type="submit"]:focus {
+#login-box input[type="submit"]:hover,
+#login-box input[type="submit"]:focus,
+#singup-box input[type="submit"]:hover,
+#singup-box input[type="submit"]:focus,
+#reset-box input[type="submit"]:hover,
+#reset-box input[type="submit"]:focus {
   opacity: 0.8;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   transition: 0.1s ease;
 }
 
-input[type="submit"]:active {
+#login-box input[type="submit"]:active,
+#singup-box input[type="submit"]:active,
+#reset-box input[type="submit"]:active {
   opacity: 1;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   transition: 0.1s ease;
 }
 
-button.social-signin:hover,
-button.social-signin:focus {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-  transition: 0.2s ease;
-}
 .singup-link,
 .login-link {
   margin-top: 2rem;
@@ -240,8 +253,6 @@ textarea::-webkit-scrollbar-thumb {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0 1rem;
-  margin-top: 1.5rem;
   position: sticky;
   bottom: 0;
   padding: 1rem;
@@ -250,6 +261,10 @@ textarea::-webkit-scrollbar-thumb {
 .blog-author {
   color: #bc1b05;
   font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 .blog-tags {
   display: flex;
@@ -269,9 +284,11 @@ textarea::-webkit-scrollbar-thumb {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  left: 35px;
+  position: relative;
+  left: 0;
   font-size: 1.5rem;
+  background-color: none;
+  color: #2e323c;
 }
 .userInteraction div {
   cursor: pointer;
@@ -312,12 +329,22 @@ textarea::-webkit-scrollbar-thumb {
   padding-left: 5px;
   font-size: 1.3rem;
 }
+.addBlogBtn {
+  border: none !important;
+  background-color: #5dc265;
+  color: #fff;
+  transition: all 0.2s ease-in;
+}
+.addBlogBtn:hover {
+  opacity: 0.8;
+}
 .blogBody-form {
   position: relative;
   height: 280px;
 }
 .blogTitle-form {
   position: relative;
+  padding-bottom: 1rem;
 }
 textarea {
   width: 600px;
@@ -457,6 +484,74 @@ select {
 }
 .blogs-message {
   text-align: center;
+}
+
+/* Profile Page */
+.container {
+  padding-top: 2rem;
+}
+
+.account-settings .user-profile {
+  text-align: center;
+}
+.account-settings .user-profile .user-avatar {
+  margin: 0 0 1rem 0;
+}
+
+.account-settings .user-profile .user-avatar .image {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.account-settings .user-profile .user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: "absolute";
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+}
+.account-settings .user-profile h5.user-name {
+  margin: 0 0 0.5rem 0;
+}
+.account-settings .user-profile h6.user-email {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #9fa8b9;
+}
+.account-settings .about {
+  margin: 1rem 0 0 0;
+  text-align: center;
+}
+.account-settings .about h5 {
+  margin: 0 0 15px 0;
+  color: #007ae1;
+}
+.account-settings .about p {
+  font-size: 0.825rem;
+}
+.container .form-control {
+  border: 1px solid #cfd1d8;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  font-size: 0.825rem;
+  background: #ffffff;
+  color: #2e323c;
+}
+
+.card {
+  background: #ffffff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  border: 0;
+  margin-bottom: 1rem;
 }
 
 @keyframes loading {

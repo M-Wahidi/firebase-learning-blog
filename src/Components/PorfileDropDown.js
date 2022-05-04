@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import Notification from "./Notification";
 
-function PorfileDropDown() {
+function PorfileDropDown({ setShowProfile }) {
   const [isCompleted, setIsCompleted] = useState(false);
+
+  const handleLogout = () => {
+    setIsCompleted((prev) => !prev);
+  };
 
   return (
     <div
@@ -30,20 +34,21 @@ function PorfileDropDown() {
           gap: "1rem",
         }}
       >
-        <li style={{ cursor: "pointer" }}>
-          <Link to="profile"> Profile </Link>
+        <li
+          style={{ cursor: "pointer" }}
+          onClick={() => setShowProfile((prev) => !prev)}
+        >
+          <Link to="profile">Profile</Link>
         </li>
         <li style={{ cursor: "pointer" }}>
-          <button
-            className="logout-btn"
-            onClick={() => setIsCompleted((prev) => !prev)}
-          >
+          <button className="logout-btn" onClick={handleLogout}>
             <MdLogout />
           </button>
         </li>
       </div>
 
       <Notification
+        setShowProfile={setShowProfile}
         opition={{
           title: "Logout!",
           message: "Are You Sure You Want To Logout",

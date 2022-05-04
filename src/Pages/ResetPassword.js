@@ -49,18 +49,25 @@ function ResetPassword() {
 
   return (
     <>
-      <form style={containerStyle} onSubmit={handleResetPassword}>
+      <form
+        style={containerStyle}
+        onSubmit={handleResetPassword}
+        id="reset-box"
+      >
         <h1>FORGOT PASSOWRD</h1>
         <input
-          type='text'
+          type="text"
           onChange={(e) => setNewEmail(e.target.value)}
           value={newEmail}
-          placeholder='Email...'
-          style={{ border: "1px solid rgba(101, 101, 102,0.4)" }}
+          placeholder="Email..."
         />
         <button
           onClick={handleResetPassword}
-          style={{ backgroundColor: "#8ff57f", padding: "5px 20px", border: "none" }}
+          style={{
+            backgroundColor: "#8ff57f",
+            padding: "5px 20px",
+            border: "none",
+          }}
         >
           Send
         </button>
@@ -68,7 +75,11 @@ function ResetPassword() {
       <Notification
         opition={{
           title: error ? "Error" : "",
-          message: error ? error : completed ? `Password reset email sent!` : "",
+          message: error
+            ? error
+            : completed
+            ? `Password reset email sent!`
+            : "",
         }}
         completed={completed}
         error={error}

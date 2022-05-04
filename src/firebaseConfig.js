@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -16,15 +17,14 @@ const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-
+export const storage = getStorage(app);
 // ADD USER
-const userRef = collection(db, "users");
 
-export const addUser = async (username, email, id) => {
-  await addDoc(userRef, {
+export const addUser = async (username, email, id, age = 0, about = "") => {
+  await setDoc(doc(db, "users", id), {
     username,
     email,
-    id,
-    profilePicture: "https://isobarscience.com/wp-content/uploads/2020/09/default-profile-picture1.jpg",
+    age,
+    about,
   });
 };

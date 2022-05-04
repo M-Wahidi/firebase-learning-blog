@@ -1,7 +1,6 @@
-import { useState, useContext, useEffect } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useState, useEffect } from "react";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, addUser } from "../firebaseConfig";
-import { UserContext } from "../Context/authContext";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
@@ -11,12 +10,11 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [retypepassowrd, setRetypePassword] = useState("");
-  const [userName, setUserName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [error, setError] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [passwordType, setPasswordType] = useState("password");
-  const { setIsSignIn } = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation().pathname;
 
@@ -36,9 +34,11 @@ function Signup() {
       .then((userCredential) => {
         const user = userCredential.user;
         if (user) {
-          setIsSignIn(user);
           localStorage.setItem("auth", true);
-          addUser(userName, email, user.uid);
+          addUser(fullName, email, user.uid);
+          updateProfile(auth.currentUser, {
+            displayName: fullName,
+          });
           setCompleted(true);
           setTimeout(() => {
             setIsLoading(false);
@@ -75,66 +75,85 @@ function Signup() {
 
   return (
     <>
-      <form id='singup-box'>
-        <div className='sing-up-container' style={{ left: "25%" }}>
+      <form id="singup-box">
+        <div className="sing-up-container" style={{ left: "25%" }}>
           <h1>Sign up</h1>
           <input
-            type='text'
-            name='username'
-            autoComplete='username'
-            value={userName}
-            placeholder='Username'
-            onChange={(e) => setUserName(e.target.value)}
+            type="text"
+            name="fullname"
+            autoComplete="fullname"
+            value={fullName}
+            placeholder="Full Name"
+            onChange={(e) => setFullName(e.target.value)}
           />
           <input
-            type='text'
-            name='email'
-            autoComplete='email'
+            type="text"
+            name="email"
+            autoComplete="email"
             value={email}
-            placeholder='E-mail'
+            placeholder="E-mail"
             onChange={(e) => setEmail(e.target.value)}
           />
           <div style={{ display: "flex", position: "relative" }}>
             <input
               type={passwordType}
-              name='password'
+              name="password"
               value={password}
-              placeholder='Password'
-              autoComplete='new-password'
+              placeholder="Password"
+              autoComplete="new-password"
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div style={{ display: "flex", position: "relative" }}>
             <input
               type={passwordType}
-              name='password2'
-              placeholder='Retype password'
-              autoComplete='new-password'
+              name="password2"
+              placeholder="Retype password"
+              autoComplete="new-password"
               onChange={(e) => setRetypePassword(e.target.value)}
               value={retypepassowrd}
             />
             <div
-              style={{ position: "absolute", right: ".5rem", top: "5px", cursor: "pointer" }}
-              onClick={() => setPasswordType((prev) => (prev === "password" ? "text" : "password"))}
+              style={{
+                position: "absolute",
+                right: ".5rem",
+                top: "5px",
+                cursor: "pointer",
+              }}
+              onClick={() =>
+                setPasswordType((prev) =>
+                  prev === "password" ? "text" : "password"
+                )
+              }
             >
               <MdRemoveRedEye />
             </div>
           </div>
-          <input type='submit' name='signup_submit' value='Sign me up' onClick={handleSingupUserandPass} />
-          <div className='login-link'>
-            You have account? <Link to='/account/login'>Log in</Link>
+          <input
+            type="submit"
+            name="signup_submit"
+            value="Sign me up"
+            onClick={handleSingupUserandPass}
+          />
+          <div className="login-link">
+            You have account? <Link to="/account/login">Log in</Link>
           </div>
         </div>
         <Notification
           opition={{
-            title: retypepassowrd !== password || error ? "Error" : completed ? "Add User" : "",
+            title:
+              retypepassowrd !== password || error
+                ? "Error"
+                : completed
+                ? "Add User"
+                : "",
             message:
               retypepassowrd !== password
-                ? "Passwor Not Match"
+                ? "Password Not Match"
                 : error
                 ? error
                 : completed
-                ? `User ${userName} is scucssfuly added`
+                ? `User ${fullName} is scucssfuly added`
                 : "",
           }}
           completed={completed}

@@ -4,7 +4,6 @@ import { auth, db } from "../firebaseConfig";
 import { splitTag } from "../Helper/splitTag";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import Loading from "../Components/Loading";
-import GetAuthorName from "../Helper/GetAuthorName";
 function CreateBlog() {
   const [blogTitle, setBlogTitle] = useState("");
   const [blogBody, setBlogBody] = useState("");
@@ -15,7 +14,6 @@ function CreateBlog() {
   const [tagsMessage, setTagsMessgae] = useState("");
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState("start");
-  const { authorName } = GetAuthorName();
 
   const navigate = useNavigate();
 
@@ -58,7 +56,7 @@ function CreateBlog() {
         title: blogTitle,
         tags,
         date: new Date(),
-        name: authorName,
+        name: auth.currentUser.displayName,
         likesCount: 0,
         disLikesCount: 0,
         userLiked: [],
@@ -88,16 +86,16 @@ function CreateBlog() {
 
   return (
     <div style={{ padding: " 0 2rem" }}>
-      <form id='add-blog' onSubmit={(e) => e.preventDefault()}>
-        <div className='add-blog-container'>
+      <form id="add-blog" onSubmit={(e) => e.preventDefault()}>
+        <div className="add-blog-container">
           <h1>ADD BLOG</h1>
 
-          <div className='blogTitle-form'>
+          <div className="blogTitle-form">
             <input
-              type='text'
-              name='blogTitle'
-              autoComplete='blogTitle'
-              placeholder='Blog Title'
+              type="text"
+              name="blogTitle"
+              autoComplete="blogTitle"
+              placeholder="Blog Title"
               onChange={handleBlogTitleChange}
               value={blogTitle}
             />
@@ -108,7 +106,7 @@ function CreateBlog() {
                 margin: "0",
                 padding: "0",
                 position: "absolute",
-                bottom: "-5px",
+                bottom: "-7px",
                 textAlign: "center",
                 width: "100%",
               }}
@@ -117,11 +115,11 @@ function CreateBlog() {
             </p>
           </div>
 
-          <div className='blogBody-form'>
+          <div className="blogBody-form">
             <textarea
-              name='blogBody'
-              autoComplete='blogBody'
-              placeholder='Text...'
+              name="blogBody"
+              autoComplete="blogBody"
+              placeholder="Text..."
               onChange={handleBlogBodyChange}
               value={blogBody}
             />
@@ -150,52 +148,66 @@ function CreateBlog() {
             </p>
           </div>
 
-          <div className='tags-input-container'>
+          <div className="tags-input-container">
             <div style={{ display: "flex", gap: "20px", padding: "10px" }}>
-              <label htmlFor='tags'>Add a Tags:</label>
-              <button style={{ width: "50px", border: "none", fontSize: "1.2rem" }} onClick={handleTags}>
+              <label htmlFor="tags">Add a Tags:</label>
+              <button
+                style={{ width: "50px", border: "none", fontSize: "1.2rem" }}
+                onClick={handleTags}
+              >
                 -
               </button>
             </div>
-            <p style={{ color: "red", fontSize: ".8rem", marginBottom: "0rem" }}>
+            <p
+              style={{ color: "red", fontSize: ".8rem", marginBottom: "0rem" }}
+            >
               {tagsMessage && "Maximum length for tags is 4"}
             </p>
             <p style={{ color: "red", fontSize: ".8rem" }}> {emptyTagMssage}</p>
 
-            <select name='tags' id='tags' onChange={(e) => handleChange(e)} value={options}>
-              <option value='start'>Choose Tag:</option>
-              <option value='HTML'>HTML</option>
-              <option value='CSS'>CSS</option>
-              <option value='SASS'>SASS</option>
-              <option value='BOOTSTRAP'>BOOTSTRAP</option>
-              <option value='TAILWIND'>TAILWIND</option>
-              <option value='JavaScript'>JavaScript</option>
-              <option value='REACT'>REACT</option>
-              <option value='Angular'>Angular</option>
-              <option value='VUE'>VUE</option>
-              <option value='NEXT JS'>NEXT JS</option>
-              <option value='NODE'>NODE</option>
-              <option value='EXPRESS'>EXPRESS</option>
-              <option value='REST API'>REST API</option>
-              <option value='PHP'>PHP</option>
-              <option value='PYTHON'>PYTHON</option>
-              <option value='UI-UX'>UI-UX</option>
-              <option value='FRONT-END DEVELOPMENT'>FRONT-END DEVELOPMENT</option>
-              <option value='EXPRESS'>EXPRESS</option>
-              <option value='PHP'>PHP</option>
-              <option value='PYTHON'>PYTHON</option>
-              <option value='UI-UX'>UI-UX</option>
-              <option value='BACK-END DEVELOPMENT'>BACK-END DEVELOPMENT</option>
-              <option value='GRAPH Ql'>GRAPH Ql</option>
-              <option value='CSS'>CSS</option>
+            <select
+              name="tags"
+              id="tags"
+              onChange={(e) => handleChange(e)}
+              value={options}
+            >
+              <option value="start">Choose Tag:</option>
+              <option value="HTML">HTML</option>
+              <option value="CSS">CSS</option>
+              <option value="SASS">SASS</option>
+              <option value="BOOTSTRAP">BOOTSTRAP</option>
+              <option value="TAILWIND">TAILWIND</option>
+              <option value="JavaScript">JavaScript</option>
+              <option value="REACT">REACT</option>
+              <option value="Angular">Angular</option>
+              <option value="VUE">VUE</option>
+              <option value="NEXT JS">NEXT JS</option>
+              <option value="NODE">NODE</option>
+              <option value="EXPRESS">EXPRESS</option>
+              <option value="REST API">REST API</option>
+              <option value="PHP">PHP</option>
+              <option value="PYTHON">PYTHON</option>
+              <option value="UI-UX">UI-UX</option>
+              <option value="FRONT-END DEVELOPMENT">
+                FRONT-END DEVELOPMENT
+              </option>
+              <option value="EXPRESS">EXPRESS</option>
+              <option value="PHP">PHP</option>
+              <option value="PYTHON">PYTHON</option>
+              <option value="UI-UX">UI-UX</option>
+              <option value="BACK-END DEVELOPMENT">BACK-END DEVELOPMENT</option>
+              <option value="GRAPH Ql">GRAPH Ql</option>
+              <option value="CSS">CSS</option>
             </select>
-            <div style={{ display: "flex", marginBottom: "0" }}>{splitTag(tags)}</div>
+            <div style={{ display: "flex", marginBottom: "0" }}>
+              {splitTag(tags)}
+            </div>
           </div>
           <input
-            type='submit'
-            name='AddBlog'
-            value='Add Blog'
-            className='addBlogBtn'
+            type="submit"
+            name="AddBlog"
+            value="Add Blog"
+            className="addBlogBtn"
             onClick={addBlog}
             style={{
               height: "50px",

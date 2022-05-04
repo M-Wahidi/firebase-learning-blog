@@ -5,7 +5,15 @@ import { UserContext } from "../Context/authContext";
 import Loading from "./Loading";
 import { useNavigate } from "react-router-dom";
 
-function Notification({ opition, error, completed, setCompleted, handleDeleteBlog, blogId }) {
+function Notification({
+  opition,
+  error,
+  completed,
+  setCompleted,
+  handleDeleteBlog,
+  blogId,
+  setShowProfile,
+}) {
   const { setIsSignIn } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -22,6 +30,7 @@ function Notification({ opition, error, completed, setCompleted, handleDeleteBlo
     }
     if (opition.action === "logout") {
       setTimeout(() => {
+        setShowProfile(false);
         setLoading(false);
         signOut(auth);
         setIsSignIn(false);
@@ -31,25 +40,39 @@ function Notification({ opition, error, completed, setCompleted, handleDeleteBlo
   };
 
   return (
-    <div className={`notifcationMessage ${error && "active"} ${completed && "active"}`}>
+    <div
+      className={`notifcationMessage ${error && "active"} ${
+        completed && "active"
+      }`}
+    >
       <h3>{opition.title}</h3>
       <h5>{opition.message}</h5>
       <div>
-        {opition.cancel && <button onClick={() => setCompleted((prev) => !prev)}>Cancel </button>}
+        {opition.cancel && (
+          <button onClick={() => setCompleted((prev) => !prev)}>Cancel </button>
+        )}
 
         {(opition.action === "delete" || opition.action === "logout") && (
           <button onClick={handleUserAction} className={opition.action}>
             {opition.action}
           </button>
         )}
-        {opition.action === "edit" && <button className={opition.action}>{opition.action}</button>}
+        {opition.action === "edit" && (
+          <button className={opition.action}>{opition.action}</button>
+        )}
         {opition.action === "login" && (
-          <button className={opition.action} onClick={() => navigate("/account/login")}>
+          <button
+            className={opition.action}
+            onClick={() => navigate("/account/login")}
+          >
             {opition.action}
           </button>
         )}
         {opition.actiontwo === "signup" && (
-          <button className={opition.action} onClick={() => navigate("/account/signup")}>
+          <button
+            className={opition.action}
+            onClick={() => navigate("/account/signup")}
+          >
             {opition.actiontwo}
           </button>
         )}
