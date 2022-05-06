@@ -51,7 +51,14 @@ function Login() {
   }, []);
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "80vh",
+      }}
+    >
       <form id="login-box">
         <div style={loginStyles}>
           <h1>Log In</h1>
@@ -122,7 +129,7 @@ function Login() {
         error={error}
       />
       {isLoading && <Loading />}
-    </>
+    </div>
   );
 }
 

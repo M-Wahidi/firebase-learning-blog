@@ -20,15 +20,19 @@ function Signup() {
 
   const handleSingupUserandPass = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     if (retypepassowrd !== password) {
-      setError(true);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+      setTimeout(() => {
+        setError(true);
+      }, 600);
       setTimeout(() => {
         setError(false);
       }, 2000);
       return;
     }
-    setCompleted(false);
-    setIsLoading(true);
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -39,18 +43,15 @@ function Signup() {
           updateProfile(auth.currentUser, {
             displayName: fullName,
           });
-          setCompleted(true);
           setTimeout(() => {
             setIsLoading(false);
           }, 500);
-
           setTimeout(() => {
             setCompleted(true);
           }, 600);
-
           setTimeout(() => {
-            setCompleted(false);
-          }, 1400);
+            setCompleted(true);
+          }, 1600);
 
           setTimeout(() => {
             navigate("/");
@@ -58,10 +59,14 @@ function Signup() {
         }
       })
       .catch((error) => {
-        setError(error.message);
         setTimeout(() => {
-          setError("");
           setIsLoading(false);
+        }, 500);
+        setTimeout(() => {
+          setError(error.message);
+        }, 600);
+        setTimeout(() => {
+          setError(false);
         }, 2000);
         return;
       });
@@ -74,7 +79,14 @@ function Signup() {
   }, []);
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "80vh",
+      }}
+    >
       <form id="singup-box">
         <div className="sing-up-container" style={{ left: "25%" }}>
           <h1>Sign up</h1>
@@ -161,7 +173,7 @@ function Signup() {
         />
       </form>
       {isLoading && <Loading />}
-    </>
+    </div>
   );
 }
 

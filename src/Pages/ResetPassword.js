@@ -48,13 +48,20 @@ function ResetPassword() {
   });
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "80vh",
+      }}
+    >
       <form
         style={containerStyle}
         onSubmit={handleResetPassword}
         id="reset-box"
       >
-        <h1>FORGOT PASSOWRD</h1>
+        <h3>FORGOT PASSOWRD</h3>
         <input
           type="text"
           onChange={(e) => setNewEmail(e.target.value)}
@@ -64,8 +71,9 @@ function ResetPassword() {
         <button
           onClick={handleResetPassword}
           style={{
-            backgroundColor: "#8ff57f",
-            padding: "5px 20px",
+            backgroundColor: "#16a085",
+            color: "#fff",
+            padding: "5px 30px",
             border: "none",
           }}
         >
@@ -85,7 +93,7 @@ function ResetPassword() {
         error={error}
       />
       {isLoading && <Loading />}
-    </>
+    </div>
   );
 }
 
@@ -95,12 +103,10 @@ const containerStyle = {
   justifyContent: "center",
   alignItems: "center",
   position: "relative",
-  left: "50%",
-  transform: "translate(-50%)",
-  marginTop: "1rem",
+  margin: "1rem",
   gap: "1.5rem",
-  padding: "1rem",
-  maxWidth: "600px",
+  padding: "1rem ",
+  width: "600px",
   backgroundColor: "#fff",
 };
 

@@ -75,18 +75,24 @@ function ProfileFooter({
             setCompleted("Password Changed");
           })
           .catch((err) => {
-            setError(err.message);
+            setTimeout(() => {
+              setError(err.message);
+            }, 500);
           });
       })
       .catch((err) => {
-        setError(err.message);
+        setTimeout(() => {
+          setError(err.message);
+        }, 500);
       });
+
+    setTimeout(() => {
+      setCompleted(false);
+      setError(false);
+    }, 3000);
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-    setTimeout(() => {
-      setCompleted(false);
-    }, 3000);
     resetInputValues();
   };
 

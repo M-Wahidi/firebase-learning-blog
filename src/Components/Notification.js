@@ -47,7 +47,7 @@ function Notification({
     >
       <h3>{opition.title}</h3>
       <h5>{opition.message}</h5>
-      <div>
+      <div style={{ width: "100%" }}>
         {opition.cancel && (
           <button onClick={() => setCompleted((prev) => !prev)}>Cancel </button>
         )}

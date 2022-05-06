@@ -11,7 +11,7 @@ function Home() {
       {isSignIn !== false && (
         <div className="homePageHeader">
           <Link
-            to="create-post"
+            to="create-blog"
             style={{
               backgroundColor: "transparent",
               border: "none",

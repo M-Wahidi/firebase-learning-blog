@@ -24,21 +24,24 @@ function Header({ imageURL, setImageURL }) {
 
   return (
     <div className="header">
-      <div style={{ position: "relative" }}>
-        <Link style={{ marginBottom: "10px" }} to="/">
+      <div
+        style={{
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          textAlign: "left",
+          color: "#fff",
+          height: "100%",
+        }}
+      >
+        <Link style={{ textAlign: "left" }} to="/">
           WebDev Blog🔥🚀
         </Link>
-        <div
-          style={{
-            position: "absolute",
-            color: "#fff",
-            left: "0.8rem",
-            top: "35px",
-            fontSize: "14px",
-          }}
-        >
+
+        <span style={{ marginLeft: "13px" }}>
           {userName.username ? `@ ${userName?.username}` : ""}
-        </div>
+        </span>
       </div>
       <div>
         {isSignIn && (

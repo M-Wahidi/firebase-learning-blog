@@ -10,7 +10,7 @@ import ResetPassword from "../Pages/ResetPassword";
 import { UserContext } from "../Context/authContext";
 import Loading from "./Loading";
 import Profile from "../Pages/Profile";
-
+import BlogDetails from "../Pages/BlogDetails";
 function Container() {
   const [loading, setLoading] = useState(false);
   const { isSignIn } = useContext(UserContext);
@@ -32,9 +32,10 @@ function Container() {
       )}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/blog/:name/:id" element={<BlogDetails />} />
 
         <Route element={<ProtectedRoutes />}>
-          <Route path="create-post" element={<CreateBlog />} />
+          <Route path="create-blog" element={<CreateBlog />} />
           <Route
             path="profile"
             element={<Profile imageURL={imageURL} setImageURL={setImageURL} />}

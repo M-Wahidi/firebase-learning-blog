@@ -14,38 +14,38 @@ function PorfileDropDown({ setShowProfile }) {
     <div
       style={{
         backgroundColor: "#333",
-        top: "60px",
-        left: "-55px",
+        top: "65px",
+        width: "150px",
+        height: "120px",
+        right: "0",
         position: "absolute",
-        fontSize: "1.2rem",
+        fontSize: "1rem",
         zIndex: 4,
-        padding: ".5rem",
+        listStyle: "none",
       }}
     >
-      <div
+      <li
+        style={{ cursor: "pointer", height: "30px", marginBottom: "20px" }}
+        onClick={() => setShowProfile(false)}
+      >
+        <Link to="profile">Profile</Link>
+      </li>
+      <li
         style={{
-          listStyle: "none",
+          cursor: "pointer",
+          height: "30px",
           display: "flex",
-          flexDirection: "column",
           justifyContent: "center",
-          alignItems: "center",
-          width: "150px",
-          height: "80px",
-          gap: "1rem",
         }}
       >
-        <li
-          style={{ cursor: "pointer" }}
-          onClick={() => setShowProfile((prev) => !prev)}
+        <button
+          style={{ textAlign: "center" }}
+          className="logout-btn"
+          onClick={handleLogout}
         >
-          <Link to="profile">Profile</Link>
-        </li>
-        <li style={{ cursor: "pointer" }}>
-          <button className="logout-btn" onClick={handleLogout}>
-            <MdLogout />
-          </button>
-        </li>
-      </div>
+          <MdLogout />
+        </button>
+      </li>
 
       <Notification
         setShowProfile={setShowProfile}

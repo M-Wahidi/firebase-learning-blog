@@ -48,7 +48,7 @@ function Blogs() {
 
   const fetchOldUserBlog = async (id) => {
     if (id !== undefined) {
-      const docRef = await doc(blogsRef, id);
+      const docRef = doc(blogsRef, id);
       const docSnap = await getDoc(docRef);
       setOldUserData(docSnap.data());
       return;
@@ -88,7 +88,6 @@ function Blogs() {
           />
         ))
       )}
-
       <EmptyBlogs
         loading={loading}
         blogs={blogs}

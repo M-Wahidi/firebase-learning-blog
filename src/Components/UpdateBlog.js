@@ -104,71 +104,79 @@ function UpadteBlog({ oldUserData }) {
         style={{ display: `${editBlog.isEditing ? "block" : "none"}` }}
       ></div>
       <form
-        id="update-blog"
         onSubmit={(e) => e.preventDefault()}
-        style={{ display: `${editBlog.isEditing ? "block" : "none"}` }}
+        className="bg-white container-sm p-4 my-5 h-auto"
+        style={{
+          display: `${editBlog.isEditing ? "block" : "none"}`,
+          zIndex: "3",
+          position: "absolute",
+          marginLeft: "auto",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
       >
-        <div className="update-blog-container">
-          <h1>EDIT BLOG</h1>
-
-          <div className="blogTitle-form">
-            <input
-              type="text"
-              name="blogTitle"
-              autoComplete="blogTitle"
-              placeholder="Blog Title"
-              onChange={handleBlogTitleChange}
-              value={blogTitle}
-            />
-            <p
-              style={{
-                color: "red",
-                fontSize: ".8rem",
-                margin: "0",
-                padding: "0",
-                position: "absolute",
-                bottom: "-5px",
-                textAlign: "center",
-                width: "100%",
-              }}
-            >
-              {emptyBlogTtitle}
-            </p>
-          </div>
-
-          <div className="blogBody-form">
-            <textarea
-              name="blogBody"
-              autoComplete="blogBody"
-              placeholder="Text..."
-              onChange={handleBlogBodyChange}
-              value={blogBody}
-            />
-            <p
-              style={{
-                position: "absolute",
-                bottom: "20px",
-                right: "20px",
-                color: `${blogBody.length < 20 ? "red" : "green"}`,
-              }}
-            >
-              {blogBody.length}
-            </p>
-            <p
-              style={{
-                color: "red",
-                fontSize: ".8rem",
-                margin: "0",
-                padding: "0",
-                position: "relative",
-                bottom: "0px",
-                textAlign: "center",
-              }}
-            >
-              {emptyBlogBody}
-            </p>
-          </div>
-
+        <div className="mb-3 position-relative">
+          <label forhtml="title" className="form-label">
+            Title
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="title"
+            aria-describedby="blogTitle"
+            onChange={handleBlogTitleChange}
+            value={blogTitle}
+          />
+          <p
+            style={{
+              color: "red",
+              fontSize: ".8rem",
+              position: "absolute",
+              textAlign: "left",
+              width: "100%",
+            }}
+          >
+            {emptyBlogTtitle}
+          </p>
+        </div>
+        <div className="mb-3" style={{ position: "relative" }}>
+          <label forhtml="blogBody" className="form-label">
+            Body
+          </label>
+          <textarea
+            type="text"
+            className="form-control"
+            onChange={handleBlogBodyChange}
+            value={blogBody}
+            id="blogBody"
+            style={{ minHeight: "300px" }}
+          />
+          <p
+            style={{
+              position: "absolute",
+              bottom: "0px",
+              right: "20px",
+              color: `${blogBody.length < 20 ? "red" : "green"}`,
+            }}
+          >
+            {blogBody.length}
+          </p>
+          <p
+            style={{
+              color: "red",
+              fontSize: ".8rem",
+              margin: "0",
+              padding: "0",
+              position: "absolute",
+              bottom: "-20px",
+              textAlign: "right",
+            }}
+          >
+            {emptyBlogBody}
+          </p>
+        </div>
+        <div className="my-4">
           <div className="tags-input-container">
             <div style={{ display: "flex", gap: "20px", padding: "10px" }}>
               <label htmlFor="tags">Add a Tags:</label>
@@ -192,15 +200,15 @@ function UpadteBlog({ oldUserData }) {
               onChange={(e) => handleChange(e)}
               value={options}
             >
-              <option value="">Choose Tag:</option>
+              <option value="start">Choose Tag:</option>
               <option value="HTML">HTML</option>
               <option value="CSS">CSS</option>
               <option value="SASS">SASS</option>
               <option value="BOOTSTRAP">BOOTSTRAP</option>
               <option value="TAILWIND">TAILWIND</option>
-              <option value="JavaScript">JavaScript</option>
+              <option value="JAVASCRIPT">JAVASCRIPT</option>
               <option value="REACT">REACT</option>
-              <option value="Angular">Angular</option>
+              <option value="Angular">ANGULAR</option>
               <option value="VUE">VUE</option>
               <option value="NEXT JS">NEXT JS</option>
               <option value="NODE">NODE</option>
@@ -209,27 +217,36 @@ function UpadteBlog({ oldUserData }) {
               <option value="PHP">PHP</option>
               <option value="PYTHON">PYTHON</option>
               <option value="UI-UX">UI-UX</option>
-              <option value="FRONT-END DEVELOPMENT">
-                FRONT-END DEVELOPMENT
-              </option>
+              <option value="FRONT-END">FRONT-END</option>
               <option value="EXPRESS">EXPRESS</option>
               <option value="PHP">PHP</option>
               <option value="PYTHON">PYTHON</option>
               <option value="UI-UX">UI-UX</option>
-              <option value="BACK-END DEVELOPMENT">BACK-END DEVELOPMENT</option>
+              <option value="BACK-END">BACK-END</option>
               <option value="GRAPH Ql">GRAPH Ql</option>
               <option value="CSS">CSS</option>
             </select>
-            <div style={{ display: "flex" }}>{splitTag(tags)}</div>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                marginTop: "10px",
+                justifyContent: "center",
+                gap: "0 1rem",
+              }}
+            >
+              {splitTag(tags)}
+            </div>
           </div>
-          <input
+        </div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <button
             type="submit"
-            name="AddBlog"
-            value="Edit Blog"
-            className="addBlogBtn"
+            className="btn btn-primary my-1 "
             onClick={updateBlog}
-            style={{ height: "3rem", width: "250px" }}
-          />
+          >
+            Edit Blog
+          </button>
         </div>
         <button className="close-btn" onClick={handleCloseForm}>
           X
