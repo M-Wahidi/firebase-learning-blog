@@ -28,15 +28,11 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
   }, []);
 
   return (
-    <div className="blog">
-      <div className="blog-header">
-        <h3 style={{ fontWeight: "bold" }}>
-          {blog.title.length > 13 ? blog.title.slice(0, 8) + "..." : blog.title}
-        </h3>
-        <div className="date-actions-container">
-          <h5>
-            {new Intl.DateTimeFormat("en-GB").format(blog.date.seconds * 1000)}
-          </h5>
+    <div className='blog'>
+      <div className='blog-header'>
+        <h3 style={{ fontWeight: "bold" }}>{blog.title.length > 13 ? blog.title.slice(0, 8) + "..." : blog.title}</h3>
+        <div className='date-actions-container'>
+          <h5>{new Intl.DateTimeFormat("en-GB").format(blog.date.seconds * 1000)}</h5>
 
           {isSignIn && blog.authorID === auth.currentUser?.uid && (
             <div>
@@ -50,7 +46,7 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
           )}
         </div>
       </div>
-      <div className="blog-body">
+      <div className='blog-body'>
         {blog.body.length > 100 ? (
           <>
             {blog.body.slice(0, 100)}
@@ -73,19 +69,15 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
           blog.body
         )}
       </div>
-      <div className="blog-footer">
-        <div className="blog-author">
+      <div className='blog-footer'>
+        <div className='blog-author'>
           @{ownerBlogName.slice(0, 20)}
-          <div className="userInteraction">
-            <UserReaction
-              likesCount={blog.likesCount}
-              disLikesCount={blog.disLikesCount}
-              blog={blog}
-            />
+          <div className='userInteraction'>
+            <UserReaction likesCount={blog.likesCount} disLikesCount={blog.disLikesCount} blog={blog} />
           </div>
         </div>
 
-        <div className="blog-tags">{splitTag(blog.tags)}</div>
+        <div className='blog-tags'>{splitTag(blog.tags)}</div>
       </div>
       <Notification
         opition={{

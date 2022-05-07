@@ -85,19 +85,16 @@ function BlogForm() {
   };
 
   return (
-    <form
-      onSubmit={(e) => e.preventDefault()}
-      className="bg-white container-sm p-4 my-5 h-auto"
-    >
-      <div className="mb-3 position-relative">
-        <label forhtml="title" className="form-label">
+    <form onSubmit={(e) => e.preventDefault()} className='bg-white container-sm p-4 my-5 h-auto'>
+      <div className='mb-3 position-relative'>
+        <label forhtml='title' className='form-label'>
           Title
         </label>
         <input
-          type="text"
-          className="form-control"
-          id="title"
-          aria-describedby="blogTitle"
+          type='text'
+          className='form-control'
+          id='title'
+          aria-describedby='blogTitle'
           onChange={handleBlogTitleChange}
           value={blogTitle}
         />
@@ -113,16 +110,16 @@ function BlogForm() {
           {emptyBlogTtitle}
         </p>
       </div>
-      <div className="mb-3" style={{ position: "relative" }}>
-        <label forhtml="blogBody" className="form-label">
+      <div className='mb-3' style={{ position: "relative" }}>
+        <label forhtml='blogBody' className='form-label'>
           Body
         </label>
         <textarea
-          type="text"
-          className="form-control"
+          type='text'
+          className='form-control'
           onChange={handleBlogBodyChange}
           value={blogBody}
-          id="blogBody"
+          id='blogBody'
           style={{ minHeight: "300px" }}
         />
         <p
@@ -149,14 +146,11 @@ function BlogForm() {
           {emptyBlogBody}
         </p>
       </div>
-      <div className="my-4">
-        <div className="tags-input-container">
+      <div className='my-4'>
+        <div className='tags-input-container'>
           <div style={{ display: "flex", gap: "20px", padding: "10px" }}>
-            <label htmlFor="tags">Add a Tags:</label>
-            <button
-              style={{ width: "50px", border: "none", fontSize: "1.2rem" }}
-              onClick={handleTags}
-            >
+            <label htmlFor='tags'>Add a Tags:</label>
+            <button style={{ width: "50px", border: "none", fontSize: "1.2rem" }} onClick={handleTags}>
               -
             </button>
           </div>
@@ -165,37 +159,32 @@ function BlogForm() {
           </p>
           <p style={{ color: "red", fontSize: ".8rem" }}> {emptyTagMssage}</p>
 
-          <select
-            name="tags"
-            id="tags"
-            onChange={(e) => handleChange(e)}
-            value={options}
-          >
-            <option value="start">Choose Tag:</option>
-            <option value="HTML">HTML</option>
-            <option value="CSS">CSS</option>
-            <option value="SASS">SASS</option>
-            <option value="BOOTSTRAP">BOOTSTRAP</option>
-            <option value="TAILWIND">TAILWIND</option>
-            <option value="JAVASCRIPT">JAVASCRIPT</option>
-            <option value="REACT">REACT</option>
-            <option value="Angular">ANGULAR</option>
-            <option value="VUE">VUE</option>
-            <option value="NEXT JS">NEXT JS</option>
-            <option value="NODE">NODE</option>
-            <option value="EXPRESS">EXPRESS</option>
-            <option value="REST API">REST API</option>
-            <option value="PHP">PHP</option>
-            <option value="PYTHON">PYTHON</option>
-            <option value="UI-UX">UI-UX</option>
-            <option value="FRONT-END">FRONT-END</option>
-            <option value="EXPRESS">EXPRESS</option>
-            <option value="PHP">PHP</option>
-            <option value="PYTHON">PYTHON</option>
-            <option value="UI-UX">UI-UX</option>
-            <option value="BACK-END">BACK-END</option>
-            <option value="GRAPH Ql">GRAPH Ql</option>
-            <option value="CSS">CSS</option>
+          <select name='tags' id='tags' onChange={(e) => handleChange(e)} value={options}>
+            <option value='start'>Choose Tag:</option>
+            <option value='HTML'>HTML</option>
+            <option value='CSS'>CSS</option>
+            <option value='SASS'>SASS</option>
+            <option value='BOOTSTRAP'>BOOTSTRAP</option>
+            <option value='TAILWIND'>TAILWIND</option>
+            <option value='JAVASCRIPT'>JAVASCRIPT</option>
+            <option value='REACT'>REACT</option>
+            <option value='Angular'>ANGULAR</option>
+            <option value='VUE'>VUE</option>
+            <option value='NEXT JS'>NEXT JS</option>
+            <option value='NODE'>NODE</option>
+            <option value='EXPRESS'>EXPRESS</option>
+            <option value='REST API'>REST API</option>
+            <option value='PHP'>PHP</option>
+            <option value='PYTHON'>PYTHON</option>
+            <option value='UI-UX'>UI-UX</option>
+            <option value='FRONT-END'>FRONT-END</option>
+            <option value='EXPRESS'>EXPRESS</option>
+            <option value='PHP'>PHP</option>
+            <option value='PYTHON'>PYTHON</option>
+            <option value='UI-UX'>UI-UX</option>
+            <option value='BACK-END'>BACK-END</option>
+            <option value='GRAPH Ql'>GRAPH Ql</option>
+            <option value='CSS'>CSS</option>
           </select>
           <div
             style={{
@@ -211,11 +200,7 @@ function BlogForm() {
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <button
-          type="submit"
-          className="btn btn-primary my-1 "
-          onClick={addBlog}
-        >
+        <button type='submit' className='btn btn-primary my-1 ' onClick={addBlog}>
           Add Blog
         </button>
       </div>

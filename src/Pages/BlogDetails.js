@@ -28,7 +28,7 @@ function BlogDetails() {
 
   const getBlogData = async (id) => {
     onSnapshot(doc(db, "blogs", id), (blogInfo) => {
-      setBlog(blogInfo.data());
+      setBlog({ ...blogInfo.data(), id: id });
       getUserName(blogInfo.data().authorID);
     });
   };
@@ -62,17 +62,19 @@ function BlogDetails() {
 
   return (
     blog && (
-      <div className="blog blog-details">
+      <div className=' blog-details-container'>
         <UpadteBlog oldUserData={oldUserData} />
+        <div className='blog-header'>
+          <div className='blog-image'>
+            <img
+              src='https://sm.ign.com/ign_mear/gallery/b/best-new-a/best-new-anime-to-watch-winter-season-2022_ffaw.jpg'
+              alt=''
+            />
+          </div>
 
-        <div className="blog-header">
           <h3 style={{ fontWeight: "bold" }}>{blog.title}</h3>
-          <div className="date-actions-container">
-            <h5>
-              {new Intl.DateTimeFormat("en-GB").format(
-                blog.date.seconds * 1000
-              )}
-            </h5>
+          <div className='date-actions-container'>
+            <h5>{new Intl.DateTimeFormat("en-GB").format(blog.date.seconds * 1000)}</h5>
 
             {isSignIn && blog.authorID === auth.currentUser?.uid && (
               <div>
@@ -86,20 +88,16 @@ function BlogDetails() {
             )}
           </div>
         </div>
-        <div className="blog-body">{blog.body}</div>
-        <div className="blog-footer">
-          <div className="blog-author">
+        <div className='blog-body'>{blog.body}</div>
+        <div className='blog-footer'>
+          <div className='blog-author'>
             @{userName}
-            <div className="userInteraction">
-              {/* <UserReaction
-                //  likesCount={blog.likesCount}
-                //     disLikesCount={blog.disLikesCount}
-                // blog={blog}
-              // /> */}
+            <div className='userInteraction'>
+              <UserReaction likesCount={blog?.likesCount} disLikesCount={blog?.disLikesCount} blog={blog} />
             </div>
           </div>
 
-          <div className="blog-tags">{splitTag(blog.tags)}</div>
+          <div className='blog-tags'>{splitTag(blog.tags)}</div>
         </div>
         <Notification
           opition={{
