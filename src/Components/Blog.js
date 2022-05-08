@@ -26,73 +26,141 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
       setOwerBlogName(username);
     });
   }, []);
-
   return (
-    // <div className='blog'>
-    //   <div className='blog-header'>
-    //     <h3 style={{ fontWeight: "bold" }}>{blog.title.length > 13 ? blog.title.slice(0, 8) + "..." : blog.title}</h3>
-    //     <div className='date-actions-container'>
-    //       <h5>{new Intl.DateTimeFormat("en-GB").format(blog.date.seconds * 1000)}</h5>
+    <div className="card">
+      <div className="card__header">
+        <img
+          src="https://cdn.vox-cdn.com/thumbor/xBIBkXiGLcP-kph3pCX61U7RMPY=/0x0:1400x788/1200x800/filters:focal(588x282:812x506)/cdn.vox-cdn.com/uploads/chorus_image/image/70412073/0377c76083423a1414e4001161e0cdffb0b36e1f_760x400.0.png"
+          alt="card__image"
+          className="card__image"
+          width="600"
+        />
+      </div>
+      <div className="card__body">
+        <span
+          className="tag"
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            {blog.tags.map((tag, key) => (
+              <span className={`tag  tag-black`} key={key}>
+                {tag}
+              </span>
+            ))}
+          </div>
+          {isSignIn && blog.authorID === auth.currentUser?.uid && (
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <button
+                style={{
+                  backgroundColor: "#ee9f0d",
+                  border: "none",
+                  color: "#fff",
+                  padding: "0rem .4rem",
+                  fontSize: "1.2rem",
+                }}
+                onClick={() => handleEditBlog(blog.id)}
+              >
+                <MdModeEdit />
+              </button>
 
-    //       {isSignIn && blog.authorID === auth.currentUser?.uid && (
-    //         <div>
-    //           <button>
-    //             <MdModeEdit onClick={() => handleEditBlog(blog.id)} />
-    //           </button>
-    //           <button onClick={() => setIsCompleted((prev) => !prev)}>
-    //             <MdDelete />
-    //           </button>
-    //         </div>
-    //       )}
-    //     </div>
-    //   </div>
-    //   <div className='blog-body'>
-    //     {blog.body.length > 100 ? (
-    //       <>
-    //         {blog.body.slice(0, 100)}
-    //         <Link
-    //           to={`blog/@${ownerBlogName}/${blog.title}-${blog.id}`}
-    //           style={{
-    //             color: "#ab052c",
-    //             fontWeight: "bold",
-    //             marginLeft: "7px",
-    //             cursor: "pointer",
-    //             userSelect: "none",
-    //             wordBreak: "break-word",
-    //             textDecoration: "none",
-    //           }}
-    //         >
-    //           See More...
-    //         </Link>
-    //       </>
-    //     ) : (
-    //       blog.body
-    //     )}
-    //   </div>
-    //   <div className='blog-footer'>
-    //     <div className='blog-author'>
-    //       @{ownerBlogName.slice(0, 20)}
-    //       <div className='userInteraction'>
-    //         <UserReaction likesCount={blog.likesCount} disLikesCount={blog.disLikesCount} blog={blog} />
-    //       </div>
-    //     </div>
+              <button
+                style={{
+                  background: "#e27d7d",
+                  border: "none",
+                  color: "#fff",
+                  padding: "0rem .4rem",
+                  fontSize: "1.2rem",
+                }}
+                onClick={() => setIsCompleted((prev) => !prev)}
+              >
+                <MdDelete />
+              </button>
+            </div>
+          )}
+        </span>
 
-    //     <div className='blog-tags'>{splitTag(blog.tags)}</div>
-    //   </div>
-    //   <Notification
-    //     opition={{
-    //       title: "Delete Item",
-    //       message: "Are You Sure You Want To Delete This Blog",
-    //       cancel: true,
-    //       action: "delete",
-    //     }}
-    //     completed={isCompleted}
-    //     setCompleted={setIsCompleted}
-    //     handleDeleteBlog={handleDeleteBlog}
-    //     blogId={blog.id}
-    //   />
-    // </div>
-    <></>
+        <h4
+          style={{
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          {blog.title.length > 29
+            ? blog.title.slice(0, 18) + "..."
+            : blog.title}
+          <UserReaction
+            likesCount={blog.likesCount}
+            disLikesCount={blog.disLikesCount}
+            blog={blog}
+          />
+        </h4>
+
+        {blog.body.length > 100 ? (
+          <p>{blog.body.slice(0, 150)}</p>
+        ) : (
+          <p>{blog.body}</p>
+        )}
+      </div>
+      <div className="card__footer">
+        <div className="user">
+          <img
+            src={auth.currentUser.photoURL}
+            alt="user__image"
+            className="user__image"
+          />
+          <div className="user__info">
+            <h5> @{ownerBlogName.slice(0, 18)}</h5>
+
+            <small>
+              {new Intl.DateTimeFormat("en-GB").format(
+                blog.date.seconds * 1000
+              )}
+            </small>
+
+            <span
+              style={{
+                fontWeight: "bold",
+                cursor: "pointer",
+                userSelect: "none",
+                wordBreak: "break-word",
+                textDecoration: "none",
+                position: "absolute",
+                right: "1rem",
+                color: "red",
+              }}
+            >
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "#333",
+                  fontSize: "16px",
+                }}
+                to={`blog/@${ownerBlogName}/${blog.title}-${blog.id}`}
+              >
+                Read More...
+              </Link>
+            </span>
+          </div>
+        </div>
+      </div>
+      <Notification
+        opition={{
+          title: "Delete Item",
+          message: "Are You Sure You Want To Delete This Blog",
+          cancel: true,
+          action: "delete",
+        }}
+        completed={isCompleted}
+        setCompleted={setIsCompleted}
+        handleDeleteBlog={handleDeleteBlog}
+        blogId={blog.id}
+      />
+    </div>
   );
 }
 

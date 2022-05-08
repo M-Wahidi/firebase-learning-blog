@@ -24,54 +24,59 @@ function Header({ imageURL, setImageURL }) {
 
   return (
     <div className="header">
-      <div
-        style={{
-          position: "relative",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          textAlign: "left",
-          color: "#fff",
-          height: "100%",
-        }}
-      >
-        <Link style={{ textAlign: "left" }} to="/">
-          WebDev Blog🔥🚀
-        </Link>
+      <div className="inner-header">
+        <div
+          style={{
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            textAlign: "left",
+            color: "#fff",
+            height: "100%",
+          }}
+        >
+          <Link style={{ textAlign: "left" }} to="/">
+            WebDev Blog🔥🚀
+          </Link>
 
-        <span style={{ marginLeft: "13px" }}>
-          {userName.username ? `@ ${userName?.username}` : ""}
-        </span>
-      </div>
-      <div>
-        {isSignIn && (
-          <div
-            style={{
-              position: "relative",
-              width: "60px",
-              height: "60px",
-              cursor: "pointer",
-            }}
-          >
-            <img
-              onClick={() => setShowProfile(!showProfile)}
+          <span style={{ marginLeft: "13px" }}>
+            {userName.username ? `@ ${userName?.username.slice(0, 30)}` : ""}
+          </span>
+        </div>
+        <div>
+          {isSignIn && (
+            <div
               style={{
-                height: "100%",
-                width: "100%",
-                borderRadius: "50%",
-                objectFit: "cover",
-                border: "3px solid #fff",
+                position: "relative",
+                width: "60px",
+                height: "60px",
+                cursor: "pointer",
               }}
-              src={
-                imageURL || "https://bootdey.com/img/Content/avatar/avatar7.png"
-              }
-              alt={auth.currentUser.displayName}
-            />
+            >
+              <img
+                onClick={() => setShowProfile(!showProfile)}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  border: "3px solid #fff",
+                }}
+                src={
+                  imageURL ||
+                  "https://bootdey.com/img/Content/avatar/avatar7.png"
+                }
+                alt={auth.currentUser.displayName}
+              />
 
-            {showProfile && <PorfileDropDown setShowProfile={setShowProfile} />}
-          </div>
-        )}
-        {!isSignIn && <Link to="/account/login">Login</Link>}
+              {showProfile && (
+                <PorfileDropDown setShowProfile={setShowProfile} />
+              )}
+            </div>
+          )}
+          {!isSignIn && <Link to="/account/login">Login</Link>}
+        </div>
       </div>
     </div>
   );

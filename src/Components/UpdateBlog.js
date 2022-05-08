@@ -105,7 +105,7 @@ function UpadteBlog({ oldUserData }) {
       ></div>
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="bg-white container-sm p-4 my-5 h-auto"
+        className="bg-white container-sm p-4 my-5 h-auto position-fixed"
         style={{
           display: `${editBlog.isEditing ? "block" : "none"}`,
           zIndex: "3",

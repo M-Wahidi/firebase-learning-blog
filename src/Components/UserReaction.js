@@ -1,7 +1,12 @@
 import { useState, useContext, useReducer, useEffect } from "react";
 import { collection, doc, setDoc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
-import { AiOutlineLike, AiFillLike, AiOutlineDislike, AiFillDislike } from "react-icons/ai";
+import {
+  AiOutlineLike,
+  AiFillLike,
+  AiOutlineDislike,
+  AiFillDislike,
+} from "react-icons/ai";
 import { UserContext } from "../Context/authContext";
 import Notification from "./Notification";
 
@@ -146,7 +151,9 @@ function UserReaction({ likesCount, disLikesCount, blog }) {
         doc(blogRef, blog.id),
         {
           disLikesCount: state.disLikesCount - 1,
-          userDisLiked: userDisLikedBlogs.filter((elem) => elem !== auth.currentUser.uid),
+          userDisLiked: userDisLikedBlogs.filter(
+            (elem) => elem !== auth.currentUser.uid
+          ),
           likesCount: state.likesCount + 1,
           userLiked: [...userLikedBlogs, auth.currentUser.uid],
         },
@@ -173,7 +180,9 @@ function UserReaction({ likesCount, disLikesCount, blog }) {
         doc(blogRef, blog.id),
         {
           likesCount: state.likesCount - 1,
-          userLiked: userLikedBlogs.filter((elem) => elem !== auth.currentUser.uid),
+          userLiked: userLikedBlogs.filter(
+            (elem) => elem !== auth.currentUser.uid
+          ),
           disLikesCount: state.isDisLike + 1,
           userDisLiked: [...userDisLikedBlogs, auth.currentUser.uid],
         },
@@ -184,7 +193,9 @@ function UserReaction({ likesCount, disLikesCount, blog }) {
     await setDoc(
       doc(blogRef, blog.id),
       {
-        disLikesCount: state.isDisLike ? state.disLikesCount - 1 : state.disLikesCount + 1,
+        disLikesCount: state.isDisLike
+          ? state.disLikesCount - 1
+          : state.disLikesCount + 1,
 
         userDisLiked: state.isDisLike
           ? userDisLikedBlogs.filter((elem) => elem !== auth.currentUser.uid)
@@ -215,17 +226,21 @@ function UserReaction({ likesCount, disLikesCount, blog }) {
   }, []);
 
   return (
-    <div className='userInteraction'>
-      <div onClick={handleLike}>
+    <div style={{ display: "flex" }}>
+      <div onClick={handleLike} style={{ cursor: "pointer" }}>
         <span style={{ margin: "0 2px" }}>{state.likesCount}</span>
-        <span style={{ color: "black" }}>{state.isLiked && isSignIn && <AiFillLike />}</span>
+        <span style={{ color: "black" }}>
+          {state.isLiked && isSignIn && <AiFillLike />}
+        </span>
         <span>{!state.isLiked && isSignIn && <AiOutlineLike />}</span>
         <span>{!isSignIn && <AiOutlineLike />}</span>
       </div>
 
-      <div onClick={handleDisLike}>
+      <div onClick={handleDisLike} style={{ cursor: "pointer" }}>
         <span style={{ margin: "0 2px" }}>{state.disLikesCount}</span>
-        <span style={{ color: "black" }}>{state.isDisLike && isSignIn && <AiFillDislike />}</span>
+        <span style={{ color: "black" }}>
+          {state.isDisLike && isSignIn && <AiFillDislike />}
+        </span>
         <span>{!state.isDisLike && isSignIn && <AiOutlineDislike />}</span>
         <span>{!isSignIn && <AiOutlineDislike />}</span>
       </div>

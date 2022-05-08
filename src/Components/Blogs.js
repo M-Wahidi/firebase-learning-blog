@@ -55,7 +55,7 @@ function Blogs() {
     }
   };
   return (
-    <div className="blogs">
+    <div className="blogs-container">
       <UpadteBlog oldUserData={oldUserData} />
       {/* Display All Blogs */}
       {opitions === "All Blogs" && loading ? (
