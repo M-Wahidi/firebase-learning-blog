@@ -61,44 +61,88 @@ function BlogDetails() {
   }, []);
 
   return (
+    // blog && (
+    //   <div classNameName=' blog-details-container'>
+    //     <UpadteBlog oldUserData={oldUserData} />
+    //
+    //       <h3 style={{ fontWeight: "bold" }}>{blog.title}</h3>
+    //       <div classNameName='date-actions-container'>
+    //         <h5>{new Intl.DateTimeFormat("en-GB").format(blog.date.seconds * 1000)}</h5>
+
+    //         {isSignIn && blog.authorID === auth.currentUser?.uid && (
+    //           <div>
+    //             <button>
+    //               <MdModeEdit onClick={() => handleEditBlog(blog.id)} />
+    //             </button>
+    //             <button onClick={() => setIsCompleted((prev) => !prev)}>
+    //               <MdDelete />
+    //             </button>
+    //           </div>
+    //         )}
+    //       </div>
+    //     </div>
+    //     <div classNameName='blog-body'>{blog.body}</div>
+    //     <div classNameName='blog-footer'>
+    //       <div classNameName='blog-author'>
+    //         @{userName}
+    //         <div classNameName='userInteraction'>
+    //           <UserReaction likesCount={blog?.likesCount} disLikesCount={blog?.disLikesCount} blog={blog} />
+    //         </div>
+    //       </div>
+
+    //       <div classNameName='blog-tags'>{splitTag(blog.tags)}</div>
+    //     </div>
+    //     <Notification
+    //       opition={{
+    //         title: "Delete Item",
+    //         message: "Are You Sure You Want To Delete This Blog",
+    //         cancel: true,
+    //         action: "delete",
+    //       }}
+    //       completed={isCompleted}
+    //       setCompleted={setIsCompleted}
+    //       handleDeleteBlog={handleDeleteBlog}
+    //       blogId={blog.id}
+    //     />
+    //     {loading && <Loading />}
+    //   </div>
+    // )
+
     blog && (
-      <div className=' blog-details-container'>
-        <UpadteBlog oldUserData={oldUserData} />
-        <div className='blog-header'>
-          <div className='blog-image'>
-            <img
-              src='https://sm.ign.com/ign_mear/gallery/b/best-new-a/best-new-anime-to-watch-winter-season-2022_ffaw.jpg'
-              alt=''
+      <div className="blog-details">
+        <header>
+          <div className="container">
+            <h1>{blog.title}</h1>
+            <p>
+              <small>
+                By <em>@{userName}</em> | Posted on:
+                <em>
+                  {new Intl.DateTimeFormat("en-GB").format(
+                    blog.date.seconds * 1000
+                  )}
+                </em>
+              </small>
+            </p>
+          </div>
+        </header>
+        <article className="container">
+          <div style={{ whiteSpace: "pre-wrap" }}>{blog.body}</div>
+          <div className="like-section">
+            <UserReaction
+              likesCount={blog?.likesCount}
+              disLikesCount={blog?.disLikesCount}
+              blog={blog}
+              color={"rebeccapurple"}
             />
           </div>
+        </article>
 
-          <h3 style={{ fontWeight: "bold" }}>{blog.title}</h3>
-          <div className='date-actions-container'>
-            <h5>{new Intl.DateTimeFormat("en-GB").format(blog.date.seconds * 1000)}</h5>
-
-            {isSignIn && blog.authorID === auth.currentUser?.uid && (
-              <div>
-                <button>
-                  <MdModeEdit onClick={() => handleEditBlog(blog.id)} />
-                </button>
-                <button onClick={() => setIsCompleted((prev) => !prev)}>
-                  <MdDelete />
-                </button>
-              </div>
-            )}
+        <footer>
+          <div className="container">
+            <p>&copy; {new Date().getFullYear()} WebDev Blog</p>
           </div>
-        </div>
-        <div className='blog-body'>{blog.body}</div>
-        <div className='blog-footer'>
-          <div className='blog-author'>
-            @{userName}
-            <div className='userInteraction'>
-              <UserReaction likesCount={blog?.likesCount} disLikesCount={blog?.disLikesCount} blog={blog} />
-            </div>
-          </div>
+        </footer>
 
-          <div className='blog-tags'>{splitTag(blog.tags)}</div>
-        </div>
         <Notification
           opition={{
             title: "Delete Item",

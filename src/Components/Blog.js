@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { auth } from "../firebaseConfig";
-import { splitTag } from "../Helper/splitTag";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { UserContext } from "../Context/authContext";
 import { EditBlogContext } from "../Context/editBlogContext";
@@ -15,6 +14,7 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
   const { isSignIn } = useContext(UserContext);
   const { setEditBlog } = useContext(EditBlogContext);
   const [ownerBlogName, setOwerBlogName] = useState("");
+  const [ownerPhoto, setOwerPhoto] = useState("");
 
   const handleEditBlog = () => {
     setEditBlog({ isEditing: true, blogId: blog.id });
@@ -22,15 +22,16 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
   };
   useEffect(() => {
     onSnapshot(doc(db, "users", blog.authorID), (doc) => {
-      const { username } = doc.data();
+      const { username, image } = doc.data();
       setOwerBlogName(username);
+      setOwerPhoto(image);
     });
   }, []);
   return (
     <div className="card">
       <div className="card__header">
         <img
-          src="https://cdn.vox-cdn.com/thumbor/xBIBkXiGLcP-kph3pCX61U7RMPY=/0x0:1400x788/1200x800/filters:focal(588x282:812x506)/cdn.vox-cdn.com/uploads/chorus_image/image/70412073/0377c76083423a1414e4001161e0cdffb0b36e1f_760x400.0.png"
+          src="https://analyticsindiamag.com/wp-content/uploads/2021/09/1-2.jpg"
           alt="card__image"
           className="card__image"
           width="600"
@@ -41,11 +42,20 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
           className="tag"
           style={{
             display: "flex",
+            alignItems: "center",
             width: "100%",
             justifyContent: "space-between",
           }}
         >
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: ".5rem",
+            }}
+          >
             {blog.tags.map((tag, key) => (
               <span className={`tag  tag-black`} key={key}>
                 {tag}
@@ -60,6 +70,7 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
                   border: "none",
                   color: "#fff",
                   padding: "0rem .4rem",
+                  height: "30px",
                   fontSize: "1.2rem",
                 }}
                 onClick={() => handleEditBlog(blog.id)}
@@ -90,29 +101,28 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
             justifyContent: "space-between",
           }}
         >
-          {blog.title.length > 29
-            ? blog.title.slice(0, 18) + "..."
+          {blog.title.length > 22
+            ? blog.title.slice(0, 16) + "..."
             : blog.title}
           <UserReaction
             likesCount={blog.likesCount}
             disLikesCount={blog.disLikesCount}
             blog={blog}
+            color={"black"}
           />
         </h4>
 
         {blog.body.length > 100 ? (
-          <p>{blog.body.slice(0, 150)}</p>
+          <p style={{ textAlign: "justify" }}>
+            {blog.body.slice(0, 150) + "..."}
+          </p>
         ) : (
-          <p>{blog.body}</p>
+          <p style={{ textAlgin: "justify" }}>{blog.body}</p>
         )}
       </div>
       <div className="card__footer">
         <div className="user">
-          <img
-            src={auth.currentUser.photoURL}
-            alt="user__image"
-            className="user__image"
-          />
+          <img src={ownerPhoto} alt="user__image" className="user__image" />
           <div className="user__info">
             <h5> @{ownerBlogName.slice(0, 18)}</h5>
 

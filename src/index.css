@@ -27,7 +27,7 @@ body {
 .header {
   background-color: #333;
   width: 100vw;
-  height: 70px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -35,6 +35,7 @@ body {
 .inner-header {
   width: 1150px;
   margin: 0 auto;
+  padding: 0;
   height: 70px;
   display: flex;
   align-items: center;
@@ -211,6 +212,7 @@ h1 {
   margin: 1rem;
   background: #ece9e6;
   background: linear-gradient(to right, #ffffff, #ece9e6);
+  height: 570px;
 }
 
 .blogs-container .card__body {
@@ -225,10 +227,6 @@ h1 {
   padding: 0.25em 0.75em;
   border-radius: 1em;
   font-size: 0.75rem;
-}
-
-.blogs-container .tag + .tag {
-  margin-left: 0.5em;
 }
 
 .tag-black {
@@ -504,7 +502,42 @@ select {
   margin-bottom: 1rem;
 }
 
-/* // Test------------------------------ */
+.blog-details .container {
+  max-width: 1150px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+}
+
+.blog-details header {
+  background-color: rebeccapurple;
+  color: #fff;
+  padding: 0.5rem 0;
+}
+.blog-details textarea::-webkit-scrollbar {
+  display: none;
+}
+
+.blog-details body > footer {
+  border-top: 2px solid rebeccapurple;
+}
+
+.blog-details .like-section {
+  background: linear-gradient(45deg, #eddbff, transparent);
+  color: rebeccapurple;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 1rem;
+  padding: 1em;
+  border-radius: 4px;
+  font-size: 1.4rem;
+}
+
+.blog-details .img--align-left {
+  float: left; /* replaces the style previously inherited by the browser */
+  margin: 0 16px 16px -20px;
+  border-radius: 50%;
+}
 
 @keyframes loading {
   from {

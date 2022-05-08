@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-import { auth } from "../firebaseConfig";
-import { storage } from "../firebaseConfig";
+import { auth, storage, db } from "../firebaseConfig";
 import { updateProfile } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
 import Skeleton from "react-loading-skeleton";
 import Loading from "../Components/Loading";
 function ProfileCard({
@@ -36,6 +36,13 @@ function ProfileCard({
             updateProfile(auth.currentUser, {
               photoURL: url,
             });
+            setDoc(
+              doc(db, "users", auth.currentUser.uid),
+              {
+                image: url,
+              },
+              { merge: true }
+            );
           });
         }
       });
@@ -43,7 +50,9 @@ function ProfileCard({
     setProfilePic("");
   };
   useEffect(() => {
-    getUserDownloadImage();
+    onSnapshot(doc(db, "users", auth.currentUser.uid), (doc) => {
+      getUserDownloadImage();
+    });
     setLoading(false);
   }, [imageURL]);
 

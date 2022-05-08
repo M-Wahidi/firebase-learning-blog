@@ -76,7 +76,7 @@ const reducer = (state, action) => {
   }
 };
 
-function UserReaction({ likesCount, disLikesCount, blog }) {
+function UserReaction({ likesCount, disLikesCount, blog, color }) {
   const { isSignIn } = useContext(UserContext);
   const [showAuthMsg, setShowInputMsge] = useState(false);
   const userLikedBlogs = blog.userLiked;
@@ -226,10 +226,10 @@ function UserReaction({ likesCount, disLikesCount, blog }) {
   }, []);
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", gap: ".5rem" }}>
       <div onClick={handleLike} style={{ cursor: "pointer" }}>
         <span style={{ margin: "0 2px" }}>{state.likesCount}</span>
-        <span style={{ color: "black" }}>
+        <span style={{ color }}>
           {state.isLiked && isSignIn && <AiFillLike />}
         </span>
         <span>{!state.isLiked && isSignIn && <AiOutlineLike />}</span>
@@ -238,7 +238,7 @@ function UserReaction({ likesCount, disLikesCount, blog }) {
 
       <div onClick={handleDisLike} style={{ cursor: "pointer" }}>
         <span style={{ margin: "0 2px" }}>{state.disLikesCount}</span>
-        <span style={{ color: "black" }}>
+        <span style={{ color }}>
           {state.isDisLike && isSignIn && <AiFillDislike />}
         </span>
         <span>{!state.isDisLike && isSignIn && <AiOutlineDislike />}</span>
