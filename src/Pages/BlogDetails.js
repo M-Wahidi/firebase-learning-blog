@@ -126,7 +126,15 @@ function BlogDetails() {
           </div>
         </header>
         <article className="container">
-          <div style={{ whiteSpace: "pre-wrap" }}>{blog.body}</div>
+          <div
+            style={{
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+              width: "100%",
+            }}
+          >
+            {blog.body}
+          </div>
           <div className="like-section">
             <UserReaction
               likesCount={blog?.likesCount}

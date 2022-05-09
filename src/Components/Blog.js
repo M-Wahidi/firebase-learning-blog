@@ -114,7 +114,7 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
 
         {blog.body.length > 100 ? (
           <p style={{ textAlign: "justify" }}>
-            {blog.body.slice(0, 150) + "..."}
+            {blog.body.slice(0, 140) + "..."}
           </p>
         ) : (
           <p style={{ textAlgin: "justify" }}>{blog.body}</p>
