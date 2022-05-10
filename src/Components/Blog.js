@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { motion } from "framer-motion";
+import BlogReadTime from "./BlogReadTime";
 import { auth } from "../firebaseConfig";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { UserContext } from "../Context/authContext";
@@ -9,6 +9,7 @@ import UserReaction from "./UserReaction";
 import Notification from "./Notification";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebaseConfig";
+import { AiOutlineClockCircle } from "react-icons/ai";
 
 function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
   const [isCompleted, setIsCompleted] = useState(false);
@@ -29,18 +30,18 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
     });
   }, []);
   return (
-    <div className="card">
-      <div className="card__header">
+    <div className='card'>
+      <div className='card__header'>
         <img
-          src="https://analyticsindiamag.com/wp-content/uploads/2021/09/1-2.jpg"
-          alt="card__image"
-          className="card__image"
-          width="600"
+          src='https://analyticsindiamag.com/wp-content/uploads/2021/09/1-2.jpg'
+          alt='card__image'
+          className='card__image'
+          width='600'
         />
       </div>
-      <div className="card__body">
+      <div className='card__body'>
         <span
-          className="tag"
+          className='tag'
           style={{
             display: "flex",
             alignItems: "center",
@@ -64,7 +65,7 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
             ))}
           </div>
           {isSignIn && blog.authorID === auth.currentUser?.uid && (
-            <div style={{ display: "flex", gap: "1rem" }}>
+            <div style={{ display: "flex", gap: ".5rem" }}>
               <button
                 style={{
                   backgroundColor: "#ee9f0d",
@@ -102,63 +103,59 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
             justifyContent: "space-between",
           }}
         >
-          {blog.title.length > 22
-            ? blog.title.slice(0, 16) + "..."
-            : blog.title}
-          <UserReaction
-            likesCount={blog.likesCount}
-            disLikesCount={blog.disLikesCount}
-            blog={blog}
-            color={"black"}
-          />
+          {blog.title.length > 22 ? blog.title.slice(0, 16) + "..." : blog.title}
+          <UserReaction likesCount={blog.likesCount} disLikesCount={blog.disLikesCount} blog={blog} color={"black"} />
         </h4>
 
         {blog.body.length > 100 ? (
-          <p style={{ textAlign: "justify" }}>
-            {blog.body.slice(0, 140) + "..."}
-          </p>
+          <p style={{ textAlign: "justify" }}>{blog.body.slice(0, 190) + "..."}</p>
         ) : (
           <p style={{ textAlgin: "justify" }}>{blog.body}</p>
         )}
       </div>
-      <div className="card__footer">
-        <div className="user">
-          <img src={ownerPhoto} alt="user__image" className="user__image" />
-          <div className="user__info">
-            <h5> @{ownerBlogName.slice(0, 18)}</h5>
+      <div className='card__footer'>
+        <div className='user'>
+          <img src={ownerPhoto} alt='user__image' className='user__image' />
+          <div className='user__info'>
+            <span> @{ownerBlogName.slice(0, 18)}</span>
 
-            <small>
-              {new Intl.DateTimeFormat("en-GB").format(
-                blog.date.seconds * 1000
-              )}
-            </small>
-
-            <span
+            <div
               style={{
-                fontWeight: "bold",
-                cursor: "pointer",
-                userSelect: "none",
-                wordBreak: "break-word",
-                textDecoration: "none",
-                position: "absolute",
-                right: "1rem",
-                color: "red",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: ".7rem",
               }}
             >
-              <Link
+              {new Intl.DateTimeFormat("en-GB").format(blog.date.seconds * 1000)}
+              <span>{BlogReadTime(blog.body)}</span>
+
+              <span
                 style={{
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                  userSelect: "none",
+                  wordBreak: "break-word",
                   textDecoration: "none",
-                  color: "#333",
-                  fontSize: "16px",
+                  position: "relative",
                 }}
-                to={`blog/@${ownerBlogName}/${blog.title}-${blog.id}`}
               >
-                Read More...
-              </Link>
-            </span>
+                <Link
+                  style={{
+                    textDecoration: "none",
+                    color: "#333",
+                    fontSize: "14px",
+                  }}
+                  to={`blog/@${ownerBlogName}/${blog.title}-${blog.id}`}
+                >
+                  Read More...
+                </Link>
+              </span>
+            </div>
           </div>
         </div>
       </div>
+
       <Notification
         opition={{
           title: "Delete Item",

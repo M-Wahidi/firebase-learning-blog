@@ -212,7 +212,7 @@ h1 {
   margin: 1rem;
   background: #ece9e6;
   background: linear-gradient(to right, #ffffff, #ece9e6);
-  height: 570px;
+  height: auto;
 }
 
 .blogs-container .card__body {
@@ -242,13 +242,17 @@ h1 {
 
 .card__footer {
   display: flex;
-  padding: 1rem;
+  padding: 0.5rem 0.4rem 1rem 0.4rem;
   margin-top: auto;
 }
 
 .user {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .user__image {
@@ -358,7 +362,7 @@ select {
   align-items: center;
   justify-content: center;
   gap: 1rem 0;
-  bottom: -200px;
+  bottom: -500px;
   right: 10px;
   z-index: 3;
   justify-content: space-evenly;

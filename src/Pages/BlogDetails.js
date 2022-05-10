@@ -1,27 +1,16 @@
-import React, { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { onSnapshot, doc, deleteDoc } from "firebase/firestore";
-import { db, auth } from "../firebaseConfig";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import BlogReadTime from "../Components/BlogReadTime";
+import { onSnapshot, doc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 import UserReaction from "../Components/UserReaction";
-import { UserContext } from "../Context/authContext";
-import { EditBlogContext } from "../Context/editBlogContext";
-import UpadteBlog from "../Components/UpdateBlog";
 import { motion } from "framer-motion";
-import { MdDelete, MdModeEdit } from "react-icons/md";
 import { splitTag } from "../Helper/splitTag";
-import Notification from "../Components/Notification";
-import Loading from "../Components/Loading";
 
 function BlogDetails() {
   let { id } = useParams();
   const [blog, setBlog] = useState(null);
   const [userName, setUserName] = useState(null);
-  const [isCompleted, setIsCompleted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [oldUserData, setOldUserData] = useState();
-  const { isSignIn } = useContext(UserContext);
-  const { setEditBlog } = useContext(EditBlogContext);
-  const navigate = useNavigate();
 
   const splitID = (id) => {
     return id.split("-")[1];
@@ -40,122 +29,43 @@ function BlogDetails() {
     });
   };
 
-  const handleDeleteBlog = async () => {
-    setLoading(true);
-    const blogID = splitID(id);
-    await deleteDoc(doc(db, "blogs", blogID));
-    setLoading(false);
-    setTimeout(() => {
-      navigate("/");
-    }, 200);
-  };
-
-  const handleEditBlog = () => {
-    const blogID = splitID(id);
-    setEditBlog({ isEditing: true, blogId: blogID });
-    setOldUserData(blog);
-  };
-
   useEffect(() => {
     const blogID = splitID(id);
     getBlogData(blogID);
   }, []);
 
   return (
-    // blog && (
-    //   <div classNameName=' blog-details-container'>
-    //     <UpadteBlog oldUserData={oldUserData} />
-    //
-    //       <h3 style={{ fontWeight: "bold" }}>{blog.title}</h3>
-    //       <div classNameName='date-actions-container'>
-    //         <h5>{new Intl.DateTimeFormat("en-GB").format(blog.date.seconds * 1000)}</h5>
-
-    //         {isSignIn && blog.authorID === auth.currentUser?.uid && (
-    //           <div>
-    //             <button>
-    //               <MdModeEdit onClick={() => handleEditBlog(blog.id)} />
-    //             </button>
-    //             <button onClick={() => setIsCompleted((prev) => !prev)}>
-    //               <MdDelete />
-    //             </button>
-    //           </div>
-    //         )}
-    //       </div>
-    //     </div>
-    //     <div classNameName='blog-body'>{blog.body}</div>
-    //     <div classNameName='blog-footer'>
-    //       <div classNameName='blog-author'>
-    //         @{userName}
-    //         <div classNameName='userInteraction'>
-    //           <UserReaction likesCount={blog?.likesCount} disLikesCount={blog?.disLikesCount} blog={blog} />
-    //         </div>
-    //       </div>
-
-    //       <div classNameName='blog-tags'>{splitTag(blog.tags)}</div>
-    //     </div>
-    //     <Notification
-    //       opition={{
-    //         title: "Delete Item",
-    //         message: "Are You Sure You Want To Delete This Blog",
-    //         cancel: true,
-    //         action: "delete",
-    //       }}
-    //       completed={isCompleted}
-    //       setCompleted={setIsCompleted}
-    //       handleDeleteBlog={handleDeleteBlog}
-    //       blogId={blog.id}
-    //     />
-    //     {loading && <Loading />}
-    //   </div>
-    // )
-
     blog && (
-      <div className="blog-details">
-        <motion.div
-          animate={{ x: 0 }}
-          initial={{ x: 1000 }}
-          transition={{ ease: "easeOut", duration: 0.3 }}
-        >
+      <div className='blog-details'>
+        <motion.div animate={{ x: 0 }} initial={{ x: 1000 }} transition={{ ease: "easeOut", duration: 0.3 }}>
           <header>
-            <div className="container">
-              <h1>{blog.title}</h1>
-              <p>
-                <small>
-                  By <em>@{userName}</em> | Posted on:
-                  <em>
-                    {new Intl.DateTimeFormat("en-GB").format(
-                      blog.date.seconds * 1000
-                    )}
-                  </em>
-                </small>
-              </p>
+            <div className='container'>
+              <h2>{blog.title}</h2>
+              <small>
+                By <span>@{userName}</span> | Posted on:
+                <span> {new Intl.DateTimeFormat("en-GB").format(blog.date.seconds * 1000)}</span>
+                <small style={{ marginTop: "7px" }}>{BlogReadTime(blog.body)}</small>
+              </small>
             </div>
           </header>
         </motion.div>
 
-        <article className="container">
-          <motion.div
-            animate={{ x: 0 }}
-            initial={{ x: 1000 }}
-            transition={{ ease: "easeOut", duration: 0.3 }}
-          >
+        <article className='container'>
+          <motion.div animate={{ x: 0 }} initial={{ x: 1000 }} transition={{ ease: "easeOut", duration: 0.3 }}>
             <div
               style={{
                 whiteSpace: "pre-wrap",
                 wordBreak: "break-word",
                 width: "100%",
+                minHeight: "55vh",
               }}
             >
               {blog.body}
             </div>
           </motion.div>
 
-          <motion.div
-            animate={{ opacity: 1 }}
-            initial={{ opacity: 0 }}
-            transition={{ ease: "easeOut", duration: 0.5 }}
-          >
-            <div className="like-section">
+          <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} transition={{ ease: "easeOut", duration: 0.5 }}>
+            <div className='like-section'>
               <UserReaction
                 likesCount={blog?.likesCount}
                 disLikesCount={blog?.disLikesCount}
@@ -167,24 +77,10 @@ function BlogDetails() {
         </article>
 
         <footer>
-          <div className="container">
+          <div className='container'>
             <p>&copy; {new Date().getFullYear()} WebDev Blog</p>
           </div>
         </footer>
-
-        <Notification
-          opition={{
-            title: "Delete Item",
-            message: "Are You Sure You Want To Delete This Blog",
-            cancel: true,
-            action: "delete",
-          }}
-          completed={isCompleted}
-          setCompleted={setIsCompleted}
-          handleDeleteBlog={handleDeleteBlog}
-          blogId={blog.id}
-        />
-        {loading && <Loading />}
       </div>
     )
   );

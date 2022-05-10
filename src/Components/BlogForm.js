@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../firebaseConfig";
+import { auth, db, storage } from "../firebaseConfig";
+import { ref, uploadBytes } from "firebase/storage";
 import { splitTag } from "../Helper/splitTag";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import Loading from "../Components/Loading";
+import { v4 as uuidv4 } from "uuid";
+
 import React from "react";
 function BlogForm() {
   const [blogTitle, setBlogTitle] = useState("");
@@ -15,8 +18,25 @@ function BlogForm() {
   const [tagsMessage, setTagsMessgae] = useState("");
   const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState("start");
-
+  const [blogImage, setBlogImage] = useState("");
+  const inputFile = useRef();
   const navigate = useNavigate();
+  const imagePath = ref(
+    storage,
+    `blogs/${auth.currentUser.uid}/${auth.currentUser.uid}${uuidv4()}${new Date().getMilliseconds()}`
+  );
+  // const imageRef = ref(storage, `blogs/`);
+
+  const onButtonClick = () => {
+    inputFile.current.click();
+  };
+
+  const uploadImage = () => {
+    if (blogImage === "") return;
+    uploadBytes(imagePath, blogImage).then((data) => {
+      console.log(data);
+    });
+  };
 
   const handleChange = (e) => {
     setOptions(e.target.value);
@@ -65,6 +85,7 @@ function BlogForm() {
       });
       navigate("/");
     }, 1500);
+    uploadImage();
   };
 
   const handleTags = () => {
@@ -148,6 +169,21 @@ function BlogForm() {
       </div>
       <div className='my-4'>
         <div className='tags-input-container'>
+          <div className='user-avatar'>
+            <div className='m-3'>
+              <input
+                className='d-none'
+                type='file'
+                id='imgupload'
+                onChange={(e) => setBlogImage(e.target.files[0])}
+                ref={inputFile}
+              />
+              <button className={`btn ${!blogImage ? "btn-outline-primary" : "btn-primary"} `} onClick={onButtonClick}>
+                {!blogImage ? "Upload Image" : "Image Uploaded ✔ "}
+              </button>
+            </div>
+          </div>
+
           <div style={{ display: "flex", gap: "20px", padding: "10px" }}>
             <label htmlFor='tags'>Add a Tags:</label>
             <button style={{ width: "50px", border: "none", fontSize: "1.2rem" }} onClick={handleTags}>
