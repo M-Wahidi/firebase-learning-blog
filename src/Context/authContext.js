@@ -1,9 +1,13 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { auth } from "../firebaseConfig";
-import { setPersistence, browserLocalPersistence, signOut } from "firebase/auth";
+import {
+  setPersistence,
+  browserSessionPersistence,
+  signOut,
+} from "firebase/auth";
 export const UserContext = createContext();
 
-setPersistence(auth, browserLocalPersistence).then(() => {
+setPersistence(auth, browserSessionPersistence).then(() => {
   return auth.currentUser === null ? signOut(auth) : "";
 });
 
@@ -22,7 +26,11 @@ export default function UserProvider({ children }) {
     });
   }, []);
 
-  return <UserContext.Provider value={{ isSignIn, setIsSignIn }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ isSignIn, setIsSignIn }}>
+      {children}
+    </UserContext.Provider>
+  );
 }
 
 export const User = () => {
