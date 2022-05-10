@@ -358,7 +358,7 @@ select {
   align-items: center;
   justify-content: center;
   gap: 1rem 0;
-  bottom: -300px;
+  bottom: -200px;
   right: 10px;
   z-index: 3;
   justify-content: space-evenly;

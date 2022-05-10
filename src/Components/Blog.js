@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { motion } from "framer-motion";
 import { auth } from "../firebaseConfig";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { UserContext } from "../Context/authContext";

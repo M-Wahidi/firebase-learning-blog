@@ -6,6 +6,7 @@ import UserReaction from "../Components/UserReaction";
 import { UserContext } from "../Context/authContext";
 import { EditBlogContext } from "../Context/editBlogContext";
 import UpadteBlog from "../Components/UpdateBlog";
+import { motion } from "framer-motion";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { splitTag } from "../Helper/splitTag";
 import Notification from "../Components/Notification";
@@ -110,39 +111,59 @@ function BlogDetails() {
 
     blog && (
       <div className="blog-details">
-        <header>
-          <div className="container">
-            <h1>{blog.title}</h1>
-            <p>
-              <small>
-                By <em>@{userName}</em> | Posted on:
-                <em>
-                  {new Intl.DateTimeFormat("en-GB").format(
-                    blog.date.seconds * 1000
-                  )}
-                </em>
-              </small>
-            </p>
-          </div>
-        </header>
+        <motion.div
+          animate={{ x: 0 }}
+          initial={{ x: 1000 }}
+          transition={{ ease: "easeOut", duration: 0.3 }}
+        >
+          <header>
+            <div className="container">
+              <h1>{blog.title}</h1>
+              <p>
+                <small>
+                  By <em>@{userName}</em> | Posted on:
+                  <em>
+                    {new Intl.DateTimeFormat("en-GB").format(
+                      blog.date.seconds * 1000
+                    )}
+                  </em>
+                </small>
+              </p>
+            </div>
+          </header>
+        </motion.div>
+
         <article className="container">
-          <div
-            style={{
-              whiteSpace: "pre-wrap",
-              wordBreak: "break-word",
-              width: "100%",
-            }}
+          <motion.div
+            animate={{ x: 0 }}
+            initial={{ x: 1000 }}
+            transition={{ ease: "easeOut", duration: 0.3 }}
           >
-            {blog.body}
-          </div>
-          <div className="like-section">
-            <UserReaction
-              likesCount={blog?.likesCount}
-              disLikesCount={blog?.disLikesCount}
-              blog={blog}
-              color={"rebeccapurple"}
-            />
-          </div>
+            <div
+              style={{
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-word",
+                width: "100%",
+              }}
+            >
+              {blog.body}
+            </div>
+          </motion.div>
+
+          <motion.div
+            animate={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
+            transition={{ ease: "easeOut", duration: 0.5 }}
+          >
+            <div className="like-section">
+              <UserReaction
+                likesCount={blog?.likesCount}
+                disLikesCount={blog?.disLikesCount}
+                blog={blog}
+                color={"rebeccapurple"}
+              />
+            </div>
+          </motion.div>
         </article>
 
         <footer>

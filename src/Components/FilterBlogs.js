@@ -32,7 +32,7 @@ function FilterBlogs({ id }) {
       setTimeout(() => {
         setBlog(blogList);
         setFilterLoading(false);
-      }, 300);
+      }, 200);
     });
     return () => {
       "error";
