@@ -23,8 +23,8 @@ function Header({ imageURL, setImageURL }) {
   }, [isSignIn]);
 
   return (
-    <div className="header">
-      <div className="inner-header">
+    <div className='header'>
+      <div className='inner-header'>
         <div
           style={{
             position: "relative",
@@ -36,13 +36,11 @@ function Header({ imageURL, setImageURL }) {
             height: "100%",
           }}
         >
-          <Link style={{ textAlign: "left" }} to="/">
-            WebDev Blog🔥🚀
+          <Link style={{ textAlign: "left" }} to='/'>
+            WebDev Blog🚀
           </Link>
 
-          <span style={{ marginLeft: "13px" }}>
-            {userName.username ? `@ ${userName?.username.slice(0, 30)}` : ""}
-          </span>
+          <span style={{ marginLeft: "13px" }}>{userName?.username ? `@ ${userName?.username.slice(0, 30)}` : ""}</span>
         </div>
         <div>
           {isSignIn && (
@@ -63,19 +61,14 @@ function Header({ imageURL, setImageURL }) {
                   objectFit: "cover",
                   border: "3px solid #fff",
                 }}
-                src={
-                  imageURL ||
-                  "https://bootdey.com/img/Content/avatar/avatar7.png"
-                }
+                src={imageURL || "https://bootdey.com/img/Content/avatar/avatar7.png"}
                 alt={auth.currentUser.displayName}
               />
 
-              {showProfile && (
-                <PorfileDropDown setShowProfile={setShowProfile} />
-              )}
+              {showProfile && <PorfileDropDown setShowProfile={setShowProfile} />}
             </div>
           )}
-          {!isSignIn && <Link to="/account/login">Login</Link>}
+          {!isSignIn && <Link to='/account/login'>Login</Link>}
         </div>
       </div>
     </div>

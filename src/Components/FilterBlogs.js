@@ -1,10 +1,4 @@
-import {
-  query,
-  where,
-  collection,
-  orderBy,
-  onSnapshot,
-} from "firebase/firestore";
+import { query, where, collection, orderBy, onSnapshot } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { Filter } from "../Context/FilterBlogsContext";
 function FilterBlogs({ id }) {
@@ -12,11 +6,7 @@ function FilterBlogs({ id }) {
 
   const fetchFilterData = (type) => {
     const blogsRef = collection(db, "blogs");
-    const userQuery = query(
-      blogsRef,
-      where("authorID", "==", id),
-      orderBy("timestamp", "desc")
-    );
+    const userQuery = query(blogsRef, where("authorID", "==", id), orderBy("timestamp", "desc"));
     if (type === "My Blogs") {
       setUserOpition(userQuery, setMyBlogs);
     }
@@ -47,14 +37,9 @@ function FilterBlogs({ id }) {
   return (
     <div>
       <div>
-        <select
-          name="filter"
-          id="filter"
-          onChange={handleChange}
-          value={opitions}
-        >
-          <option value="All Blogs">All Blogs</option>
-          <option value="My Blogs">My Blogs</option>
+        <select name='filter' id='filter' onChange={handleChange} value={opitions}>
+          <option value='All Blogs'>All Blogs</option>
+          <option value='My Blogs'>My Blogs</option>
         </select>
       </div>
     </div>

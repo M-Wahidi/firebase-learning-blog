@@ -3,7 +3,7 @@ function BlogReadTime(blog) {
   return (
     <span style={{ fontSize: "1rem", display: "flex", gap: "3px", alignItems: "center" }}>
       <AiOutlineClockCircle />
-      {Math.round(blog.split(" ").length / 120)}
+      {Math.round(blog.split(" ").length / 280)}
       <small>min</small>
     </span>
   );

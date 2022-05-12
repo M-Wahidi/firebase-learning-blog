@@ -54,30 +54,31 @@ function Login() {
     <div
       style={{
         display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         minHeight: "80vh",
       }}
     >
-      <form id="login-box">
+      <form id='login-box'>
         <div style={loginStyles}>
           <h1>Log In</h1>
           <input
-            type="text"
-            name="email"
+            type='text'
+            name='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="E-mail"
-            autoComplete="currnet-email"
+            placeholder='E-mail'
+            autoComplete='currnet-email'
           />
           <div style={{ display: "flex", position: "relative" }}>
             <input
               type={passwordType}
-              name="password"
+              name='password'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-              autoComplete="currnet-password"
+              placeholder='Password'
+              autoComplete='currnet-password'
             />
             <div
               style={{
@@ -86,11 +87,7 @@ function Login() {
                 top: "5px",
                 cursor: "pointer",
               }}
-              onClick={() =>
-                setPasswordType((prev) =>
-                  prev === "password" ? "text" : "password"
-                )
-              }
+              onClick={() => setPasswordType((prev) => (prev === "password" ? "text" : "password"))}
             >
               <MdRemoveRedEye />
             </div>
@@ -105,21 +102,17 @@ function Login() {
               bottom: "15px",
               userSelect: "none",
             }}
-            to="/account/reset-password"
+            to='/account/reset-password'
           >
             FORGOT PASSWORD?
           </Link>
-          <input
-            type="submit"
-            name="signup_submit"
-            value="Login"
-            onClick={handleLoginUser}
-          />
-          <div className="singup-link">
-            Don't have an account? <Link to="/account/signup">sign up</Link>
+          <input type='submit' name='signup_submit' value='Login' onClick={handleLoginUser} />
+          <div className='singup-link'>
+            Don't have an account? <Link to='/account/signup'>sign up</Link>
           </div>
         </div>
       </form>
+
       <Notification
         opition={{
           title: error ? "Error" : "",

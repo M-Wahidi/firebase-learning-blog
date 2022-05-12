@@ -1,12 +1,7 @@
-import { useState, useContext, useReducer, useEffect } from "react";
+import { useState, useContext, useReducer, useRef } from "react";
 import { collection, doc, setDoc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
-import {
-  AiOutlineLike,
-  AiFillLike,
-  AiOutlineDislike,
-  AiFillDislike,
-} from "react-icons/ai";
+import { AiOutlineLike, AiFillLike, AiOutlineDislike, AiFillDislike } from "react-icons/ai";
 import { UserContext } from "../Context/authContext";
 import Notification from "./Notification";
 
@@ -38,6 +33,13 @@ const reducer = (state, action) => {
       return {
         isLiked: true,
         isDisLike: false,
+        likesCount: state.likesCount,
+        disLikesCount: state.disLikesCount,
+      };
+    case "LIVE_LIKE_TOGGLE":
+      return {
+        isLiked: false,
+        isDisLike: state.isDisLike,
         likesCount: state.likesCount,
         disLikesCount: state.disLikesCount,
       };
@@ -87,8 +89,11 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
     disLikesCount,
     isDisLike: false,
   };
+  let count = useRef(0);
+
   const [state, dispatch] = useReducer(reducer, initialState);
   const blogRef = collection(db, "blogs");
+
   // Display UnAuth User Message
   const handleUnAuthUser = () => {
     setShowInputMsge(true);
@@ -108,7 +113,7 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
     setLikeAction();
   };
 
-  // Handle DISLike Click
+  // Handle DidLike Click
   const handleDisLike = async () => {
     if (auth.currentUser === null) {
       handleUnAuthUser();
@@ -151,9 +156,7 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
         doc(blogRef, blog.id),
         {
           disLikesCount: state.disLikesCount - 1,
-          userDisLiked: userDisLikedBlogs.filter(
-            (elem) => elem !== auth.currentUser.uid
-          ),
+          userDisLiked: userDisLikedBlogs.filter((elem) => elem !== auth.currentUser.uid),
           likesCount: state.likesCount + 1,
           userLiked: [...userLikedBlogs, auth.currentUser.uid],
         },
@@ -180,9 +183,7 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
         doc(blogRef, blog.id),
         {
           likesCount: state.likesCount - 1,
-          userLiked: userLikedBlogs.filter(
-            (elem) => elem !== auth.currentUser.uid
-          ),
+          userLiked: userLikedBlogs.filter((elem) => elem !== auth.currentUser.uid),
           disLikesCount: state.isDisLike + 1,
           userDisLiked: [...userDisLikedBlogs, auth.currentUser.uid],
         },
@@ -193,9 +194,7 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
     await setDoc(
       doc(blogRef, blog.id),
       {
-        disLikesCount: state.isDisLike
-          ? state.disLikesCount - 1
-          : state.disLikesCount + 1,
+        disLikesCount: state.isDisLike ? state.disLikesCount - 1 : state.disLikesCount + 1,
 
         userDisLiked: state.isDisLike
           ? userDisLikedBlogs.filter((elem) => elem !== auth.currentUser.uid)
@@ -205,42 +204,40 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
     );
   };
 
-  // Watch for Changes on Documnet
-
+  // Watch for Changes on Blog Documnet
   onSnapshot(doc(blogRef, blog.id), (doc) => {
     let likedData = doc.data()?.likesCount;
-    let disLikedData = doc.data()?.disLikesCount;
+    const likedBlogData = doc.data().userLiked;
     state.likesCount = likedData;
-    state.disLikesCount = disLikedData;
-  });
+    if (likedBlogData.includes(auth.currentUser?.uid)) {
+      state.isLiked = true;
+    } else {
+      state.isLiked = false;
+    }
 
-  //Set Like/DisLike State on Page Load
-  useEffect(() => {
-    if (!userLikedBlogs || !userDisLikedBlogs) return;
-    if (userLikedBlogs.some((elem) => elem === auth.currentUser?.uid)) {
-      dispatch({ type: "TOOGLE_LIKE" });
+    let disLikedData = doc.data()?.disLikesCount;
+    const disLikedBlogData = doc.data().userDisLiked;
+    state.disLikesCount = disLikedData;
+
+    if (disLikedBlogData.includes(auth.currentUser?.uid)) {
+      state.isDisLike = true;
+    } else {
+      state.isDisLike = false;
     }
-    if (userDisLikedBlogs.some((elem) => elem === auth.currentUser?.uid)) {
-      dispatch({ type: "Toogle_DISLIKE" });
-    }
-  }, []);
+  });
 
   return (
     <div style={{ display: "flex", gap: ".5rem" }}>
       <div onClick={handleLike} style={{ cursor: "pointer" }}>
         <span style={{ margin: "0 2px" }}>{state.likesCount}</span>
-        <span style={{ color }}>
-          {state.isLiked && isSignIn && <AiFillLike />}
-        </span>
+        <span style={{ color }}>{state.isLiked && isSignIn && <AiFillLike />}</span>
         <span>{!state.isLiked && isSignIn && <AiOutlineLike />}</span>
         <span>{!isSignIn && <AiOutlineLike />}</span>
       </div>
 
       <div onClick={handleDisLike} style={{ cursor: "pointer" }}>
         <span style={{ margin: "0 2px" }}>{state.disLikesCount}</span>
-        <span style={{ color }}>
-          {state.isDisLike && isSignIn && <AiFillDislike />}
-        </span>
+        <span style={{ color }}>{state.isDisLike && isSignIn && <AiFillDislike />}</span>
         <span>{!state.isDisLike && isSignIn && <AiOutlineDislike />}</span>
         <span>{!isSignIn && <AiOutlineDislike />}</span>
       </div>

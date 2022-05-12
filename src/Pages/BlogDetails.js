@@ -44,7 +44,14 @@ function BlogDetails() {
               <small>
                 By <span>@{userName}</span> | Posted on:
                 <span> {new Intl.DateTimeFormat("en-GB").format(blog.date.seconds * 1000)}</span>
-                <small style={{ marginTop: "7px" }}>{BlogReadTime(blog.body)}</small>
+                <small style={{ marginTop: "7px", display: "flex", gap: ".5rem", alignItems: "center" }}>
+                  {blog.tags.map((tag, key) => (
+                    <span className={`tag`} key={key}>
+                      {`${tag} |`}
+                    </span>
+                  ))}
+                  {BlogReadTime(blog.body)}
+                </small>
               </small>
             </div>
           </header>

@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db, storage } from "../firebaseConfig";
-import { ref, uploadBytes } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { splitTag } from "../Helper/splitTag";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import Loading from "../Components/Loading";
@@ -21,21 +21,21 @@ function BlogForm() {
   const [blogImage, setBlogImage] = useState("");
   const inputFile = useRef();
   const navigate = useNavigate();
-  const imagePath = ref(
-    storage,
-    `blogs/${auth.currentUser.uid}/${auth.currentUser.uid}${uuidv4()}${new Date().getMilliseconds()}`
-  );
-  // const imageRef = ref(storage, `blogs/`);
+  const imageRandomId = uuidv4();
+  const getMilliseconds = new Date().getMilliseconds();
+
+  const IMAGE_PATH = `blogs/${auth.currentUser.uid}/${auth.currentUser.uid}${imageRandomId}${getMilliseconds}`;
+  const path = ref(storage, IMAGE_PATH);
 
   const onButtonClick = () => {
     inputFile.current.click();
   };
 
-  const uploadImage = () => {
+  const uploadedImage = async () => {
     if (blogImage === "") return;
-    uploadBytes(imagePath, blogImage).then((data) => {
-      console.log(data);
-    });
+    await uploadBytes(path, blogImage);
+    const image = await getDownloadURL(path);
+    return image;
   };
 
   const handleChange = (e) => {
@@ -52,7 +52,7 @@ function BlogForm() {
     setTagsMessgae(true);
   };
 
-  const addBlog = () => {
+  const handleAddBlog = async () => {
     if (blogTitle.trim().length < 6) {
       setEmptyBlogTitle("Minmum is 6 Characters for the Blog Title");
       return;
@@ -65,27 +65,28 @@ function BlogForm() {
       setEmptyTagMessage("U need To add at least one tag");
       return;
     }
-
     setLoading(true);
+    await addData();
+    navigate("/");
+  };
 
-    setTimeout(async () => {
-      setLoading(false);
-      const blogRef = collection(db, "blogs");
-      await addDoc(blogRef, {
-        authorID: auth.currentUser.uid,
-        body: blogBody,
-        title: blogTitle,
-        tags,
-        date: new Date(),
-        likesCount: 0,
-        disLikesCount: 0,
-        userLiked: [],
-        userDisLiked: [],
-        timestamp: serverTimestamp(),
-      });
-      navigate("/");
-    }, 1500);
-    uploadImage();
+  const addData = async () => {
+    const image = await uploadedImage();
+    const blogRef = collection(db, "blogs");
+    await addDoc(blogRef, {
+      authorID: auth.currentUser.uid,
+      body: blogBody,
+      title: blogTitle,
+      tags,
+      date: new Date(),
+      likesCount: 0,
+      disLikesCount: 0,
+      userLiked: [],
+      userDisLiked: [],
+      timestamp: serverTimestamp(),
+      image,
+    });
+    setLoading(false);
   };
 
   const handleTags = () => {
@@ -167,23 +168,23 @@ function BlogForm() {
           {emptyBlogBody}
         </p>
       </div>
+      <div className='m-3 d-flex justify-content-center'>
+        <input
+          className='d-none'
+          type='file'
+          id='imgupload'
+          onChange={(e) => {
+            setBlogImage(e.target.files[0]);
+          }}
+          ref={inputFile}
+        />
+        <button className={`btn ${!blogImage ? "btn-outline-primary" : "btn-success"} `} onClick={onButtonClick}>
+          {!blogImage ? "Upload Image" : "Image Uploaded ✔ "}
+        </button>
+      </div>
+
       <div className='my-4'>
         <div className='tags-input-container'>
-          <div className='user-avatar'>
-            <div className='m-3'>
-              <input
-                className='d-none'
-                type='file'
-                id='imgupload'
-                onChange={(e) => setBlogImage(e.target.files[0])}
-                ref={inputFile}
-              />
-              <button className={`btn ${!blogImage ? "btn-outline-primary" : "btn-primary"} `} onClick={onButtonClick}>
-                {!blogImage ? "Upload Image" : "Image Uploaded ✔ "}
-              </button>
-            </div>
-          </div>
-
           <div style={{ display: "flex", gap: "20px", padding: "10px" }}>
             <label htmlFor='tags'>Add a Tags:</label>
             <button style={{ width: "50px", border: "none", fontSize: "1.2rem" }} onClick={handleTags}>
@@ -236,7 +237,7 @@ function BlogForm() {
         </div>
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <button type='submit' className='btn btn-primary my-1 ' onClick={addBlog}>
+        <button type='submit' className='btn btn-primary my-1 ' onClick={handleAddBlog}>
           Add Blog
         </button>
       </div>

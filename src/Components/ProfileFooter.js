@@ -1,19 +1,8 @@
 import React from "react";
 import { auth, db } from "../firebaseConfig";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import {
-  updatePassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
-function ProfileFooter({
-  userValue,
-  userAction,
-  setLoading,
-  setError,
-  setCompleted,
-  error,
-}) {
+import { updatePassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+function ProfileFooter({ userValue, userAction, setLoading, setError, setCompleted, error }) {
   const { fullName, age, about, currentPassword, newPassword } = userValue;
 
   const resetInputValues = () => {
@@ -36,7 +25,7 @@ function ProfileFooter({
     const user = await getDoc(doc(db, "users", auth.currentUser.uid));
     const userValue = user.data();
     await setDoc(
-      doc(db, "users", auth.currentUser.uid),
+      doc(db, "users", auth.currentUser?.uid),
       {
         username: !fullName ? userValue.username : fullName,
         age: !age ? userValue.age : age,
@@ -68,7 +57,7 @@ function ProfileFooter({
       }, 2500);
       return;
     }
-    signInWithEmailAndPassword(auth, auth.currentUser.email, currentPassword)
+    signInWithEmailAndPassword(auth, auth.currentUser?.email, currentPassword)
       .then(() => {
         updatePassword(auth.currentUser, newPassword)
           .then(() => {
@@ -97,8 +86,8 @@ function ProfileFooter({
   };
 
   return (
-    <div className="row gutters mt-5">
-      <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 ">
+    <div className='row gutters mt-5'>
+      <div className='col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 '>
         <div
           style={{
             display: "flex",
@@ -110,22 +99,10 @@ function ProfileFooter({
             padding: "1rem 0",
           }}
         >
-          <button
-            type="button"
-            id="submit"
-            name="submit"
-            className="btn btn-secondary"
-            onClick={resetInputValues}
-          >
+          <button type='button' id='submit' name='submit' className='btn btn-secondary' onClick={resetInputValues}>
             Cancel
           </button>
-          <button
-            type="button"
-            id="submit"
-            name="submit"
-            className="btn btn-primary"
-            onClick={updatePersonalInfo}
-          >
+          <button type='button' id='submit' name='submit' className='btn btn-primary' onClick={updatePersonalInfo}>
             Update
           </button>
         </div>
