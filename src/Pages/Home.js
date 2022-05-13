@@ -1,5 +1,4 @@
 import Blogs from "../Components/Blogs";
-import { FaPlusCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { User } from "../Context/authContext";
 import FilterBlogs from "../Components/FilterBlogs";

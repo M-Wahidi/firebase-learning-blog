@@ -5,7 +5,6 @@ import { onSnapshot, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import UserReaction from "../Components/UserReaction";
 import { motion } from "framer-motion";
-import { splitTag } from "../Helper/splitTag";
 
 function BlogDetails() {
   let { id } = useParams();
@@ -36,15 +35,31 @@ function BlogDetails() {
 
   return (
     blog && (
-      <div className='blog-details'>
-        <motion.div animate={{ x: 0 }} initial={{ x: 1000 }} transition={{ ease: "easeOut", duration: 0.3 }}>
+      <div className="blog-details">
+        <motion.div
+          animate={{ x: 0 }}
+          initial={{ x: 1000 }}
+          transition={{ ease: "easeOut", duration: 0.3 }}
+        >
           <header>
-            <div className='container'>
+            <div className="container">
               <h2>{blog.title}</h2>
               <small>
                 By <span>@{userName}</span> | Posted on:
-                <span> {new Intl.DateTimeFormat("en-GB").format(blog.date.seconds * 1000)}</span>
-                <small style={{ marginTop: "7px", display: "flex", gap: ".5rem", alignItems: "center" }}>
+                <span>
+                  {" "}
+                  {new Intl.DateTimeFormat("en-GB").format(
+                    blog.date.seconds * 1000
+                  )}
+                </span>
+                <small
+                  style={{
+                    marginTop: "7px",
+                    display: "flex",
+                    gap: ".5rem",
+                    alignItems: "center",
+                  }}
+                >
                   {blog.tags.map((tag, key) => (
                     <span className={`tag`} key={key}>
                       {`${tag} |`}
@@ -57,8 +72,12 @@ function BlogDetails() {
           </header>
         </motion.div>
 
-        <article className='container'>
-          <motion.div animate={{ x: 0 }} initial={{ x: 1000 }} transition={{ ease: "easeOut", duration: 0.3 }}>
+        <article className="container">
+          <motion.div
+            animate={{ x: 0 }}
+            initial={{ x: 1000 }}
+            transition={{ ease: "easeOut", duration: 0.3 }}
+          >
             <div
               style={{
                 whiteSpace: "pre-wrap",
@@ -71,8 +90,12 @@ function BlogDetails() {
             </div>
           </motion.div>
 
-          <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} transition={{ ease: "easeOut", duration: 0.5 }}>
-            <div className='like-section'>
+          <motion.div
+            animate={{ opacity: 1 }}
+            initial={{ opacity: 0 }}
+            transition={{ ease: "easeOut", duration: 0.5 }}
+          >
+            <div className="like-section">
               <UserReaction
                 likesCount={blog?.likesCount}
                 disLikesCount={blog?.disLikesCount}
@@ -84,7 +107,7 @@ function BlogDetails() {
         </article>
 
         <footer>
-          <div className='container'>
+          <div className="container">
             <p>&copy; {new Date().getFullYear()} WebDev Blog</p>
           </div>
         </footer>

@@ -24,7 +24,6 @@ function BlogForm() {
   const navigate = useNavigate();
   const imageRandomId = uuidv4();
   const getMilliseconds = new Date().getMilliseconds();
-
   const IMAGE_PATH = `blogs/${auth.currentUser.uid}/${auth.currentUser.uid}${imageRandomId}${getMilliseconds}`;
   const path = ref(storage, IMAGE_PATH);
 

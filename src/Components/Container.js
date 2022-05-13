@@ -11,6 +11,7 @@ import { UserContext } from "../Context/authContext";
 import Loading from "./Loading";
 import Profile from "../Pages/Profile";
 import BlogDetails from "../Pages/BlogDetails";
+import ProfileView from "./ProfileView";
 function Container() {
   const [loading, setLoading] = useState(false);
   const { isSignIn } = useContext(UserContext);
@@ -25,25 +26,37 @@ function Container() {
 
   return (
     <Router>
-      {loading ? <Loading /> : <Header imageURL={imageURL} setImageURL={setImageURL} />}
+      {loading ? (
+        <Loading />
+      ) : (
+        <Header imageURL={imageURL} setImageURL={setImageURL} />
+      )}
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/blog/:name/:id' element={<BlogDetails />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/blog/:name/:id" element={<BlogDetails />} />
+        <Route path="/profile/:name/:id" element={<ProfileView />} />
 
         <Route element={<ProtectedRoutes />}>
-          <Route path='create-blog' element={<CreateBlog />} />
-          <Route path='profile' element={<Profile imageURL={imageURL} setImageURL={setImageURL} />} />
+          <Route path="create-blog" element={<CreateBlog />} />
+          <Route
+            path="profile"
+            element={<Profile imageURL={imageURL} setImageURL={setImageURL} />}
+          />
         </Route>
 
-        <Route path='account'>
-          <Route path='login' element={<Login />} />
-          <Route path='signup' element={<Signup />} />
-          <Route path='reset-password' element={<ResetPassword />} />
+        <Route path="account">
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="reset-password" element={<ResetPassword />} />
         </Route>
 
         <Route
-          path='*'
-          element={<h1 style={{ textAlign: "center", paddingTop: "20px" }}>There's nothing here: 404!</h1>}
+          path="*"
+          element={
+            <h1 style={{ textAlign: "center", paddingTop: "20px" }}>
+              There's nothing here: 404!
+            </h1>
+          }
         />
       </Routes>
     </Router>

@@ -132,7 +132,9 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
       </div>
       <div className="card__footer">
         <div className="user">
-          <img src={ownerPhoto} alt="user__image" className="user__image" />
+          <Link to={`profile/${ownerBlogName}/${blog.authorID}`}>
+            <img src={ownerPhoto} alt="user__image" className="user__image" />
+          </Link>
           <div className="user__info">
             <span> @{ownerBlogName.slice(0, 18)}</span>
 
