@@ -61,7 +61,7 @@ function ResetPassword() {
         onSubmit={handleResetPassword}
         id="reset-box"
       >
-        <h3>FORGOT PASSOWRD</h3>
+        <h3>FORGOT PASSWORD</h3>
         <input
           type="text"
           onChange={(e) => setNewEmail(e.target.value)}

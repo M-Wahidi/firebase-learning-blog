@@ -3,6 +3,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { User } from "../Context/authContext";
 import FilterBlogs from "../Components/FilterBlogs";
+import Button from "react-bootstrap/Button";
 
 function Home() {
   const { isSignIn } = User();
@@ -21,7 +22,7 @@ function Home() {
               position: "relative",
             }}
           >
-            <FaPlusCircle />
+            <Button variant="primary">+</Button>
           </Link>
           <FilterBlogs id={id} />
         </div>

@@ -172,7 +172,7 @@ function Login() {
               </span>
             </Button>
           </div>
-
+          <small>Sign in With Email and password if You use ios/mac os</small>
           <div className="singup-link">
             Don't have an account? <Link to="/account/signup">sign up</Link>
           </div>

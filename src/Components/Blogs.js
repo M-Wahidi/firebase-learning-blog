@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebaseConfig";
-import LoadingSkeleton from "../Components/LoadingSkeleton";
 import EmptyBlogs from "./EmptyBlogs";
 import {
   collection,
@@ -59,7 +58,7 @@ function Blogs() {
       <UpadteBlog oldUserData={oldUserData} />
       {/* Display All Blogs */}
       {opitions === "All Blogs" && loading ? (
-        <LoadingSkeleton blogs={blogs} />
+        <h2>Loading...</h2>
       ) : (
         opitions === "All Blogs" &&
         loading === false &&
@@ -75,7 +74,7 @@ function Blogs() {
 
       {/* Display Filtered Blogs */}
       {opitions === "My Blogs" && filterLoading ? (
-        <LoadingSkeleton blogs={myBlogs} />
+        <h2>Loading...</h2>
       ) : (
         opitions === "My Blogs" &&
         filterLoading === false &&
