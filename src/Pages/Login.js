@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  updateProfile,
+} from "firebase/auth";
+import { addUser, db, auth } from "../firebaseConfig";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
 import { MdRemoveRedEye } from "react-icons/md";
+import { FcGoogle } from "react-icons/fc";
 import checkPath from "../Helper/checkPath";
+import Button from "react-bootstrap/Button";
+import { getDoc, doc } from "firebase/firestore";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +27,7 @@ function Login() {
 
   const handleLoginUser = (e) => {
     e.preventDefault();
-
+    if (email.trim().length === 0 || password.trim().length === 0) return;
     setCompleted(false);
     setError(false);
     setIsLoading(true);
@@ -44,6 +53,25 @@ function Login() {
       });
   };
 
+  const handleSingWithGoogle = async (e) => {
+    e.preventDefault();
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
+    const { displayName, email, uid } = result.user;
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      addUser(displayName, email, uid);
+    }
+
+    localStorage.setItem("auth", true);
+    updateProfile(auth.currentUser, {
+      displayName,
+    });
+    navigate("/");
+  };
+
   useEffect(() => {
     if (checkPath(location)) {
       navigate("/");
@@ -60,25 +88,25 @@ function Login() {
         minHeight: "80vh",
       }}
     >
-      <form id='login-box'>
+      <form id="login-box">
         <div style={loginStyles}>
           <h1>Log In</h1>
           <input
-            type='text'
-            name='email'
+            type="text"
+            name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder='E-mail'
-            autoComplete='currnet-email'
+            placeholder="E-mail"
+            autoComplete="currnet-email"
           />
           <div style={{ display: "flex", position: "relative" }}>
             <input
               type={passwordType}
-              name='password'
+              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder='Password'
-              autoComplete='currnet-password'
+              placeholder="Password"
+              autoComplete="currnet-password"
             />
             <div
               style={{
@@ -87,7 +115,11 @@ function Login() {
                 top: "5px",
                 cursor: "pointer",
               }}
-              onClick={() => setPasswordType((prev) => (prev === "password" ? "text" : "password"))}
+              onClick={() =>
+                setPasswordType((prev) =>
+                  prev === "password" ? "text" : "password"
+                )
+              }
             >
               <MdRemoveRedEye />
             </div>
@@ -102,13 +134,47 @@ function Login() {
               bottom: "15px",
               userSelect: "none",
             }}
-            to='/account/reset-password'
+            to="/account/reset-password"
           >
             FORGOT PASSWORD?
           </Link>
-          <input type='submit' name='signup_submit' value='Login' onClick={handleLoginUser} />
-          <div className='singup-link'>
-            Don't have an account? <Link to='/account/signup'>sign up</Link>
+          <div className="d-flex justify-content-center align-items-center gap-2">
+            <input
+              type="submit"
+              name="signup_submit"
+              value="Login"
+              onClick={handleLoginUser}
+            />
+            <h3 style={{ marginTop: "18px" }}>|</h3>
+            <Button
+              variant="outline-dark"
+              style={{
+                height: "32px",
+                width: "120px",
+                marginTop: "8px",
+                borderRadius: "2px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: ".2rem",
+              }}
+              onClick={handleSingWithGoogle}
+            >
+              Sign With
+              <span
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <FcGoogle />
+              </span>
+            </Button>
+          </div>
+
+          <div className="singup-link">
+            Don't have an account? <Link to="/account/signup">sign up</Link>
           </div>
         </div>
       </form>

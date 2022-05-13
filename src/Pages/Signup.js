@@ -20,6 +20,8 @@ function Signup() {
 
   const handleSingupUserandPass = (e) => {
     e.preventDefault();
+    if (email.trim().length === 0 || password.trim().length === 0) return;
+
     setIsLoading(true);
     if (retypepassowrd !== password) {
       setTimeout(() => {

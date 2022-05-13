@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import { db } from "../firebaseConfig";
 import LoadingSkeleton from "../Components/LoadingSkeleton";
 import EmptyBlogs from "./EmptyBlogs";
-import { collection, getDoc, getDocs, deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  getDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  onSnapshot,
+} from "firebase/firestore";
 import Blog from "./Blog";
 import UpadteBlog from "../Components/UpdateBlog";
 import { Filter } from "../Context/FilterBlogsContext";
@@ -32,7 +39,9 @@ function Blogs() {
     let updatedBlogs = [];
     await deleteDoc(doc(blogsRef, id));
     const querySnapshot = await getDocs(blogsRef);
-    querySnapshot.forEach((doc) => updatedBlogs.push({ ...doc.data(), id: doc.id }));
+    querySnapshot.forEach((doc) =>
+      updatedBlogs.push({ ...doc.data(), id: doc.id })
+    );
     setBlogs(updatedBlogs);
     setLoading(false);
   };
@@ -46,7 +55,7 @@ function Blogs() {
     }
   };
   return (
-    <div className='blogs-container'>
+    <div className="blogs-container">
       <UpadteBlog oldUserData={oldUserData} />
       {/* Display All Blogs */}
       {opitions === "All Blogs" && loading ? (
@@ -55,7 +64,12 @@ function Blogs() {
         opitions === "All Blogs" &&
         loading === false &&
         blogs.map((blog, idx) => (
-          <Blog key={idx} blog={blog} handleDeleteBlog={handleDeleteBlog} fetchOldUserBlog={fetchOldUserBlog} />
+          <Blog
+            key={idx}
+            blog={blog}
+            handleDeleteBlog={handleDeleteBlog}
+            fetchOldUserBlog={fetchOldUserBlog}
+          />
         ))
       )}
 
@@ -66,11 +80,26 @@ function Blogs() {
         opitions === "My Blogs" &&
         filterLoading === false &&
         myBlogs.map((blog, idx) => (
-          <Blog key={idx} blog={blog} handleDeleteBlog={handleDeleteBlog} fetchOldUserBlog={fetchOldUserBlog} />
+          <Blog
+            key={idx}
+            blog={blog}
+            handleDeleteBlog={handleDeleteBlog}
+            fetchOldUserBlog={fetchOldUserBlog}
+          />
         ))
       )}
-      <EmptyBlogs loading={loading} blogs={blogs} opitions={opitions} FilterValue={"All Blogs"} />
-      <EmptyBlogs loading={filterLoading} blogs={myBlogs} opitions={opitions} FilterValue={"My Blogs"} />
+      <EmptyBlogs
+        loading={loading}
+        blogs={blogs}
+        opitions={opitions}
+        FilterValue={"All Blogs"}
+      />
+      <EmptyBlogs
+        loading={filterLoading}
+        blogs={myBlogs}
+        opitions={opitions}
+        FilterValue={"My Blogs"}
+      />
     </div>
   );
 }

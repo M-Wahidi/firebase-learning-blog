@@ -20,10 +20,14 @@ export const storage = getStorage(app);
 
 // ADD USER
 export const addUser = async (username, email, id, age = 0, about = "") => {
-  await setDoc(doc(db, "users", id), {
-    username,
-    email,
-    age,
-    about,
-  });
+  await setDoc(
+    doc(db, "users", id),
+    {
+      username,
+      email,
+      age,
+      about,
+    },
+    { merge: "true" }
+  );
 };
