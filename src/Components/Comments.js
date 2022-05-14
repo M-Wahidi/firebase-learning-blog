@@ -19,53 +19,51 @@ const Comments = ({ id }) => {
     getAllComments();
   }, []);
 
-  useEffect(() => {
-    addComment();
-  }, [comments]);
-
   const handleComment = async (e) => {
     e.preventDefault();
     const commentObj = {
       commentID: v4(),
       commentInput,
-      commentWriterID: auth.currentUser.displayName,
+      commentWriterID: auth.currentUser.uid,
+      commentWriterName: auth.currentUser.displayName,
+      commentWriterProfilePic: auth.currentUser.photoURL,
       replies: [],
       createdAt: new Date(),
     };
-    setCommnets((prev) => [...prev, commentObj]);
-    addComment();
-    setCommentInput("");
-  };
-
-  const addComment = async () => {
+    const commentData = [...comments, commentObj];
     const docRef = doc(db, "blogs", id);
     setDoc(
       docRef,
       {
-        comments,
+        comments: commentData,
       },
       { merge: true }
     );
+    setCommentInput("");
   };
 
   return (
-    <div className=' comments'>
-      <div className=' card'>
-        <div className='row'>
-          <div className='col-md-12'>
-            <h3 className='text-center mb-5'>Comments</h3>
-            <div className='row'>
-              <Form onSubmit={handleComment}>
-                <Form.Control
-                  className='container mb-5'
-                  type='text'
-                  placeholder='Add Comment...'
-                  onChange={(e) => setCommentInput(e.target.value)}
-                  value={commentInput}
-                />
-              </Form>
-              <div className='col-md-12'>
-                <Comment {...comments} />
+    <div className=" comments">
+      <div className=" card">
+        <div className="row">
+          <div className="col-md-12">
+            <h3 className="text-center mb-5">Comments</h3>
+            <div className="row">
+              {auth.currentUser && (
+                <Form onSubmit={handleComment}>
+                  <Form.Control
+                    className="container mb-5"
+                    type="text"
+                    placeholder="Add Comment..."
+                    onChange={(e) => setCommentInput(e.target.value)}
+                    value={commentInput}
+                  />
+                </Form>
+              )}
+              <div className="col-md-12">
+                {comments.map((comment, key) => (
+                  <Comment key={key} {...comment} />
+                ))}
               </div>
             </div>
           </div>
