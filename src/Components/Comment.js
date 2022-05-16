@@ -3,22 +3,54 @@ import { Link } from "react-router-dom";
 import ReactTimeAgo from "react-time-ago";
 import ReplyComment from "./ReplyComment";
 import { Form } from "react-bootstrap";
+import { setDoc, doc } from "firebase/firestore";
+import { auth, db } from "../firebaseConfig";
+import { v4 } from "uuid";
+
 const Comment = ({
-  commentId,
+  commentID,
   commentInput,
   commentWriterName,
   commentWriterID,
   createdAt,
-  replies,
   commentWriterProfilePic,
+  id,
+  comments,
+  replies,
 }) => {
   const [showReplay, setgShowReply] = useState(false);
   const [replyInput, setReplyInput] = useState("");
 
-  const handleCommentReply = (e) => {
-    e.preventDefault();
-    console.log("gg");
+  const handleReply = (id, newReply) => {
+    let targetComment = comments.find((comment) => comment.commentID === id);
+    let repliesData = { ...targetComment, replies: [newReply, ...targetComment.replies] };
+    const filterComments = comments.filter((comment) => comment.commentID !== id);
+    return [repliesData, ...filterComments];
   };
+
+  const handleCommentReply = async (e) => {
+    e.preventDefault();
+    const replyObj = {
+      commentID: v4(),
+      replyInput,
+      replyIWriterID: auth.currentUser.uid,
+      replyWriterName: auth.currentUser.displayName,
+      replyWriterProfilePic: auth.currentUser.photoURL,
+      createdAt: new Date(),
+    };
+    const blogsRef = doc(db, "blogs", id);
+    const comments = handleReply(commentID, replyObj);
+
+    setDoc(
+      blogsRef,
+      {
+        comments,
+      },
+      { merge: true }
+    );
+    setReplyInput("");
+  };
+
   return (
     <div className='media my-2'>
       <Link to={`/profile/${commentWriterName}/${commentWriterID}`}>
@@ -56,14 +88,15 @@ const Comment = ({
       {showReplay && (
         <Form onSubmit={handleCommentReply}>
           <Form.Control
-            className='container mb-5'
+            className='container mb-5 px-2'
             type='text'
-            onChange={(e) => setReplyInput(e.target.value)}
             value={replyInput}
+            onChange={(e) => setReplyInput(e.target.value)}
+            placeholder={`Reply To @${auth.currentUser.uid === commentWriterID ? "Yourself" : commentWriterName}`}
           />
         </Form>
       )}
-      <ReplyComment />
+      {replies && replies.map((reply, key) => <ReplyComment key={key} {...reply} />)}
     </div>
   );
 };

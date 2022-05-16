@@ -38,7 +38,8 @@ body {
   height: 70px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 0 1.5rem;
 }
 .header a,
 .header .logout-btn {
@@ -515,7 +516,7 @@ select {
   max-width: 1150px;
   margin-left: auto;
   margin-right: auto;
-  /* padding: 1rem; */
+  padding: 1rem 2rem;
 }
 
 .blog-details header {
@@ -559,9 +560,6 @@ select {
   background-clip: border-box;
   border: 1px solid #d2d2dc;
   border-radius: 11px;
-  /* -webkit-box-shadow: 0px 0px 5px 0px rgb(249, 249, 250);
-  -moz-box-shadow: 0px 0px 5px 0px rgba(212, 182, 212, 1);
-  box-shadow: 0px 0px 5px 0px rgb(161, 163, 164); */
 }
 
 .media img {
@@ -575,6 +573,17 @@ select {
 @media screen and (max-width: 365px) {
   .user__info {
     text-align: center;
+  }
+}
+@media screen and (max-width: 400px) {
+  .inner-header {
+    padding: 0;
+  }
+  .inner-header .profile-header {
+    margin-right: 1rem;
+  }
+  .blog-details .container {
+    padding: 0.5rem;
   }
 }
 @keyframes loading {

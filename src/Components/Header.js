@@ -45,6 +45,7 @@ function Header({ imageURL, setImageURL }) {
         <div>
           {isSignIn && (
             <div
+              className='profile-header'
               style={{
                 position: "relative",
                 width: "60px",

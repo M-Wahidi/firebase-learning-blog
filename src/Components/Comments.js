@@ -8,7 +8,6 @@ import { v4 } from "uuid";
 const Comments = ({ id }) => {
   const [commentInput, setCommentInput] = useState("");
   const [comments, setCommnets] = useState([]);
-
   const getAllComments = () => {
     onSnapshot(doc(db, "blogs", id), (doc) => {
       setCommnets(doc.data().comments);
@@ -52,7 +51,7 @@ const Comments = ({ id }) => {
               {auth.currentUser && (
                 <Form onSubmit={handleComment}>
                   <Form.Control
-                    className='container mb-5'
+                    className='container mb-5 px-2'
                     type='text'
                     placeholder='Add Comment...'
                     onChange={(e) => setCommentInput(e.target.value)}
@@ -62,7 +61,7 @@ const Comments = ({ id }) => {
               )}
               <div className='col-md-12'>
                 {comments.map((comment, key) => (
-                  <Comment key={key} {...comment} />
+                  <Comment key={key} {...comment} id={id} comments={comments} />
                 ))}
               </div>
             </div>
