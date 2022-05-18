@@ -4,13 +4,17 @@ import Comment from "./Comment";
 import { setDoc, doc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
 import { v4 } from "uuid";
+import sortComments from "../Helper/sortComments";
 
-const Comments = ({ id }) => {
+const Comments = ({ id, authorID }) => {
   const [commentInput, setCommentInput] = useState("");
   const [comments, setCommnets] = useState([]);
+
   const getAllComments = () => {
     onSnapshot(doc(db, "blogs", id), (doc) => {
-      setCommnets(doc.data().comments);
+      const comments = doc.data().comments;
+      const sortedComments = comments.sort(sortComments);
+      setCommnets(sortedComments);
     });
   };
 
@@ -61,7 +65,7 @@ const Comments = ({ id }) => {
               )}
               <div className='col-md-12'>
                 {comments.map((comment, key) => (
-                  <Comment key={key} {...comment} id={id} comments={comments} />
+                  <Comment key={key} {...comment} id={id} comments={comments} authorID={authorID} />
                 ))}
               </div>
             </div>

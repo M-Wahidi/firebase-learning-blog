@@ -510,6 +510,7 @@ select {
   border-radius: 5px;
   border: 0;
   margin-bottom: 1rem;
+  overflow: hidden;
 }
 
 .blog-details .container {
@@ -570,12 +571,42 @@ select {
 .reply a {
   text-decoration: none;
 }
+.line {
+  position: relative;
+}
+.line::after {
+  content: " ";
+  height: 100%;
+  width: 2px;
+  top: 53.2px;
+  left: 10px;
+  background-color: lightgray;
+  position: absolute;
+}
+.row-line {
+  position: relative;
+}
+
+.row-line::after {
+  content: " ";
+  height: 2px;
+  width: 52px;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -52px;
+  background-color: lightgray;
+  position: absolute;
+}
+.init-comment + div {
+  margin-top: 2rem !important;
+}
+
 @media screen and (max-width: 365px) {
   .user__info {
     text-align: center;
   }
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
   .inner-header {
     padding: 0;
   }
@@ -585,7 +616,20 @@ select {
   .blog-details .container {
     padding: 0.5rem;
   }
+  .reply-comment-cotainer {
+    margin-left: 2rem !important;
+    font-size: 14px !important;
+  }
+  .comments .card {
+    padding: 7px;
+  }
+
+  .row-line::after {
+    width: 22px;
+    left: -20px;
+  }
 }
+
 @keyframes loading {
   from {
     transform: rotate(0);

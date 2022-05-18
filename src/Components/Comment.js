@@ -6,7 +6,7 @@ import { Form } from "react-bootstrap";
 import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
 import { v4 } from "uuid";
-
+import { BsFillReplyFill } from "react-icons/bs";
 const Comment = ({
   commentID,
   commentInput,
@@ -15,6 +15,7 @@ const Comment = ({
   createdAt,
   commentWriterProfilePic,
   id,
+  authorID,
   comments,
   replies,
 }) => {
@@ -52,7 +53,7 @@ const Comment = ({
   };
 
   return (
-    <div className='media my-2'>
+    <div className={`media my-2 line`}>
       <Link to={`/profile/${commentWriterName}/${commentWriterID}`}>
         <img
           className='mr-3 mb-1 rounded-circle'
@@ -61,34 +62,44 @@ const Comment = ({
           style={{ objectFit: "cover" }}
         />
       </Link>
-      <div className='media-body'>
-        <div className='row'>
-          <div className='col-10 d-flex'>
-            <div style={{ fontSize: "13px" }}>{commentWriterName} </div>
-            <div style={{ fontSize: "13px" }} className='px-1'>
-              - <ReactTimeAgo date={new Date(createdAt.seconds * 1000)} locale='en-US' timeStyle='round-minute' />
-            </div>
-          </div>
+      {commentWriterID === authorID && (
+        <small
+          style={{
+            textAlign: "center",
+            padding: "0.2rem",
+            background: "#333",
+            color: "#fff",
+            marginLeft: ".5rem",
+            borderRadius: "5px",
+          }}
+        >
+          Author
+        </small>
+      )}
 
-          <div className='col-2'>
-            <div className='pull-right reply'>
-              <button
-                style={{ border: "none", backgroundColor: "transparent", color: "#204278" }}
-                onClick={() => setgShowReply((prev) => !prev)}
-              >
-                <small>
-                  <i className='fa fa-reply'></i> Reply
-                </small>
-              </button>
+      <div className='mx-4 init-comment'>
+        <div className='row mr-2 '>
+          <div className='col-12 d-flex align-items-center '>
+            <div style={{ fontSize: "14px", color: "darkblue" }}>{commentWriterName} </div>
+            <div style={{ fontSize: "14px", paddingLeft: ".5rem" }}>
+              <ReactTimeAgo date={new Date(createdAt.seconds * 1000)} locale='en-US' timeStyle='round-minute' />
             </div>
+            <button
+              style={{ border: "none", backgroundColor: "transparent", color: "#204278" }}
+              onClick={() => setgShowReply((prev) => !prev)}
+            >
+              <div style={{ fontSize: "1.2rem", marginLeft: ".5rem" }}>
+                <BsFillReplyFill />
+              </div>
+            </button>
           </div>
         </div>
         {commentInput}
       </div>
       {showReplay && (
-        <Form onSubmit={handleCommentReply}>
+        <Form onSubmit={handleCommentReply} className=' w-90 mx-5'>
           <Form.Control
-            className='container mb-5 px-2'
+            className='container mb-5 mx-3 px-2 '
             type='text'
             value={replyInput}
             onChange={(e) => setReplyInput(e.target.value)}
