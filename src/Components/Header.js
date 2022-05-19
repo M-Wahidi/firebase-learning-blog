@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { doc, onSnapshot } from "firebase/firestore";
-import { UserContext } from "../Context/authContext";
+import { UserContext } from "../Context/AuthContext";
 import PorfileDropDown from "./PorfileDropDown";
 import { auth, db } from "../firebaseConfig";
 import "../index.css";

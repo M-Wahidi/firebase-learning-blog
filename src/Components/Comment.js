@@ -53,7 +53,7 @@ const Comment = ({
   };
 
   return (
-    <div className={`media my-2 line`}>
+    <div className={`media my-2 ${replies.length > 0 && "line"}`}>
       <Link to={`/profile/${commentWriterName}/${commentWriterID}`}>
         <img
           className='mr-3 mb-1 rounded-circle'
@@ -84,14 +84,16 @@ const Comment = ({
             <div style={{ fontSize: "14px", paddingLeft: ".5rem" }}>
               <ReactTimeAgo date={new Date(createdAt.seconds * 1000)} locale='en-US' timeStyle='round-minute' />
             </div>
-            <button
-              style={{ border: "none", backgroundColor: "transparent", color: "#204278" }}
-              onClick={() => setgShowReply((prev) => !prev)}
-            >
-              <div style={{ fontSize: "1.2rem", marginLeft: ".5rem" }}>
-                <BsFillReplyFill />
-              </div>
-            </button>
+            {auth.currentUser && (
+              <button
+                style={{ border: "none", backgroundColor: "transparent", color: "#204278" }}
+                onClick={() => setgShowReply((prev) => !prev)}
+              >
+                <div style={{ fontSize: "1.2rem", marginLeft: ".5rem" }}>
+                  <BsFillReplyFill />
+                </div>
+              </button>
+            )}
           </div>
         </div>
         {commentInput}

@@ -2,7 +2,7 @@ import { useState, useContext, useReducer, useRef } from "react";
 import { collection, doc, setDoc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
 import { AiOutlineLike, AiFillLike, AiOutlineDislike, AiFillDislike } from "react-icons/ai";
-import { UserContext } from "../Context/authContext";
+import { UserContext } from "../Context/AuthContext";
 import Notification from "./Notification";
 
 const reducer = (state, action) => {
@@ -207,19 +207,19 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
   // Watch for Changes on Blog Documnet
   onSnapshot(doc(blogRef, blog.id), (doc) => {
     let likedData = doc.data()?.likesCount;
-    const likedBlogData = doc.data().userLiked;
+    const likedBlogData = doc.data()?.userLiked;
     state.likesCount = likedData;
-    if (likedBlogData.includes(auth.currentUser?.uid)) {
+    if (likedBlogData?.includes(auth.currentUser?.uid)) {
       state.isLiked = true;
     } else {
       state.isLiked = false;
     }
 
     let disLikedData = doc.data()?.disLikesCount;
-    const disLikedBlogData = doc.data().userDisLiked;
+    const disLikedBlogData = doc.data()?.userDisLiked;
     state.disLikesCount = disLikedData;
 
-    if (disLikedBlogData.includes(auth.currentUser?.uid)) {
+    if (disLikedBlogData?.includes(auth.currentUser?.uid)) {
       state.isDisLike = true;
     } else {
       state.isDisLike = false;

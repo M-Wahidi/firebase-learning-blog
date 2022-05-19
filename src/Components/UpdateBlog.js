@@ -1,15 +1,11 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import { db, auth, storage } from "../firebaseConfig";
-import { EditBlogContext } from "../Context/editBlogContext";
+import { EditBlogContext } from "../Context/EditBlogContext";
 import { splitTag } from "../Helper/splitTag";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
-import {
-  collection,
-  updateDoc,
-  doc,
-  serverTimestamp,
-} from "firebase/firestore";
+import resizeImage from "../Helper/resizeImage";
+import { collection, updateDoc, doc, serverTimestamp } from "firebase/firestore";
 import Loading from "../Components/Loading";
 import defaultBlogImage from "../Assets/default_blog_image.png";
 
@@ -39,6 +35,13 @@ function UpadteBlog({ oldUserData }) {
     await uploadBytes(path, blogImage);
     const image = await getDownloadURL(path);
     return image;
+  };
+
+  const handleImageUpload = async (e) => {
+    setLoading(true);
+    const image = await resizeImage(e.target.files[0]);
+    setBlogImage(image);
+    setLoading(false);
   };
 
   const handleChange = (e) => {
@@ -127,13 +130,10 @@ function UpadteBlog({ oldUserData }) {
 
   return (
     <div>
-      <div
-        className="back-bg"
-        style={{ display: `${editBlog.isEditing ? "block" : "none"}` }}
-      ></div>
+      <div className='back-bg' style={{ display: `${editBlog.isEditing ? "block" : "none"}` }}></div>
       <form
         onSubmit={(e) => e.preventDefault()}
-        className="bg-white container-sm p-4  h-auto position-fixed"
+        className='bg-white container-sm p-4  h-auto position-fixed'
         style={{
           display: `${editBlog.isEditing ? "block" : "none"}`,
           zIndex: "3",
@@ -144,15 +144,15 @@ function UpadteBlog({ oldUserData }) {
           transform: "translate(-50%, -50%)",
         }}
       >
-        <div className="mb-3 position-relative">
-          <label forhtml="title" className="form-label">
+        <div className='mb-3 position-relative'>
+          <label forhtml='title' className='form-label'>
             Title
           </label>
           <input
-            type="text"
-            className="form-control"
-            id="title"
-            aria-describedby="blogTitle"
+            type='text'
+            className='form-control'
+            id='title'
+            aria-describedby='blogTitle'
             onChange={handleBlogTitleChange}
             value={blogTitle}
           />
@@ -168,16 +168,16 @@ function UpadteBlog({ oldUserData }) {
             {emptyBlogTtitle}
           </p>
         </div>
-        <div className="mb-3" style={{ position: "relative" }}>
-          <label forhtml="blogBody" className="form-label">
+        <div className='mb-3' style={{ position: "relative" }}>
+          <label forhtml='blogBody' className='form-label'>
             Body
           </label>
           <textarea
-            type="text"
-            className="form-control"
+            type='text'
+            className='form-control'
             onChange={handleBlogBodyChange}
             value={blogBody}
-            id="blogBody"
+            id='blogBody'
             style={{ minHeight: "300px" }}
           />
           <p
@@ -204,75 +204,52 @@ function UpadteBlog({ oldUserData }) {
             {emptyBlogBody}
           </p>
         </div>
-        <div className="m-3 d-flex justify-content-center">
-          <input
-            className="d-none"
-            type="file"
-            id="imgupload"
-            onChange={(e) => {
-              setBlogImage(e.target.files[0]);
-            }}
-            ref={inputFile}
-          />
-          <button
-            className={`btn ${
-              !blogImage ? "btn-outline-primary" : "btn-success"
-            } `}
-            onClick={onButtonClick}
-          >
+        <div className='m-3 d-flex justify-content-center'>
+          <input className='d-none' type='file' id='imgupload' onChange={handleImageUpload} ref={inputFile} />
+          <button className={`btn ${!blogImage ? "btn-outline-primary" : "btn-success"} `} onClick={onButtonClick}>
             {!blogImage ? "Upload Image" : "Image Uploaded ✔ "}
           </button>
         </div>
 
-        <div className="my-4">
-          <div className="tags-input-container">
+        <div className='my-4'>
+          <div className='tags-input-container'>
             <div style={{ display: "flex", gap: "20px", padding: "10px" }}>
-              <label htmlFor="tags">Add a Tags:</label>
-              <button
-                style={{ width: "50px", border: "none", fontSize: "1.2rem" }}
-                onClick={handleTags}
-              >
+              <label htmlFor='tags'>Add a Tags:</label>
+              <button style={{ width: "50px", border: "none", fontSize: "1.2rem" }} onClick={handleTags}>
                 -
               </button>
             </div>
-            <p
-              style={{ color: "red", fontSize: ".8rem", marginBottom: "0rem" }}
-            >
+            <p style={{ color: "red", fontSize: ".8rem", marginBottom: "0rem" }}>
               {tagsMessage && "Maximum length for tags is 4"}
             </p>
             <p style={{ color: "red", fontSize: ".8rem" }}> {emptyTagMssage}</p>
 
-            <select
-              name="tags"
-              id="tags"
-              onChange={(e) => handleChange(e)}
-              value={options}
-            >
-              <option value="start">Choose Tag:</option>
-              <option value="HTML">HTML</option>
-              <option value="CSS">CSS</option>
-              <option value="SASS">SASS</option>
-              <option value="BOOTSTRAP">BOOTSTRAP</option>
-              <option value="TAILWIND">TAILWIND</option>
-              <option value="JAVASCRIPT">JAVASCRIPT</option>
-              <option value="REACT">REACT</option>
-              <option value="Angular">ANGULAR</option>
-              <option value="VUE">VUE</option>
-              <option value="NEXT JS">NEXT JS</option>
-              <option value="NODE">NODE</option>
-              <option value="EXPRESS">EXPRESS</option>
-              <option value="REST API">REST API</option>
-              <option value="PHP">PHP</option>
-              <option value="PYTHON">PYTHON</option>
-              <option value="UI-UX">UI-UX</option>
-              <option value="FRONT-END">FRONT-END</option>
-              <option value="EXPRESS">EXPRESS</option>
-              <option value="PHP">PHP</option>
-              <option value="PYTHON">PYTHON</option>
-              <option value="UI-UX">UI-UX</option>
-              <option value="BACK-END">BACK-END</option>
-              <option value="GRAPH Ql">GRAPH Ql</option>
-              <option value="CSS">CSS</option>
+            <select name='tags' id='tags' onChange={(e) => handleChange(e)} value={options}>
+              <option value='start'>Choose Tag:</option>
+              <option value='HTML'>HTML</option>
+              <option value='CSS'>CSS</option>
+              <option value='SASS'>SASS</option>
+              <option value='BOOTSTRAP'>BOOTSTRAP</option>
+              <option value='TAILWIND'>TAILWIND</option>
+              <option value='JAVASCRIPT'>JAVASCRIPT</option>
+              <option value='REACT'>REACT</option>
+              <option value='Angular'>ANGULAR</option>
+              <option value='VUE'>VUE</option>
+              <option value='NEXT JS'>NEXT JS</option>
+              <option value='NODE'>NODE</option>
+              <option value='EXPRESS'>EXPRESS</option>
+              <option value='REST API'>REST API</option>
+              <option value='PHP'>PHP</option>
+              <option value='PYTHON'>PYTHON</option>
+              <option value='UI-UX'>UI-UX</option>
+              <option value='FRONT-END'>FRONT-END</option>
+              <option value='EXPRESS'>EXPRESS</option>
+              <option value='PHP'>PHP</option>
+              <option value='PYTHON'>PYTHON</option>
+              <option value='UI-UX'>UI-UX</option>
+              <option value='BACK-END'>BACK-END</option>
+              <option value='GRAPH Ql'>GRAPH Ql</option>
+              <option value='CSS'>CSS</option>
             </select>
             <div
               style={{
@@ -288,15 +265,11 @@ function UpadteBlog({ oldUserData }) {
           </div>
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <button
-            type="submit"
-            className="btn btn-primary my-1 "
-            onClick={updateBlog}
-          >
+          <button type='submit' className='btn btn-primary my-1 ' onClick={updateBlog}>
             Edit Blog
           </button>
         </div>
-        <button className="close-btn" onClick={handleCloseForm}>
+        <button className='close-btn' onClick={handleCloseForm}>
           X
         </button>
       </form>

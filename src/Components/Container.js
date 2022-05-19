@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Header from "./Header";
 import CreateBlog from "../Pages/CreateBlog";
 import Home from "../Pages/Home";
@@ -7,7 +7,7 @@ import Login from "../Pages/Login";
 import Signup from "../Pages/Signup";
 import ProtectedRoutes from "../ProtectedRoutes";
 import ResetPassword from "../Pages/ResetPassword";
-import { UserContext } from "../Context/authContext";
+import { UserContext } from "../Context/AuthContext";
 import Loading from "./Loading";
 import Profile from "../Pages/Profile";
 import BlogDetails from "../Pages/BlogDetails";

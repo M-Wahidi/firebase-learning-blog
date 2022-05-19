@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebaseConfig";
-import { UserContext } from "../Context/authContext";
+import { UserContext } from "../Context/AuthContext";
 import { Filter } from "../Context/FilterBlogsContext";
 import Loading from "./Loading";
 import { useNavigate } from "react-router-dom";

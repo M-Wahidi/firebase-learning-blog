@@ -7,6 +7,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import Loading from "../Components/Loading";
 import { v4 as uuidv4 } from "uuid";
 import defaultBlogImage from "../Assets/default_blog_image.png";
+import resizeImage from "../Helper/resizeImage";
 
 import React from "react";
 function BlogForm() {
@@ -35,6 +36,13 @@ function BlogForm() {
     await uploadBytes(path, blogImage);
     const image = await getDownloadURL(path);
     return image;
+  };
+
+  const handleImageUpload = async (e) => {
+    setLoading(true);
+    const image = await resizeImage(e.target.files[0]);
+    setBlogImage(image);
+    setLoading(false);
   };
 
   const handleChange = (e) => {
@@ -172,15 +180,7 @@ function BlogForm() {
         </p>
       </div>
       <div className='m-3 d-flex justify-content-center'>
-        <input
-          className='d-none'
-          type='file'
-          id='imgupload'
-          onChange={(e) => {
-            setBlogImage(e.target.files[0]);
-          }}
-          ref={inputFile}
-        />
+        <input className='d-none' type='file' id='imgupload' onChange={handleImageUpload} ref={inputFile} />
         <button className={`btn ${!blogImage ? "btn-outline-primary" : "btn-success"} `} onClick={onButtonClick}>
           {!blogImage ? "Upload Image" : "Image Uploaded ✔ "}
         </button>

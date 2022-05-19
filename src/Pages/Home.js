@@ -1,6 +1,6 @@
 import Blogs from "../Components/Blogs";
 import { Link } from "react-router-dom";
-import { User } from "../Context/authContext";
+import { User } from "../Context/AuthContext";
 import FilterBlogs from "../Components/FilterBlogs";
 import Button from "react-bootstrap/Button";
 
@@ -11,9 +11,9 @@ function Home() {
   return (
     <div>
       {isSignIn !== false && (
-        <div className="homePageHeader">
+        <div className='homePageHeader'>
           <Link
-            to="create-blog"
+            to='create-blog'
             style={{
               backgroundColor: "transparent",
               border: "none",
@@ -21,7 +21,7 @@ function Home() {
               position: "relative",
             }}
           >
-            <Button variant="primary">+</Button>
+            <Button variant='primary'>+</Button>
           </Link>
           <FilterBlogs id={id} />
         </div>

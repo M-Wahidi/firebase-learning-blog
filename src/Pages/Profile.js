@@ -6,7 +6,7 @@ import Loading from "../Components/Loading";
 import Notification from "../Components/Notification";
 import { doc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
-import { EditBlogContext } from "../Context/editBlogContext";
+import { EditBlogContext } from "../Context/EditBlogContext";
 
 function Profile({ imageURL, setImageURL }) {
   const [fullName, setFullName] = useState("");
@@ -46,8 +46,8 @@ function Profile({ imageURL, setImageURL }) {
   }, []);
 
   return (
-    <div className="container">
-      <div className="row gutters">
+    <div className='container'>
+      <div className='row gutters'>
         <ProfileCard
           setProfilePic={setProfilePic}
           profilePic={profilePic}
@@ -56,9 +56,9 @@ function Profile({ imageURL, setImageURL }) {
           userValue={userValue}
           userInfo={userInfo}
         />
-        <div className="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-          <div className="card h-100">
-            <div className="card-body">
+        <div className='col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12'>
+          <div className='card h-100'>
+            <div className='card-body'>
               <ProfileForm userAction={userAction} userValue={userValue} />
               <ProfileFooter
                 userAction={userAction}

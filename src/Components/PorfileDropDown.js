@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { MdLogout } from "react-icons/md";
+import { MdLogout, MdDarkMode, MdLightMode } from "react-icons/md";
 import Notification from "./Notification";
 
 function PorfileDropDown({ setShowProfile }) {
@@ -12,41 +12,50 @@ function PorfileDropDown({ setShowProfile }) {
 
   return (
     <div
+      className='profile-dropdown'
       style={{
         backgroundColor: "#333",
-        top: "65px",
+        top: "70px",
         width: "150px",
-        height: "120px",
+        height: "150px",
         right: "0",
         position: "absolute",
         fontSize: "1rem",
         zIndex: 4,
         listStyle: "none",
+        display: "flex",
+        justifyContent: "space-around",
+        alignItems: "center",
+        flexDirection: "column",
       }}
     >
-      <li
-        style={{ cursor: "pointer", height: "30px", marginBottom: "20px" }}
-        onClick={() => setShowProfile(false)}
-      >
-        <Link to="profile">Profile</Link>
+      <li style={{ cursor: "pointer" }} onClick={() => setShowProfile(false)}>
+        <Link to='profile'>Profile</Link>
       </li>
+
       <li
         style={{
           cursor: "pointer",
-          height: "30px",
           display: "flex",
           justifyContent: "center",
         }}
       >
-        <button
-          style={{ textAlign: "center" }}
-          className="logout-btn"
-          onClick={handleLogout}
-        >
+        <li style={{ textAlign: "center" }} className='logout-btn' onClick={handleLogout}>
           <MdLogout />
-        </button>
+        </li>
       </li>
 
+      <button
+        style={{
+          textAlign: "center",
+          border: "none",
+          color: "#fff",
+          background: "#333",
+          fontSize: "1.6rem",
+        }}
+      >
+        <MdDarkMode />
+      </button>
       <Notification
         setShowProfile={setShowProfile}
         opition={{
