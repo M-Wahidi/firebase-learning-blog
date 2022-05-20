@@ -59,7 +59,7 @@ body {
 .header a:hover,
 .header button:hover,
 .header li:hover {
-  background-color: rgb(161, 161, 161) !important;
+  background-color: rgb(200, 199, 199) !important;
 }
 
 *:focus {
@@ -189,6 +189,11 @@ h1 {
   padding-top: 1rem;
   margin: 0 auto;
 }
+.dark {
+  background: url("https://animal-crossing.com/assets/img/patterns/footer-dots.png");
+
+  background-color: #333;
+}
 
 /* // -------------------------------------------------------------- */
 
@@ -205,6 +210,7 @@ h1 {
   background: linear-gradient(to right, #ffffff, #ece9e6);
   height: 540px;
 }
+
 .blog_image {
   height: 200px;
 }
@@ -522,17 +528,18 @@ select {
   max-width: 1150px;
   margin-left: auto;
   margin-right: auto;
-  padding: 1rem 2rem;
+  padding: 0.6rem 2rem;
 }
 
 .blog-details header {
   background-color: rebeccapurple;
   color: #fff;
-  padding: 0.5rem 0;
+  padding: 0.4rem 0;
 }
 
 .blog-details article > div:first-child {
-  min-height: 28vh;
+  height: auto;
+  padding-bottom: 15rem;
 }
 .blog-details textarea::-webkit-scrollbar {
   display: none;
@@ -570,6 +577,7 @@ select {
   background-clip: border-box;
   border: 1px solid #d2d2dc;
   border-radius: 11px;
+  bottom: 0;
 }
 
 .media img {

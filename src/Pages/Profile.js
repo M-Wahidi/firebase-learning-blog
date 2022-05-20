@@ -7,6 +7,7 @@ import Notification from "../Components/Notification";
 import { doc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
 import { EditBlogContext } from "../Context/EditBlogContext";
+import { ThemeContext } from "../Context/ThemeContext";
 
 function Profile({ imageURL, setImageURL }) {
   const [fullName, setFullName] = useState("");
@@ -20,6 +21,7 @@ function Profile({ imageURL, setImageURL }) {
   const [error, setError] = useState(false);
   const [completed, setCompleted] = useState(false);
   const { setEditBlog } = useContext(EditBlogContext);
+  const { theme } = useContext(ThemeContext);
 
   const userValue = {
     fullName,
@@ -46,8 +48,28 @@ function Profile({ imageURL, setImageURL }) {
   }, []);
 
   return (
-    <div className='container'>
-      <div className='row gutters'>
+    <div
+      className="container"
+      style={{
+        background:
+          "url(https://animal-crossing.com/assets/img/patterns/footer-dots.png)",
+        backgroundColor: `${theme === "dark" ? "#333" : ""}`,
+        height: "91vh",
+      }}
+    >
+      <div
+        style={{
+          position: "fixed",
+          width: "100vw",
+          height: "100vh",
+          left: "0",
+          top: "80px",
+          background:
+            "url(https://animal-crossing.com/assets/img/patterns/footer-dots.png)",
+          backgroundColor: `${theme === "dark" ? "#333" : ""}`,
+        }}
+      ></div>
+      <div className="row gutters">
         <ProfileCard
           setProfilePic={setProfilePic}
           profilePic={profilePic}
@@ -56,9 +78,9 @@ function Profile({ imageURL, setImageURL }) {
           userValue={userValue}
           userInfo={userInfo}
         />
-        <div className='col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12'>
-          <div className='card h-100'>
-            <div className='card-body'>
+        <div className="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+          <div className="card h-100">
+            <div className="card-body">
               <ProfileForm userAction={userAction} userValue={userValue} />
               <ProfileFooter
                 userAction={userAction}

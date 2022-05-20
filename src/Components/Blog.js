@@ -4,6 +4,7 @@ import { auth } from "../firebaseConfig";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { UserContext } from "../Context/AuthContext";
 import { EditBlogContext } from "../Context/EditBlogContext";
+import { ThemeContext } from "../Context/ThemeContext";
 import { Link } from "react-router-dom";
 import UserReaction from "./UserReaction";
 import Notification from "./Notification";
@@ -18,6 +19,7 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
   const [ownerBlogName, setOwerBlogName] = useState("");
   const [ownerPhoto, setOwerPhoto] = useState("");
   const [didImageLoad, setImageLoad] = useState(false);
+  const { theme } = useContext(ThemeContext);
 
   const handleEditBlog = () => {
     setEditBlog({ isEditing: true, blogId: blog.id });
@@ -36,16 +38,20 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ ease: "easeOut", duration: 0.4, delay: 0.1 }}
-      className='card'
+      className="card"
     >
-      <div className='blog_image'>
-        <img onLoad={() => setImageLoad(true)} src={blog.image} alt={blog.title} />
+      <div className="blog_image">
+        <img
+          onLoad={() => setImageLoad(true)}
+          src={blog.image}
+          alt={blog.title}
+        />
         {!didImageLoad && <h5 style={{ textAlign: "center" }}>Loading...</h5>}
       </div>
 
-      <div className='card__body'>
+      <div className="card__body">
         <span
-          className='tag'
+          className="tag"
           style={{
             display: "flex",
             alignItems: "center",
@@ -107,22 +113,31 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
             justifyContent: "space-between",
           }}
         >
-          {blog.title.length > 22 ? blog.title.slice(0, 16) + "..." : blog.title}
-          <UserReaction likesCount={blog.likesCount} disLikesCount={blog.disLikesCount} blog={blog} color={"black"} />
+          {blog.title.length > 22
+            ? blog.title.slice(0, 16) + "..."
+            : blog.title}
+          <UserReaction
+            likesCount={blog.likesCount}
+            disLikesCount={blog.disLikesCount}
+            blog={blog}
+            color={"black"}
+          />
         </h4>
 
         {blog.body.length > 100 ? (
-          <p style={{ textAlign: "justify" }}>{blog.body.slice(0, 190) + "..."}</p>
+          <p style={{ textAlign: "justify" }}>
+            {blog.body.slice(0, 190) + "..."}
+          </p>
         ) : (
           <p style={{ textAlgin: "justify" }}>{blog.body}</p>
         )}
       </div>
-      <div className='card__footer'>
-        <div className='user'>
+      <div className="card__footer">
+        <div className="user">
           <Link to={`profile/${ownerBlogName}/${blog.authorID}`}>
-            <img src={ownerPhoto} alt='user__image' className='user__image' />
+            <img src={ownerPhoto} alt="user__image" className="user__image" />
           </Link>
-          <div className='user__info'>
+          <div className="user__info">
             <span> @{ownerBlogName.slice(0, 18)}</span>
 
             <div
@@ -133,7 +148,9 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
                 gap: ".7rem",
               }}
             >
-              {new Intl.DateTimeFormat("en-GB").format(blog.date.seconds * 1000)}
+              {new Intl.DateTimeFormat("en-GB").format(
+                blog.date.seconds * 1000
+              )}
               <span>{BlogReadTime(blog.body)}</span>
 
               <span

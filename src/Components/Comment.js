@@ -24,8 +24,13 @@ const Comment = ({
 
   const handleReply = (id, newReply) => {
     let targetComment = comments.find((comment) => comment.commentID === id);
-    let repliesData = { ...targetComment, replies: [newReply, ...targetComment.replies] };
-    const filterComments = comments.filter((comment) => comment.commentID !== id);
+    let repliesData = {
+      ...targetComment,
+      replies: [newReply, ...targetComment.replies],
+    };
+    const filterComments = comments.filter(
+      (comment) => comment.commentID !== id
+    );
     return [repliesData, ...filterComments];
   };
 
@@ -56,9 +61,9 @@ const Comment = ({
     <div className={`media my-2 ${replies.length > 0 && "line"}`}>
       <Link to={`/profile/${commentWriterName}/${commentWriterID}`}>
         <img
-          className='mr-3 mb-1 rounded-circle'
+          className="mr-3 mb-1 rounded-circle"
           src={commentWriterProfilePic}
-          alt='user__image'
+          alt="user__image"
           style={{ objectFit: "cover" }}
         />
       </Link>
@@ -77,16 +82,32 @@ const Comment = ({
         </small>
       )}
 
-      <div className='mx-4 init-comment'>
-        <div className='row mr-2 '>
-          <div className='col-12 d-flex align-items-center '>
-            <div style={{ fontSize: "14px", color: "darkblue" }}>{commentWriterName} </div>
-            <div style={{ fontSize: "14px", paddingLeft: ".5rem" }}>
-              <ReactTimeAgo date={new Date(createdAt.seconds * 1000)} locale='en-US' timeStyle='round-minute' />
+      <div className="mx-4 init-comment">
+        <div className="row mr-2 ">
+          <div className="col-12 d-flex align-items-center ">
+            <div style={{ fontSize: "14px", color: "darkblue" }}>
+              {commentWriterName}
+            </div>
+            <div
+              style={{
+                fontSize: "14px",
+                paddingLeft: ".5rem",
+                color: "#333",
+              }}
+            >
+              <ReactTimeAgo
+                date={new Date(createdAt.seconds * 1000)}
+                locale="en-US"
+                timeStyle="round-minute"
+              />
             </div>
             {auth.currentUser && (
               <button
-                style={{ border: "none", backgroundColor: "transparent", color: "#204278" }}
+                style={{
+                  border: "none",
+                  backgroundColor: "transparent",
+                  color: "#204278",
+                }}
                 onClick={() => setgShowReply((prev) => !prev)}
               >
                 <div style={{ fontSize: "1.2rem", marginLeft: ".5rem" }}>
@@ -96,20 +117,25 @@ const Comment = ({
             )}
           </div>
         </div>
-        {commentInput}
+        <div style={{ color: "#333" }}>{commentInput}</div>
       </div>
       {showReplay && (
-        <Form onSubmit={handleCommentReply} className=' w-90 mx-5'>
+        <Form onSubmit={handleCommentReply} className=" w-90 mx-5">
           <Form.Control
-            className='container mb-5 mx-3 px-2 '
-            type='text'
+            className="container mb-5 mx-3 px-2 "
+            type="text"
             value={replyInput}
             onChange={(e) => setReplyInput(e.target.value)}
-            placeholder={`Reply To @${auth.currentUser.uid === commentWriterID ? "Yourself" : commentWriterName}`}
+            placeholder={`Reply To @${
+              auth.currentUser.uid === commentWriterID
+                ? "Yourself"
+                : commentWriterName
+            }`}
           />
         </Form>
       )}
-      {replies && replies.map((reply, key) => <ReplyComment key={key} {...reply} />)}
+      {replies &&
+        replies.map((reply, key) => <ReplyComment key={key} {...reply} />)}
     </div>
   );
 };

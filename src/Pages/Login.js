@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  updateProfile,
+} from "firebase/auth";
 import { addUser, db, auth } from "../firebaseConfig";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Notification from "../Components/Notification";
@@ -82,25 +87,25 @@ function Login() {
         minHeight: "80vh",
       }}
     >
-      <form id='login-box'>
+      <form id="login-box">
         <div style={loginStyles}>
           <h1>Log In</h1>
           <input
-            type='text'
-            name='email'
+            type="text"
+            name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder='E-mail'
-            autoComplete='currnet-email'
+            placeholder="E-mail"
+            autoComplete="currnet-email"
           />
           <div style={{ display: "flex", position: "relative" }}>
             <input
               type={passwordType}
-              name='password'
+              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder='Password'
-              autoComplete='currnet-password'
+              placeholder="Password"
+              autoComplete="currnet-password"
             />
             <div
               style={{
@@ -109,7 +114,11 @@ function Login() {
                 top: "5px",
                 cursor: "pointer",
               }}
-              onClick={() => setPasswordType((prev) => (prev === "password" ? "text" : "password"))}
+              onClick={() =>
+                setPasswordType((prev) =>
+                  prev === "password" ? "text" : "password"
+                )
+              }
             >
               <MdRemoveRedEye />
             </div>
@@ -124,15 +133,20 @@ function Login() {
               bottom: "15px",
               userSelect: "none",
             }}
-            to='/account/reset-password'
+            to="/account/reset-password"
           >
             FORGOT PASSWORD?
           </Link>
-          <div className='d-flex justify-content-center align-items-center gap-2'>
-            <input type='submit' name='signup_submit' value='Login' onClick={handleLoginUser} />
+          <div className="d-flex justify-content-center align-items-center gap-2">
+            <input
+              type="submit"
+              name="signup_submit"
+              value="Login"
+              onClick={handleLoginUser}
+            />
             <h3 style={{ marginTop: "18px" }}>|</h3>
             <Button
-              variant='outline-dark'
+              variant="outline-dark"
               style={{
                 height: "32px",
                 width: "120px",
@@ -157,9 +171,11 @@ function Login() {
               </span>
             </Button>
           </div>
-          <small style={{ maxWidth: "320px", textAlign: "center" }}>Google Login Work Only On Desktop Browser</small>
-          <div className='singup-link'>
-            Don't have an account? <Link to='/account/signup'>sign up</Link>
+          <small style={{ maxWidth: "320px", textAlign: "center" }}>
+            Google Login Work Only On Desktop Browser
+          </small>
+          <div className="singup-link">
+            Don't have an account? <Link to="/account/signup">sign up</Link>
           </div>
         </div>
       </form>

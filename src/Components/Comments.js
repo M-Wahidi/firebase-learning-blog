@@ -46,26 +46,32 @@ const Comments = ({ id, authorID }) => {
   };
 
   return (
-    <div className=' comments'>
-      <div className=' card'>
-        <div className='row'>
-          <div className='col-md-12'>
-            <h3 className='text-center mb-5'>Comments</h3>
-            <div className='row'>
+    <div className=" comments">
+      <div className=" card">
+        <div className="row">
+          <div className="col-md-12">
+            <h3 className="text-center mb-5 text-dark">Comments</h3>
+            <div className="row">
               {auth.currentUser && (
                 <Form onSubmit={handleComment}>
                   <Form.Control
-                    className='container mb-5 px-2'
-                    type='text'
-                    placeholder='Add Comment...'
+                    className="container mb-5 px-2"
+                    type="text"
+                    placeholder="Add Comment..."
                     onChange={(e) => setCommentInput(e.target.value)}
                     value={commentInput}
                   />
                 </Form>
               )}
-              <div className='col-md-12'>
+              <div className="col-md-12">
                 {comments.map((comment, key) => (
-                  <Comment key={key} {...comment} id={id} comments={comments} authorID={authorID} />
+                  <Comment
+                    key={key}
+                    {...comment}
+                    id={id}
+                    comments={comments}
+                    authorID={authorID}
+                  />
                 ))}
               </div>
             </div>

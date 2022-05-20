@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
+import ThemeContext from "./Context/ThemeContext.js";
 import { BrowserRouter as Router } from "react-router-dom";
 
 TimeAgo.addDefaultLocale(en);
@@ -11,6 +12,8 @@ TimeAgo.addDefaultLocale(en);
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Router>
-    <App />
+    <ThemeContext>
+      <App />
+    </ThemeContext>
   </Router>
 );

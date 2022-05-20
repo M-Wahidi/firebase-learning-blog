@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { db } from "../firebaseConfig";
 import EmptyBlogs from "./EmptyBlogs";
 import {
@@ -12,12 +12,15 @@ import {
 import Blog from "./Blog";
 import UpadteBlog from "../Components/UpdateBlog";
 import { Filter } from "../Context/FilterBlogsContext";
+import { ThemeContext } from "../Context/ThemeContext";
+
 function Blogs() {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [oldUserData, setOldUserData] = useState();
   const blogsRef = collection(db, "blogs");
   const { myBlogs, opitions, filterLoading } = Filter();
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     setLoading(true);
@@ -53,12 +56,15 @@ function Blogs() {
       return;
     }
   };
+
   return (
     <div className="blogs-container">
       <UpadteBlog oldUserData={oldUserData} />
       {/* Display All Blogs */}
       {opitions === "All Blogs" && loading ? (
-        <h2>Loading...</h2>
+        <h2 style={{ color: `${theme === "dark" ? "#fff" : "#333"} ` }}>
+          Loading...
+        </h2>
       ) : (
         opitions === "All Blogs" &&
         loading === false &&
@@ -74,7 +80,9 @@ function Blogs() {
 
       {/* Display Filtered Blogs */}
       {opitions === "My Blogs" && filterLoading ? (
-        <h2>Loading...</h2>
+        <h2 style={{ color: `${theme === "dark" ? "#fff" : "#333"} ` }}>
+          Loading...
+        </h2>
       ) : (
         opitions === "My Blogs" &&
         filterLoading === false &&

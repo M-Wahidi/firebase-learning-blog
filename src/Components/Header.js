@@ -4,10 +4,12 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { UserContext } from "../Context/AuthContext";
 import PorfileDropDown from "./PorfileDropDown";
 import { auth, db } from "../firebaseConfig";
+import { ThemeContext } from "../Context/ThemeContext";
 import "../index.css";
 
 function Header({ imageURL, setImageURL }) {
   const { isSignIn } = useContext(UserContext);
+  const { theme } = useContext(ThemeContext);
   const [showProfile, setShowProfile] = useState(false);
   const [userName, setUserName] = useState("");
 
@@ -23,8 +25,12 @@ function Header({ imageURL, setImageURL }) {
   }, [isSignIn]);
 
   return (
-    <div className='header'>
-      <div className='inner-header'>
+    <div
+      className={`header bg-${
+        theme === "dark" ? "light" : "rgba(248,249,250)"
+      }  `}
+    >
+      <div className="inner-header">
         <div
           style={{
             position: "relative",
@@ -32,20 +38,28 @@ function Header({ imageURL, setImageURL }) {
             flexDirection: "column",
             justifyContent: "center",
             textAlign: "left",
-            color: "#fff",
             height: "100%",
+            color: `${theme === "dark" ? "black" : "#fff"}`,
           }}
         >
-          <Link style={{ textAlign: "left" }} to='/'>
+          <Link
+            style={{
+              textAlign: "left",
+              color: `${theme === "dark" ? "black" : "#fff"}`,
+            }}
+            to="/"
+          >
             WebDev Blog🚀
           </Link>
 
-          <span style={{ marginLeft: "13px" }}>{userName?.username ? `@ ${userName?.username.slice(0, 30)}` : ""}</span>
+          <span style={{ marginLeft: "13px" }}>
+            {userName?.username ? `@ ${userName?.username.slice(0, 30)}` : ""}
+          </span>
         </div>
         <div>
           {isSignIn && (
             <div
-              className='profile-header'
+              className="profile-header"
               style={{
                 position: "relative",
                 width: "60px",
@@ -54,6 +68,7 @@ function Header({ imageURL, setImageURL }) {
               }}
             >
               <img
+                className="profile-img"
                 onClick={() => setShowProfile(!showProfile)}
                 style={{
                   height: "100%",
@@ -62,14 +77,19 @@ function Header({ imageURL, setImageURL }) {
                   objectFit: "cover",
                   border: "3px solid #fff",
                 }}
-                src={imageURL || "https://bootdey.com/img/Content/avatar/avatar7.png"}
+                src={
+                  imageURL ||
+                  "https://bootdey.com/img/Content/avatar/avatar7.png"
+                }
                 alt={auth.currentUser.displayName}
               />
 
-              {showProfile && <PorfileDropDown setShowProfile={setShowProfile} />}
+              {showProfile && (
+                <PorfileDropDown setShowProfile={setShowProfile} />
+              )}
             </div>
           )}
-          {!isSignIn && <Link to='/account/login'>Login</Link>}
+          {!isSignIn && <Link to="/account/login">Login</Link>}
         </div>
       </div>
     </div>

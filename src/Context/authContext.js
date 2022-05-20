@@ -1,6 +1,10 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { auth } from "../firebaseConfig";
-import { setPersistence, browserSessionPersistence, signOut } from "firebase/auth";
+import {
+  setPersistence,
+  browserSessionPersistence,
+  signOut,
+} from "firebase/auth";
 export const UserContext = createContext();
 
 setPersistence(auth, browserSessionPersistence).then(() => {
@@ -23,7 +27,11 @@ export default function UserProvider({ children }) {
     });
   }, []);
 
-  return <UserContext.Provider value={{ isSignIn, setIsSignIn }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ isSignIn, setIsSignIn }}>
+      {children}
+    </UserContext.Provider>
+  );
 }
 
 export const User = () => {

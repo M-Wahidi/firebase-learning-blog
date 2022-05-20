@@ -5,6 +5,8 @@ export default function EditProvider({ children }) {
   const [editBlog, setEditBlog] = useState({ isEditing: false, blogId: 0 });
 
   return (
-    <EditBlogContext.Provider value={{editBlog, setEditBlog }}>{children}</EditBlogContext.Provider>
+    <EditBlogContext.Provider value={{ editBlog, setEditBlog }}>
+      {children}
+    </EditBlogContext.Provider>
   );
 }
