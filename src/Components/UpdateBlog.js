@@ -39,12 +39,14 @@ function UpadteBlog({ oldUserData }) {
   const uploadedImage = async () => {
     await uploadBytes(path, blogImage);
     const image = await getDownloadURL(path);
+
     return image;
   };
 
   const handleImageUpload = async (e) => {
+    let targetImage = e.target.files[0];
     setLoading(true);
-    const image = await resizeImage(e.target.files[0]);
+    const image = await resizeImage(targetImage);
     setBlogImage(image);
     setLoading(false);
   };
@@ -105,6 +107,7 @@ function UpadteBlog({ oldUserData }) {
       image: image || defaultBlogImage,
     });
     setLoading(false);
+    setBlogImage("");
     handleCloseForm();
   };
 
@@ -218,8 +221,10 @@ function UpadteBlog({ oldUserData }) {
             type="file"
             id="imgupload"
             onChange={handleImageUpload}
+            key={Date.now()}
             ref={inputFile}
             accept="image/*"
+            multiple
           />
           <button
             className={`btn ${
@@ -279,7 +284,7 @@ function UpadteBlog({ oldUserData }) {
               <option value="UI-UX">UI-UX</option>
               <option value="BACK-END">BACK-END</option>
               <option value="GRAPH Ql">GRAPH Ql</option>
-              <option value="CSS">CSS</option>
+              <option value="FIREBASE">FIREBASE</option>
             </select>
             <div
               style={{

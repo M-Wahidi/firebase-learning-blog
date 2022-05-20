@@ -6,6 +6,8 @@ import Notification from "../Components/Notification";
 import Loading from "../Components/Loading";
 import { MdRemoveRedEye } from "react-icons/md";
 import checkPath from "../Helper/checkPath";
+import defaultImage from "../Assets/default_profile_picture.png";
+
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,9 +43,10 @@ function Signup() {
         const user = userCredential.user;
         if (user) {
           localStorage.setItem("auth", true);
-          addUser(fullName, email, user.uid);
+          addUser(fullName, email, user.uid, "", "");
           updateProfile(auth.currentUser, {
             displayName: fullName,
+            photoURL: defaultImage,
           });
           setTimeout(() => {
             setIsLoading(false);

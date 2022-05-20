@@ -56,7 +56,7 @@ function ProfileForm({ userValue, userAction }) {
                 placeholder="About"
                 onChange={(e) => setAbout(e.target.value)}
                 value={about}
-                maxLength={78}
+                maxLength={180}
               />
             </div>
           </div>

@@ -64,7 +64,7 @@ const Comment = ({
           className="mr-3 mb-1 rounded-circle"
           src={commentWriterProfilePic}
           alt="user__image"
-          style={{ objectFit: "cover" }}
+          style={{ objectFit: "cover", background: "#666" }}
         />
       </Link>
       {commentWriterID === authorID && (
@@ -135,7 +135,9 @@ const Comment = ({
         </Form>
       )}
       {replies &&
-        replies.map((reply, key) => <ReplyComment key={key} {...reply} />)}
+        replies.map((reply, key) => (
+          <ReplyComment key={key} {...reply} authorID={authorID} />
+        ))}
     </div>
   );
 };

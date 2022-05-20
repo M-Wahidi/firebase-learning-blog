@@ -8,6 +8,7 @@ function ReplyComment({
   replyWriterName,
   replyWriterProfilePic,
   createdAt,
+  authorID,
 }) {
   return (
     <div
@@ -26,6 +27,21 @@ function ReplyComment({
           style={{ objectFit: "cover" }}
         />
       </Link>
+      {replyIWriterID === authorID && (
+        <small
+          style={{
+            textAlign: "center",
+            padding: "0.2rem",
+            background: "#333",
+            color: "#fff",
+            marginLeft: ".5rem",
+            borderRadius: "5px",
+          }}
+        >
+          Author
+        </small>
+      )}
+
       <div className="media-body">
         <div className="row">
           <div className="col-12 d-flex">

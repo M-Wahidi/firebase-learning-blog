@@ -6,6 +6,7 @@ import PorfileDropDown from "./PorfileDropDown";
 import { auth, db } from "../firebaseConfig";
 import { ThemeContext } from "../Context/ThemeContext";
 import "../index.css";
+import defaultImage from "../Assets/default_profile_picture.png";
 
 function Header({ imageURL, setImageURL }) {
   const { isSignIn } = useContext(UserContext);
@@ -14,10 +15,10 @@ function Header({ imageURL, setImageURL }) {
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    setImageURL(auth.currentUser?.photoURL);
     if (isSignIn.uid !== undefined) {
       onSnapshot(doc(db, "users", auth.currentUser?.uid), (doc) => {
         setUserName(doc.data());
+        setImageURL(doc.data()?.image);
       });
     } else {
       setUserName("");
@@ -62,8 +63,8 @@ function Header({ imageURL, setImageURL }) {
               className="profile-header"
               style={{
                 position: "relative",
-                width: "60px",
-                height: "60px",
+                width: "68px",
+                height: "68px",
                 cursor: "pointer",
               }}
             >
@@ -72,15 +73,12 @@ function Header({ imageURL, setImageURL }) {
                 onClick={() => setShowProfile(!showProfile)}
                 style={{
                   height: "100%",
-                  width: "100%",
-                  borderRadius: "50%",
+                  maxWidth: "100%",
+                  borderRadius: "100%",
                   objectFit: "cover",
-                  border: "3px solid #fff",
+                  border: `3px solid ${theme === "dark" ? "#444" : "#fff"}`,
                 }}
-                src={
-                  imageURL ||
-                  "https://bootdey.com/img/Content/avatar/avatar7.png"
-                }
+                src={imageURL || defaultImage}
                 alt={auth.currentUser.displayName}
               />
 

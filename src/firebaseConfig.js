@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import defaultImage from "./Assets/default_profile_picture.png";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -19,7 +20,14 @@ export const db = getFirestore(app);
 export const storage = getStorage(app);
 
 // ADD USER
-export const addUser = async (username, email, id, age = 0, about = "") => {
+export const addUser = async (
+  username,
+  email,
+  id,
+  age = 0,
+  about = "",
+  image = defaultImage
+) => {
   await setDoc(
     doc(db, "users", id),
     {
@@ -27,6 +35,7 @@ export const addUser = async (username, email, id, age = 0, about = "") => {
       email,
       age,
       about,
+      image,
     },
     { merge: "true" }
   );

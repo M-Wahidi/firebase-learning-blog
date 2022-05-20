@@ -14,10 +14,6 @@ function BlogDetails() {
   const [userName, setUserName] = useState(null);
   const { theme } = useContext(ThemeContext);
 
-  const splitID = (id) => {
-    return id.split("-")[1];
-  };
-
   const getBlogData = async (id) => {
     onSnapshot(doc(db, "blogs", id), (blogInfo) => {
       setBlog({ ...blogInfo.data(), id: id });
@@ -32,15 +28,16 @@ function BlogDetails() {
   };
 
   useEffect(() => {
-    const blogID = splitID(id);
-    getBlogData(blogID);
+    getBlogData(id);
   }, []);
 
   return (
     blog && (
       <div
         className={`blog-details ${theme === "dark" && "dark"}`}
-        style={{ color: `${theme === "dark" ? "#fff" : "#333"}` }}
+        style={{
+          color: `${theme === "dark" ? "#fff" : "#333"}`,
+        }}
       >
         <motion.div
           animate={{ x: 0 }}
@@ -53,7 +50,6 @@ function BlogDetails() {
               <small>
                 By <span>@{userName}</span> | Posted on:
                 <span>
-                  {" "}
                   {new Intl.DateTimeFormat("en-GB").format(
                     blog.date.seconds * 1000
                   )}
@@ -89,6 +85,9 @@ function BlogDetails() {
                 whiteSpace: "pre-wrap",
                 wordBreak: "break-word",
                 width: "100%",
+                background: `${theme === "dark" ? "#333" : "#fff"}`,
+                padding: "1rem",
+                fontSize: "1.3rem",
               }}
             >
               {blog.body}

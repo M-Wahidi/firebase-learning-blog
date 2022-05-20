@@ -4,13 +4,13 @@ import { auth } from "../firebaseConfig";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { UserContext } from "../Context/AuthContext";
 import { EditBlogContext } from "../Context/EditBlogContext";
-import { ThemeContext } from "../Context/ThemeContext";
 import { Link } from "react-router-dom";
 import UserReaction from "./UserReaction";
 import Notification from "./Notification";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { motion } from "framer-motion";
+import DefaultProfilePicture from "../Assets/default_profile_picture.png";
 
 function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
   const [isCompleted, setIsCompleted] = useState(false);
@@ -19,7 +19,6 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
   const [ownerBlogName, setOwerBlogName] = useState("");
   const [ownerPhoto, setOwerPhoto] = useState("");
   const [didImageLoad, setImageLoad] = useState(false);
-  const { theme } = useContext(ThemeContext);
 
   const handleEditBlog = () => {
     setEditBlog({ isEditing: true, blogId: blog.id });
@@ -135,7 +134,11 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
       <div className="card__footer">
         <div className="user">
           <Link to={`profile/${ownerBlogName}/${blog.authorID}`}>
-            <img src={ownerPhoto} alt="user__image" className="user__image" />
+            <img
+              src={ownerPhoto || DefaultProfilePicture}
+              alt="user__image"
+              className="user__image"
+            />
           </Link>
           <div className="user__info">
             <span> @{ownerBlogName.slice(0, 18)}</span>
@@ -169,7 +172,7 @@ function Blog({ blog, handleDeleteBlog, fetchOldUserBlog }) {
                     color: "#333",
                     fontSize: "14px",
                   }}
-                  to={`blog/@${ownerBlogName}/${blog.title}-${blog.id}`}
+                  to={`blog/@${ownerBlogName}/${blog.id}`}
                 >
                   Read More...
                 </Link>

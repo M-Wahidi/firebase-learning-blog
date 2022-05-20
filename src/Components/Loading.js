@@ -1,23 +1,13 @@
 import React from "react";
+import ReactLoading from "react-loading";
+
 function Loading() {
   return (
     <div style={blurBackground}>
-      <div style={loadingStyle}> </div>
+      <ReactLoading type={"spin"} color="#fff" />
     </div>
   );
 }
-
-const loadingStyle = {
-  borderRadius: "50%",
-  height: "80px",
-  width: "80px",
-  position: "absolute",
-  zIndex: "3",
-  borderWidth: "5px",
-  borderStyle: " solid solid dotted dotted",
-  borderColor: "#47b577",
-  animation: "loading 2s linear infinite ",
-};
 
 const blurBackground = {
   backgroundColor: "rgba(56, 56, 56 ,0.7)",

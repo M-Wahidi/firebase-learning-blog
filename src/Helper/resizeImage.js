@@ -2,7 +2,7 @@ import imageCompression from "browser-image-compression";
 
 async function resizeImage(file) {
   const options = {
-    maxSizeKB: 800,
+    maxSizeMB: 2,
     maxWidthOrHeight: 1920,
     useWebWorker: true,
   };

@@ -31,43 +31,51 @@ function Login() {
     setCompleted(false);
     setError(false);
     setIsLoading(true);
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        setTimeout(() => {
-          setIsLoading(false);
-          setCompleted(true);
-        }, 1000);
-        setTimeout(() => {
-          setCompleted(false);
-          navigate("/");
-        }, 2000);
-      })
-      .catch((error) => {
-        setTimeout(() => {
-          setIsLoading(false);
-          setError(error.message);
-        }, 1000);
-        setTimeout(() => {
-          setError("");
-        }, 2500);
-      });
+
+    setTimeout(() => {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          setTimeout(() => {
+            setIsLoading(false);
+            setCompleted(true);
+          }, 300);
+
+          setTimeout(() => {
+            setCompleted(false);
+          }, 1000);
+
+          setTimeout(() => {
+            navigate("/");
+          }, 1300);
+        })
+        .catch((error) => {
+          setTimeout(() => {
+            setIsLoading(false);
+            setError(error.message);
+          }, 1000);
+          setTimeout(() => {
+            setError("");
+          }, 2500);
+        });
+    }, 1000);
   };
 
   const handleSingWithGoogle = async (e) => {
     e.preventDefault();
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
-    const { displayName, email, uid } = result.user;
+    const { displayName, email, uid, photoURL } = result.user;
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
 
     if (!docSnap.exists()) {
-      addUser(displayName, email, uid);
+      addUser(displayName, email, uid, "", "", photoURL);
     }
 
     localStorage.setItem("auth", true);
     updateProfile(auth.currentUser, {
       displayName,
+      photoURL: docSnap.data()?.image,
     });
     navigate("/");
   };
@@ -171,9 +179,7 @@ function Login() {
               </span>
             </Button>
           </div>
-          <small style={{ maxWidth: "320px", textAlign: "center" }}>
-            Google Login Work Only On Desktop Browser
-          </small>
+
           <div className="singup-link">
             Don't have an account? <Link to="/account/signup">sign up</Link>
           </div>

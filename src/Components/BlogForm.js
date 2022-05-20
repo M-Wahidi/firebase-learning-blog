@@ -247,7 +247,7 @@ function BlogForm() {
             <option value="UI-UX">UI-UX</option>
             <option value="BACK-END">BACK-END</option>
             <option value="GRAPH Ql">GRAPH Ql</option>
-            <option value="CSS">CSS</option>
+            <option value="FIREBASE">FIREBASE</option>
           </select>
           <div
             style={{

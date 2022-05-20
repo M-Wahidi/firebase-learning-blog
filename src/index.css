@@ -54,6 +54,8 @@ body {
   border: none;
   background: transparent;
   transition: 0.1s ease-in;
+  position: relative;
+  left: 0.1rem;
 }
 
 .header a:hover,
@@ -268,6 +270,7 @@ h1 {
 
 .user__image {
   border-radius: 50%;
+  background-color: #666;
 }
 
 .user__info > small {
@@ -539,7 +542,6 @@ select {
 
 .blog-details article > div:first-child {
   height: auto;
-  padding-bottom: 15rem;
 }
 .blog-details textarea::-webkit-scrollbar {
   display: none;
@@ -593,10 +595,10 @@ select {
 }
 .line::after {
   content: " ";
-  height: 100%;
+  height: 90%;
   width: 2px;
-  top: 53.2px;
-  left: 10px;
+  top: 49px;
+  left: 5px;
   background-color: lightgray;
   position: absolute;
 }
@@ -607,10 +609,10 @@ select {
 .row-line::after {
   content: " ";
   height: 2px;
-  width: 52px;
+  width: 58px;
   top: 50%;
   transform: translateY(-50%);
-  left: -52px;
+  left: -57px;
   background-color: lightgray;
   position: absolute;
 }
@@ -625,7 +627,15 @@ select {
 }
 @media screen and (max-width: 500px) {
   .inner-header {
-    padding: 0;
+    padding: 0 0.5rem;
+  }
+  .inner-header > div:first-child {
+    font-size: 0.9rem !important;
+    position: relative;
+    right: 0.6rem;
+  }
+  .inner-header > div a {
+    font-size: 1.4rem !important;
   }
   .inner-header .profile-header {
     margin-right: 1rem;
