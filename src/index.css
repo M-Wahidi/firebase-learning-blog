@@ -188,6 +188,7 @@ h1 {
   justify-content: center;
   align-items: center;
   max-width: 1200px;
+  gap: 1rem;
   padding-top: 1rem;
   margin: 0 auto;
 }
@@ -616,6 +617,9 @@ select {
   background-color: lightgray;
   position: absolute;
 }
+.init-comment {
+  margin-top: 0.5rem;
+}
 .init-comment + div {
   margin-top: 2rem !important;
 }
@@ -652,8 +656,8 @@ select {
   }
 
   .row-line::after {
-    width: 22px;
-    left: -20px;
+    width: 25px;
+    left: -25px;
   }
 }
 
