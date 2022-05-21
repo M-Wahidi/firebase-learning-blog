@@ -49,7 +49,7 @@ function BlogDetails() {
               <h2>{blog.title}</h2>
               <small>
                 By <span>@{userName}</span> | Posted on:
-                <span>
+                <span style={{ paddingLeft: "2px" }}>
                   {new Intl.DateTimeFormat("en-GB").format(
                     blog.date.seconds * 1000
                   )}
