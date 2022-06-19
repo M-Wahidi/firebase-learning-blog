@@ -1,7 +1,12 @@
 import { useState, useContext, useReducer, useRef } from "react";
 import { collection, doc, setDoc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
-import { AiOutlineLike, AiFillLike, AiOutlineDislike, AiFillDislike } from "react-icons/ai";
+import {
+  AiOutlineLike,
+  AiFillLike,
+  AiOutlineDislike,
+  AiFillDislike,
+} from "react-icons/ai";
 import { UserContext } from "../Context/AuthContext";
 import Notification from "./Notification";
 
@@ -38,7 +43,7 @@ const reducer = (state, action) => {
       };
     case "LIVE_LIKE_TOGGLE":
       return {
-        isLiked: false,
+        isLiked: true,
         isDisLike: state.isDisLike,
         likesCount: state.likesCount,
         disLikesCount: state.disLikesCount,
@@ -69,6 +74,13 @@ const reducer = (state, action) => {
     case "Toogle_DISLIKE":
       return {
         isLiked: false,
+        isDisLike: true,
+        likesCount: state.likesCount,
+        disLikesCount: state.disLikesCount,
+      };
+    case "LIVE_DISLIKE_TOGGLE":
+      return {
+        isLiked: state.isLiked,
         isDisLike: true,
         likesCount: state.likesCount,
         disLikesCount: state.disLikesCount,
@@ -156,7 +168,9 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
         doc(blogRef, blog.id),
         {
           disLikesCount: state.disLikesCount - 1,
-          userDisLiked: userDisLikedBlogs.filter((elem) => elem !== auth.currentUser.uid),
+          userDisLiked: userDisLikedBlogs.filter(
+            (elem) => elem !== auth.currentUser.uid
+          ),
           likesCount: state.likesCount + 1,
           userLiked: [...userLikedBlogs, auth.currentUser.uid],
         },
@@ -183,7 +197,9 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
         doc(blogRef, blog.id),
         {
           likesCount: state.likesCount - 1,
-          userLiked: userLikedBlogs.filter((elem) => elem !== auth.currentUser.uid),
+          userLiked: userLikedBlogs.filter(
+            (elem) => elem !== auth.currentUser.uid
+          ),
           disLikesCount: state.isDisLike + 1,
           userDisLiked: [...userDisLikedBlogs, auth.currentUser.uid],
         },
@@ -194,7 +210,9 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
     await setDoc(
       doc(blogRef, blog.id),
       {
-        disLikesCount: state.isDisLike ? state.disLikesCount - 1 : state.disLikesCount + 1,
+        disLikesCount: state.isDisLike
+          ? state.disLikesCount - 1
+          : state.disLikesCount + 1,
 
         userDisLiked: state.isDisLike
           ? userDisLikedBlogs.filter((elem) => elem !== auth.currentUser.uid)
@@ -211,6 +229,7 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
     state.likesCount = likedData;
     if (likedBlogData?.includes(auth.currentUser?.uid)) {
       state.isLiked = true;
+      dispatch({ type: "LIVE_LIKE_TOGGLE" });
     } else {
       state.isLiked = false;
     }
@@ -220,7 +239,7 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
     state.disLikesCount = disLikedData;
 
     if (disLikedBlogData?.includes(auth.currentUser?.uid)) {
-      state.isDisLike = true;
+      dispatch({ type: "LIVE_DISLIKE_TOGGLE" });
     } else {
       state.isDisLike = false;
     }
@@ -230,14 +249,18 @@ function UserReaction({ likesCount, disLikesCount, blog, color }) {
     <div style={{ display: "flex", gap: ".5rem" }}>
       <div onClick={handleLike} style={{ cursor: "pointer" }}>
         <span style={{ margin: "0 2px" }}>{state.likesCount}</span>
-        <span style={{ color }}>{state.isLiked && isSignIn && <AiFillLike />}</span>
+        <span style={{ color }}>
+          {state.isLiked && isSignIn && <AiFillLike />}
+        </span>
         <span>{!state.isLiked && isSignIn && <AiOutlineLike />}</span>
         <span>{!isSignIn && <AiOutlineLike />}</span>
       </div>
 
       <div onClick={handleDisLike} style={{ cursor: "pointer" }}>
         <span style={{ margin: "0 2px" }}>{state.disLikesCount}</span>
-        <span style={{ color }}>{state.isDisLike && isSignIn && <AiFillDislike />}</span>
+        <span style={{ color }}>
+          {state.isDisLike && isSignIn && <AiFillDislike />}
+        </span>
         <span>{!state.isDisLike && isSignIn && <AiOutlineDislike />}</span>
         <span>{!isSignIn && <AiOutlineDislike />}</span>
       </div>

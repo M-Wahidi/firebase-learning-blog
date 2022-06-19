@@ -22,12 +22,8 @@ const Comments = ({ id, authorID }) => {
   const checkUpateProfilePic = () => {
     if (!auth.currentUser) return;
     onSnapshot(doc(db, "users", auth.currentUser?.uid), (doc) => {
-      comments.map((comment) => {
-        if (comment.commentWriterID === auth.currentUser?.uid) {
-          setProfilePic(comment?.photoURL);
-          getAllComments();
-        }
-      });
+      setProfilePic(doc.data().photoURL);
+      getAllComments();
     });
   };
 

@@ -164,6 +164,8 @@ function BlogForm() {
             bottom: "0px",
             right: "20px",
             color: `${blogBody.length < 20 ? "red" : "green"}`,
+            backgroundColor: "whitesmoke",
+            fontWeight: "bold",
           }}
         >
           {blogBody.length}

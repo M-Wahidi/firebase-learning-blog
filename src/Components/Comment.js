@@ -7,6 +7,7 @@ import { setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig";
 import { v4 } from "uuid";
 import { BsFillReplyFill } from "react-icons/bs";
+import { useEffect } from "react";
 const Comment = ({
   commentID,
   commentInput,

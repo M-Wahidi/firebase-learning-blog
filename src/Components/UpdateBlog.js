@@ -39,7 +39,6 @@ function UpadteBlog({ oldUserData }) {
   const uploadedImage = async () => {
     await uploadBytes(path, blogImage);
     const image = await getDownloadURL(path);
-
     return image;
   };
 
@@ -89,7 +88,6 @@ function UpadteBlog({ oldUserData }) {
     setLoading(true);
     await updateData();
   };
-
   const updateData = async () => {
     let image;
     if (blogImage !== "") {
@@ -104,7 +102,7 @@ function UpadteBlog({ oldUserData }) {
       tags,
       date: new Date(),
       timestamp: serverTimestamp(),
-      image: image || defaultBlogImage,
+      image: image || oldUserData?.image || defaultBlogImage,
     });
     setLoading(false);
     setBlogImage("");
@@ -197,6 +195,8 @@ function UpadteBlog({ oldUserData }) {
               bottom: "0px",
               right: "20px",
               color: `${blogBody.length < 20 ? "red" : "green"}`,
+              backgroundColor: "whitesmoke",
+              fontWeight: "bold",
             }}
           >
             {blogBody.length}
