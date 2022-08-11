@@ -9,7 +9,7 @@ import sortComments from "../Helper/sortComments";
 const Comments = ({ id, authorID }) => {
   const [commentInput, setCommentInput] = useState("");
   const [comments, setCommnets] = useState([]);
-  const [profilePic, setProfilePic] = useState(auth.currentUser?.photoURL);
+  const [profilePic, setProfilePic] = useState(auth.currentUser.photoURL);
 
   const getAllComments = () => {
     onSnapshot(doc(db, "blogs", id), (doc) => {
@@ -22,7 +22,7 @@ const Comments = ({ id, authorID }) => {
   const checkUpateProfilePic = () => {
     if (!auth.currentUser) return;
     onSnapshot(doc(db, "users", auth.currentUser?.uid), (doc) => {
-      setProfilePic(doc.data().photoURL);
+      setProfilePic(doc.data().photoURL || auth.currentUser.photoURL);
       getAllComments();
     });
   };
@@ -46,6 +46,7 @@ const Comments = ({ id, authorID }) => {
     };
     const commentData = [...comments, commentObj];
     const docRef = doc(db, "blogs", id);
+
     setDoc(
       docRef,
       {
