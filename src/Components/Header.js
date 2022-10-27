@@ -26,12 +26,8 @@ function Header({ imageURL, setImageURL }) {
   }, [isSignIn]);
 
   return (
-    <div
-      className={`header bg-${
-        theme === "dark" ? "light" : "rgba(248,249,250)"
-      }  `}
-    >
-      <div className="inner-header">
+    <div className={`header bg-${theme === "dark" ? "light" : "rgba(248,249,250)"}  `}>
+      <div className='inner-header'>
         <div
           style={{
             position: "relative",
@@ -48,33 +44,32 @@ function Header({ imageURL, setImageURL }) {
               textAlign: "left",
               color: `${theme === "dark" ? "black" : "#fff"}`,
             }}
-            to="/"
+            to='/'
           >
             WebDev Blog🚀
           </Link>
 
-          <span style={{ marginLeft: "13px" }}>
-            {userName?.username ? `@ ${userName?.username.slice(0, 30)}` : ""}
-          </span>
+          <span style={{ marginLeft: "13px" }}>{userName?.username ? `@ ${userName?.username.slice(0, 30)}` : ""}</span>
         </div>
         <div>
           {isSignIn && (
             <div
-              className="profile-header"
+              className='profile-header'
               style={{
                 position: "relative",
                 width: "68px",
                 height: "68px",
                 cursor: "pointer",
+                backgroundSize: "cover",
               }}
             >
               <img
-                className="profile-img"
+                className='profile-img'
                 onClick={() => setShowProfile(!showProfile)}
                 style={{
                   height: "100%",
-                  maxWidth: "100%",
-                  borderRadius: "100%",
+                  width: "100%",
+                  borderRadius: "50%",
                   objectFit: "cover",
                   border: `3px solid ${theme === "dark" ? "#444" : "#fff"}`,
                 }}
@@ -82,12 +77,10 @@ function Header({ imageURL, setImageURL }) {
                 alt={auth.currentUser.displayName}
               />
 
-              {showProfile && (
-                <PorfileDropDown setShowProfile={setShowProfile} />
-              )}
+              {showProfile && <PorfileDropDown setShowProfile={setShowProfile} />}
             </div>
           )}
-          {!isSignIn && <Link to="/account/login">Login</Link>}
+          {!isSignIn && <Link to='/account/login'>Login</Link>}
         </div>
       </div>
     </div>
