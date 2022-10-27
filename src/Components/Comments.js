@@ -9,7 +9,7 @@ import sortComments from "../Helper/sortComments";
 const Comments = ({ id, authorID }) => {
   const [commentInput, setCommentInput] = useState("");
   const [comments, setCommnets] = useState([]);
-  const [profilePic, setProfilePic] = useState(auth.currentUser.photoURL);
+  const [profilePic, setProfilePic] = useState(auth.currentUser?.photoURL);
 
   const getAllComments = () => {
     onSnapshot(doc(db, "blogs", id), (doc) => {
